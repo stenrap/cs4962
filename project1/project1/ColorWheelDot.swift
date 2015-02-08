@@ -23,8 +23,14 @@ class ColorWheelDot: UIView {
         let context:CGContext = UIGraphicsGetCurrentContext()
         
         CGContextAddEllipseInRect(context, bounds)
-        CGContextSetFillColorWithColor(context, UIColor(hue: 1, saturation: 1, brightness: 1, alpha: 0.375).CGColor)
-        CGContextDrawPath(context, kCGPathFill)
+        CGContextClosePath(context);
+        
+        var inner:CGRect = CGRectMake(2, 2, bounds.width - 4, bounds.height - 4)
+        CGContextAddEllipseInRect(context, inner)
+        CGContextClosePath(context);
+        
+        CGContextSetFillColorWithColor(context, UIColor(hue: 0, saturation: 0, brightness: 0.125, alpha: 1).CGColor)
+        CGContextEOFillPath(context);
     }
     
 }

@@ -26,10 +26,10 @@ class ColorWheel: UIView {
     override func drawRect(rect: CGRect) {
         let context:CGContext = UIGraphicsGetCurrentContext()
         
-        let radius: Int = Int(self.frame.width) / 2
+        let radius: Int = Int(frame.width) / 2
         
-        for var row = 0; row < Int(self.frame.height); row++ {
-            for var col = 0; col < Int(self.frame.width); col++ {
+        for var row = 0; row < Int(frame.height); row++ {
+            for var col = 0; col < Int(frame.width); col++ {
                 var (result, thisHue, thisSaturation) = withinColorWheel(col, y: row, radius: radius)
                 if (result) {
                     CGContextAddRect(context, CGRectMake(CGFloat(col), CGFloat(row), 1, 1))
@@ -86,7 +86,11 @@ class ColorWheel: UIView {
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         let touch: UITouch = touches.anyObject() as UITouch
         let touchPoint: CGPoint = touch.locationInView(self)
-        println("The touch point is (\(touchPoint.x),\(touchPoint.y))")
+        var (result, thisHue, thisSaturation) = withinColorWheel(Int(touchPoint.x), y: Int(touchPoint.y), radius: Int(frame.width) / 2)
+        if (result) {
+            println("The touch point is (\(touchPoint.x),\(touchPoint.y))")
+            dot.frame = CGRectMake(touchPoint.x - DOT_SIZE / 2, touchPoint.y - DOT_SIZE / 2, dot.frame.width, dot.frame.height)
+        }
     }
 
 }
