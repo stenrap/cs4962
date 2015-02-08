@@ -10,6 +10,19 @@ import UIKit
 
 class ColorWheel: UIView {
     
+    private var dot: ColorWheelDot
+    private let DOT_SIZE: CGFloat = 32
+    
+    override init(frame: CGRect) {
+        dot = ColorWheelDot(frame: CGRectMake(frame.midX - DOT_SIZE / 2, frame.midY - DOT_SIZE / 2, DOT_SIZE, DOT_SIZE))
+        super.init(frame: frame)
+        self.addSubview(dot)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func drawRect(rect: CGRect) {
         let context:CGContext = UIGraphicsGetCurrentContext()
         
@@ -68,6 +81,12 @@ class ColorWheel: UIView {
         } else {
             return (true, CGFloat(angle) / 360.0, CGFloat(hypotenuse) / CGFloat(radius))
         }
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        let touch: UITouch = touches.anyObject() as UITouch
+        let touchPoint: CGPoint = touch.locationInView(self)
+        println("The touch point is (\(touchPoint.x),\(touchPoint.y))")
     }
 
 }

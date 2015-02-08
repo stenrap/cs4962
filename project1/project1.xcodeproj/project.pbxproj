@@ -14,6 +14,7 @@
 		D4D47CC11A855C94004323AE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4D47CBF1A855C94004323AE /* LaunchScreen.xib */; };
 		D4D47CCD1A855C94004323AE /* project1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CCC1A855C94004323AE /* project1Tests.swift */; };
 		D4D47CD71A86A317004323AE /* ColorWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CD61A86A317004323AE /* ColorWheel.swift */; };
+		D4D47CD91A870F19004323AE /* ColorWheelDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CD81A870F19004323AE /* ColorWheelDot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		D4D47CCB1A855C94004323AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D47CCC1A855C94004323AE /* project1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = project1Tests.swift; sourceTree = "<group>"; };
 		D4D47CD61A86A317004323AE /* ColorWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheel.swift; sourceTree = "<group>"; };
+		D4D47CD81A870F19004323AE /* ColorWheelDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheelDot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				D4D47CB61A855C94004323AE /* AppDelegate.swift */,
 				D4D47CB81A855C94004323AE /* ViewController.swift */,
 				D4D47CD61A86A317004323AE /* ColorWheel.swift */,
+				D4D47CD81A870F19004323AE /* ColorWheelDot.swift */,
 				D4D47CBA1A855C94004323AE /* Main.storyboard */,
 				D4D47CBD1A855C94004323AE /* Images.xcassets */,
 				D4D47CBF1A855C94004323AE /* LaunchScreen.xib */,
@@ -216,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D47CB91A855C94004323AE /* ViewController.swift in Sources */,
+				D4D47CD91A870F19004323AE /* ColorWheelDot.swift in Sources */,
 				D4D47CB71A855C94004323AE /* AppDelegate.swift in Sources */,
 				D4D47CD71A86A317004323AE /* ColorWheel.swift in Sources */,
 			);
