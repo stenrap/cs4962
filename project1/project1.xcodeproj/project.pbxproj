@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4436FA71A89B06900F314D4 /* PickedColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4436FA61A89B06900F314D4 /* PickedColors.swift */; };
 		D4D47CB71A855C94004323AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CB61A855C94004323AE /* AppDelegate.swift */; };
 		D4D47CB91A855C94004323AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CB81A855C94004323AE /* ViewController.swift */; };
 		D4D47CBC1A855C94004323AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4D47CBA1A855C94004323AE /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D4436FA61A89B06900F314D4 /* PickedColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickedColors.swift; sourceTree = "<group>"; };
 		D4D47CB11A855C94004323AE /* project1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = project1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4D47CB51A855C94004323AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D47CB61A855C94004323AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				D4D47CD61A86A317004323AE /* ColorWheel.swift */,
 				D4D47CD81A870F19004323AE /* Indicator.swift */,
 				D4D47CDA1A893F2A004323AE /* GradientBar.swift */,
+				D4436FA61A89B06900F314D4 /* PickedColors.swift */,
 				D4D47CBA1A855C94004323AE /* Main.storyboard */,
 				D4D47CBD1A855C94004323AE /* Images.xcassets */,
 				D4D47CBF1A855C94004323AE /* LaunchScreen.xib */,
@@ -222,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D47CB91A855C94004323AE /* ViewController.swift in Sources */,
+				D4436FA71A89B06900F314D4 /* PickedColors.swift in Sources */,
 				D4D47CD91A870F19004323AE /* Indicator.swift in Sources */,
 				D4D47CDB1A893F2A004323AE /* GradientBar.swift in Sources */,
 				D4D47CB71A855C94004323AE /* AppDelegate.swift in Sources */,

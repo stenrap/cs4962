@@ -20,13 +20,17 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, ColorWheelDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ColorWheelDelegate, GradientBarDelegate {
 
     var window: UIWindow?
     var valueBar: GradientBar?
     var alphaBar: GradientBar?
-    var value: CGFloat?
-    var alpha: CGFloat?
+    var pickedColors: PickedColors?
+    
+    var hue: CGFloat = 1.0
+    var saturation: CGFloat = 1.0
+    var value: CGFloat = 1.0
+    var alpha: CGFloat = 1.0
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -40,25 +44,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ColorWheelDelegate {
         colorWheel.delegate = self
         window?.addSubview(colorWheel)
         
-        value = 1.0
         valueBar = GradientBar(frame: CGRectMake(0, colorWheel.frame.origin.y + colorWheel.frame.height + 20, side, side / 4), alphaGradient: false)
+        valueBar!.delegate = self
         window?.addSubview(valueBar!)
         
-        alpha = 1.0
         alphaBar = GradientBar(frame: CGRectMake(0, valueBar!.frame.origin.y + valueBar!.frame.height + 20, side, side / 4), alphaGradient: true)
+        alphaBar!.delegate = self
         window?.addSubview(alphaBar!)
         
-        println("The width  is \(window!.frame.width)")
-        println("The height is \(window!.frame.height)")
-        println("The origin is (\(colorWheel.frame.origin.x),\(colorWheel.frame.origin.y))")
+        pickedColors = PickedColors(frame: CGRectMake(0, alphaBar!.frame.origin.y + alphaBar!.frame.height + 20, side, side / 4))
+        window?.addSubview(pickedColors!)
         
         return true
     }
     
     func color(colorWheel: ColorWheel, newHue hue: CGFloat, newSaturation saturation: CGFloat) {
-        println("newHue is \(hue), newSaturation is \(saturation)")
         valueBar!.setNewColor(hue, s: saturation)
         alphaBar!.setNewColor(hue, s: saturation)
+        self.hue = hue
+        self.saturation = saturation
+        updatePickedColors()
+    }
+    
+    func newValue(gradientBar: GradientBar, value: CGFloat) {
+        if (gradientBar === valueBar) {
+            self.value = value
+        } else if (gradientBar === alphaBar) {
+            self.alpha = value
+        }
+        updatePickedColors()
+    }
+    
+    func updatePickedColors() {
+        pickedColors!.setNewColor(hue, saturation: saturation, value: value, alpha: alpha)
     }
     
     /*

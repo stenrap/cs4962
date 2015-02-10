@@ -96,7 +96,6 @@ class ColorWheel: UIView {
         let touchPoint: CGPoint = touch.locationInView(self)
         var (result, thisHue, thisSaturation) = withinColorWheel(Int(touchPoint.x), y: Int(touchPoint.y), radius: Int(frame.width) / 2)
         if (result) {
-            println("The touch point is (\(touchPoint.x),\(touchPoint.y))")
             dot.frame = CGRectMake(touchPoint.x - DOT_SIZE / 2, touchPoint.y - DOT_SIZE / 2, dot.frame.width, dot.frame.height)
             delegate?.color(self, newHue: thisHue, newSaturation: thisSaturation)
         }

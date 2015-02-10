@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol GradientBarDelegate: class {
+    
+    func newValue(gradientBar: GradientBar, value: CGFloat)
+    
+}
+
 class GradientBar: UIView {
     
     private var alphaGradient: Bool
@@ -18,11 +24,13 @@ class GradientBar: UIView {
     private let DOT_SIZE: CGFloat = 32
     private var dot: Indicator
     
+    weak var delegate: GradientBarDelegate? = nil
+    
     init(frame: CGRect, alphaGradient alphaGrad: Bool) {
         self.alphaGradient = alphaGrad
         dot = Indicator(frame: CGRectMake(0, 0, DOT_SIZE, DOT_SIZE))
         super.init(frame: frame)
-        dot.frame = CGRectMake(-(DOT_SIZE / 2), (bounds.height - DOT_SIZE) / 2, DOT_SIZE, DOT_SIZE)
+        dot.frame = CGRectMake(bounds.width - (DOT_SIZE / 2), (bounds.height - DOT_SIZE) / 2, DOT_SIZE, DOT_SIZE)
         self.addSubview(dot)
         self.frame.origin.x = (UIScreen.mainScreen().bounds.width - self.frame.width) / 2
     }
@@ -73,7 +81,6 @@ class GradientBar: UIView {
     
     override func drawRect(rect: CGRect) {
         let context:CGContext = UIGraphicsGetCurrentContext()
-        
         CGContextClearRect(context, self.bounds)
         
         var squareSize: CGFloat = 6
@@ -102,14 +109,17 @@ class GradientBar: UIView {
         var colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()
         var gradient: CGGradientRef = CGGradientCreateWithColorComponents(colorSpace, components, locations, numLocations)
         
-        var startPoint: CGPoint = CGPoint(x: 0.0, y: frame.height / 2)
-        var endPoint: CGPoint = CGPoint(x: frame.width, y: frame.height / 2)
+        var startPoint: CGPoint = CGPoint(x: frame.width, y: frame.height / 2)
+        var endPoint: CGPoint = CGPoint(x: 0.0, y: frame.height / 2)
         
         CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        // WYLO .... Get the dot moving, then send the message to the delegate
+        let touch: UITouch = touches.anyObject() as UITouch
+        let touchPoint: CGPoint = touch.locationInView(self)
+        dot.frame = CGRectMake(touchPoint.x - DOT_SIZE / 2, (bounds.height - DOT_SIZE) / 2, dot.frame.width, dot.frame.height)
+        delegate?.newValue(self, value: touchPoint.x / bounds.width)
     }
     
 }
