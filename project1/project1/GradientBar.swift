@@ -15,10 +15,15 @@ class GradientBar: UIView {
     private var g: CGFloat = 1.0
     private var b: CGFloat = 1.0
     
+    private let DOT_SIZE: CGFloat = 32
+    private var dot: Indicator
+    
     init(frame: CGRect, alphaGradient alphaGrad: Bool) {
         self.alphaGradient = alphaGrad
-        // WYLO .... Add a ColorWheelDot like you did in the ColorWheel class, and move it based on the click location.
+        dot = Indicator(frame: CGRectMake(0, 0, DOT_SIZE, DOT_SIZE))
         super.init(frame: frame)
+        dot.frame = CGRectMake(-(DOT_SIZE / 2), (bounds.height - DOT_SIZE) / 2, DOT_SIZE, DOT_SIZE)
+        self.addSubview(dot)
         self.frame.origin.x = (UIScreen.mainScreen().bounds.width - self.frame.width) / 2
     }
 
@@ -101,6 +106,10 @@ class GradientBar: UIView {
         var endPoint: CGPoint = CGPoint(x: frame.width, y: frame.height / 2)
         
         CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        // WYLO .... Get the dot moving, then send the message to the delegate
     }
     
 }

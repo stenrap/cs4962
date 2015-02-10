@@ -1,5 +1,5 @@
 //
-//  ColorWheelDot.swift
+//  Indicator
 //  project1
 //
 //  Created by Robert Johansen on 2/7/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ColorWheelDot: UIView {
+class Indicator: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -14,7 +14,7 @@
 		D4D47CC11A855C94004323AE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4D47CBF1A855C94004323AE /* LaunchScreen.xib */; };
 		D4D47CCD1A855C94004323AE /* project1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CCC1A855C94004323AE /* project1Tests.swift */; };
 		D4D47CD71A86A317004323AE /* ColorWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CD61A86A317004323AE /* ColorWheel.swift */; };
-		D4D47CD91A870F19004323AE /* ColorWheelDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CD81A870F19004323AE /* ColorWheelDot.swift */; };
+		D4D47CD91A870F19004323AE /* Indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CD81A870F19004323AE /* Indicator.swift */; };
 		D4D47CDB1A893F2A004323AE /* GradientBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D47CDA1A893F2A004323AE /* GradientBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +40,7 @@
 		D4D47CCB1A855C94004323AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D47CCC1A855C94004323AE /* project1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = project1Tests.swift; sourceTree = "<group>"; };
 		D4D47CD61A86A317004323AE /* ColorWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheel.swift; sourceTree = "<group>"; };
-		D4D47CD81A870F19004323AE /* ColorWheelDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheelDot.swift; sourceTree = "<group>"; };
+		D4D47CD81A870F19004323AE /* Indicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indicator.swift; sourceTree = "<group>"; };
 		D4D47CDA1A893F2A004323AE /* GradientBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +86,7 @@
 				D4D47CB61A855C94004323AE /* AppDelegate.swift */,
 				D4D47CB81A855C94004323AE /* ViewController.swift */,
 				D4D47CD61A86A317004323AE /* ColorWheel.swift */,
-				D4D47CD81A870F19004323AE /* ColorWheelDot.swift */,
+				D4D47CD81A870F19004323AE /* Indicator.swift */,
 				D4D47CDA1A893F2A004323AE /* GradientBar.swift */,
 				D4D47CBA1A855C94004323AE /* Main.storyboard */,
 				D4D47CBD1A855C94004323AE /* Images.xcassets */,
@@ -222,7 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D47CB91A855C94004323AE /* ViewController.swift in Sources */,
-				D4D47CD91A870F19004323AE /* ColorWheelDot.swift in Sources */,
+				D4D47CD91A870F19004323AE /* Indicator.swift in Sources */,
 				D4D47CDB1A893F2A004323AE /* GradientBar.swift in Sources */,
 				D4D47CB71A855C94004323AE /* AppDelegate.swift in Sources */,
 				D4D47CD71A86A317004323AE /* ColorWheel.swift in Sources */,
@@ -417,6 +417,7 @@
 				D4D47CD21A855C94004323AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D4D47CD31A855C94004323AE /* Build configuration list for PBXNativeTarget "project1Tests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +426,7 @@
 				D4D47CD51A855C94004323AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

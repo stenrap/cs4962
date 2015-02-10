@@ -16,13 +16,13 @@ protocol ColorWheelDelegate: class {
 
 class ColorWheel: UIView {
     
-    private var dot: ColorWheelDot
+    private var dot: Indicator
     private let DOT_SIZE: CGFloat = 32
     
     weak var delegate: ColorWheelDelegate? = nil
     
     override init(frame: CGRect) {
-        dot = ColorWheelDot(frame: CGRectMake(frame.midX - DOT_SIZE / 2, frame.midY - DOT_SIZE / 2 - 20, DOT_SIZE, DOT_SIZE))
+        dot = Indicator(frame: CGRectMake(frame.midX - DOT_SIZE / 2, frame.midY - DOT_SIZE / 2 - 20, DOT_SIZE, DOT_SIZE))
         super.init(frame: frame)
         self.addSubview(dot)
     }
