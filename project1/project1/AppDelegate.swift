@@ -27,8 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ColorWheelDelegate, Gradi
     var alphaBar: GradientBar?
     var pickedColors: PickedColors?
     
-    var hue: CGFloat = 1.0
-    var saturation: CGFloat = 1.0
+    var hue: CGFloat = 0.0
+    var saturation: CGFloat = 0.0
     var value: CGFloat = 1.0
     var alpha: CGFloat = 1.0
 

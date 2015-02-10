@@ -10,13 +10,15 @@ import UIKit
 
 class PickedColors: UIView {
     
+    var centered: Bool = false
+    
     var newHue: CGFloat = 0.0
     var newSaturation: CGFloat = 0.0
     var newValue: CGFloat = 1.0
     var newAlpha: CGFloat = 1.0
     
-    var oldHue: CGFloat = 1.0
-    var oldSaturation: CGFloat = 1.0
+    var oldHue: CGFloat = 0.0
+    var oldSaturation: CGFloat = 0.0
     var oldValue: CGFloat = 1.0
     var oldAlpha: CGFloat = 0.0
     
@@ -35,6 +37,11 @@ class PickedColors: UIView {
     }
     
     override func drawRect(rect: CGRect) {
+        if (!centered) {
+            self.frame.origin.x = (UIScreen.mainScreen().bounds.width - self.frame.width) / 2
+            centered = true
+        }
+        
         let context:CGContext = UIGraphicsGetCurrentContext()
         CGContextClearRect(context, self.bounds)
         
@@ -63,8 +70,6 @@ class PickedColors: UIView {
         CGContextAddRect(context, newColor)
         CGContextSetFillColorWithColor(context, UIColor(hue: newHue, saturation: newSaturation, brightness: newValue, alpha: newAlpha).CGColor)
         CGContextDrawPath(context, kCGPathFill)
-        
-        self.frame.origin.x = (UIScreen.mainScreen().bounds.width - self.frame.width) / 2
     }
     
 }
