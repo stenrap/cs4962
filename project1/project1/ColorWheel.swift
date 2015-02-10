@@ -8,13 +8,21 @@
 
 import UIKit
 
+protocol ColorWheelDelegate: class {
+    
+    func color(colorWheel: ColorWheel, newHue hue: CGFloat, newSaturation saturation: CGFloat)
+    
+}
+
 class ColorWheel: UIView {
     
     private var dot: ColorWheelDot
     private let DOT_SIZE: CGFloat = 32
     
+    weak var delegate: ColorWheelDelegate? = nil
+    
     override init(frame: CGRect) {
-        dot = ColorWheelDot(frame: CGRectMake(frame.midX - DOT_SIZE / 2, frame.midY - DOT_SIZE / 2, DOT_SIZE, DOT_SIZE))
+        dot = ColorWheelDot(frame: CGRectMake(frame.midX - DOT_SIZE / 2, frame.midY - DOT_SIZE / 2 - 20, DOT_SIZE, DOT_SIZE))
         super.init(frame: frame)
         self.addSubview(dot)
     }
@@ -90,6 +98,7 @@ class ColorWheel: UIView {
         if (result) {
             println("The touch point is (\(touchPoint.x),\(touchPoint.y))")
             dot.frame = CGRectMake(touchPoint.x - DOT_SIZE / 2, touchPoint.y - DOT_SIZE / 2, dot.frame.width, dot.frame.height)
+            delegate?.color(self, newHue: thisHue, newSaturation: thisSaturation)
         }
     }
 

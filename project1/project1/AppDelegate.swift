@@ -20,26 +20,45 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ColorWheelDelegate {
 
     var window: UIWindow?
+    var valueBar: GradientBar?
+    var alphaBar: GradientBar?
+    var value: CGFloat?
+    var alpha: CGFloat?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.backgroundColor = UIColor.lightGrayColor()
         window?.makeKeyAndVisible()
         
         var side: CGFloat = min(window!.frame.width / 2, window!.frame.height / 2)
         
-        var colorWheel = ColorWheel(frame: CGRectMake(0, 0, side, side))
-        
-        colorWheel.backgroundColor = UIColor.darkGrayColor()
+        var colorWheel = ColorWheel(frame: CGRectMake(0, 20, side, side))
+        colorWheel.backgroundColor = UIColor.clearColor()
+        colorWheel.delegate = self
         window?.addSubview(colorWheel)
+        
+        value = 1.0
+        valueBar = GradientBar(frame: CGRectMake(0, colorWheel.frame.origin.y + colorWheel.frame.height + 20, side, side / 4), alphaGradient: false)
+        window?.addSubview(valueBar!)
+        
+        alpha = 1.0
+        alphaBar = GradientBar(frame: CGRectMake(0, valueBar!.frame.origin.y + valueBar!.frame.height + 20, side, side / 4), alphaGradient: true)
+        window?.addSubview(alphaBar!)
         
         println("The width  is \(window!.frame.width)")
         println("The height is \(window!.frame.height)")
         println("The origin is (\(colorWheel.frame.origin.x),\(colorWheel.frame.origin.y))")
         
         return true
+    }
+    
+    func color(colorWheel: ColorWheel, newHue hue: CGFloat, newSaturation saturation: CGFloat) {
+        println("newHue is \(hue), newSaturation is \(saturation)")
+        valueBar!.setNewColor(hue, s: saturation)
+        alphaBar!.setNewColor(hue, s: saturation)
     }
     
     /*
