@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ColorWheelDelegate, Gradi
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.backgroundColor = UIColor.lightGrayColor()
+        window?.backgroundColor = UIColor(patternImage: UIImage(named: "tile")!)
         window?.makeKeyAndVisible()
         
         var side: CGFloat = min(window!.frame.width / 2, window!.frame.height / 2)
