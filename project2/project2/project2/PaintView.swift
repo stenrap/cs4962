@@ -11,7 +11,8 @@ import UIKit
 class PaintView: UIView {
     
     private let BUTTON_HEIGHT: CGFloat = 50
-    private var menuView: MenuView
+    var menuView: MenuView
+    weak var delegate: MenuViewDelegate? = nil
     
     override init(frame: CGRect) {
         menuView = MenuView(frame: CGRectMake(0, frame.height - BUTTON_HEIGHT, frame.width, BUTTON_HEIGHT))
