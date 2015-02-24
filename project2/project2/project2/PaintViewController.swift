@@ -11,7 +11,7 @@ import UIKit
 class PaintViewController: UIViewController, MenuViewDelegate {
 
     var paintView: PaintView { return view as PaintView }
-    var colorViewController: ColorViewController = ColorViewController()
+    var colorWheelViewController: ColorWheelViewController = ColorWheelViewController()
     var watchViewController: WatchViewController = WatchViewController()
     
     override func loadView() {
@@ -25,7 +25,7 @@ class PaintViewController: UIViewController, MenuViewDelegate {
     }
     
     func colorTouched() {
-        navigationController?.pushViewController(colorViewController, animated: true)
+        navigationController?.pushViewController(colorWheelViewController, animated: true)
     }
     
     func watchTouched() {

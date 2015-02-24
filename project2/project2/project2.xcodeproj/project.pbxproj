@@ -14,8 +14,7 @@
 		D437A8C71A99708100FA5534 /* PaintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D437A8C61A99708100FA5534 /* PaintView.swift */; };
 		D437A8C91A99721600FA5534 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D437A8C81A99721600FA5534 /* Default-568h@2x.png */; };
 		D437A8CB1A99756C00FA5534 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D437A8CA1A99756C00FA5534 /* MenuView.swift */; };
-		D498BD7E1A99983C00AA9215 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D498BD7D1A99983C00AA9215 /* ColorView.swift */; };
-		D498BD801A99986800AA9215 /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D498BD7F1A99986800AA9215 /* ColorViewController.swift */; };
+		D498BD801A99986800AA9215 /* ColorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D498BD7F1A99986800AA9215 /* ColorController.swift */; };
 		D4B4ACB51A999D6C00E3B0AE /* WatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4ACB41A999D6C00E3B0AE /* WatchView.swift */; };
 		D4B4ACB71A999D8600E3B0AE /* WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4ACB61A999D8600E3B0AE /* WatchViewController.swift */; };
 /* End PBXBuildFile section */
@@ -42,8 +41,7 @@
 		D437A8C61A99708100FA5534 /* PaintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintView.swift; sourceTree = "<group>"; };
 		D437A8C81A99721600FA5534 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D437A8CA1A99756C00FA5534 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		D498BD7D1A99983C00AA9215 /* ColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
-		D498BD7F1A99986800AA9215 /* ColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorViewController.swift; sourceTree = "<group>"; };
+		D498BD7F1A99986800AA9215 /* ColorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorController.swift; sourceTree = "<group>"; };
 		D4B4ACB41A999D6C00E3B0AE /* WatchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchView.swift; sourceTree = "<group>"; };
 		D4B4ACB61A999D8600E3B0AE /* WatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,8 +134,7 @@
 		D498BD7B1A99979200AA9215 /* Color */ = {
 			isa = PBXGroup;
 			children = (
-				D498BD7F1A99986800AA9215 /* ColorViewController.swift */,
-				D498BD7D1A99983C00AA9215 /* ColorView.swift */,
+				D498BD7F1A99986800AA9215 /* ColorController.swift */,
 			);
 			name = Color;
 			sourceTree = "<group>";
@@ -255,8 +252,7 @@
 				D4B4ACB71A999D8600E3B0AE /* WatchViewController.swift in Sources */,
 				D437A8A71A99252600FA5534 /* AppDelegate.swift in Sources */,
 				D437A8C71A99708100FA5534 /* PaintView.swift in Sources */,
-				D498BD801A99986800AA9215 /* ColorViewController.swift in Sources */,
-				D498BD7E1A99983C00AA9215 /* ColorView.swift in Sources */,
+				D498BD801A99986800AA9215 /* ColorController.swift in Sources */,
 				D4B4ACB51A999D6C00E3B0AE /* WatchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
