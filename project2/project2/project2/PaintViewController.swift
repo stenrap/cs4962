@@ -8,28 +8,36 @@
 
 import UIKit
 
-class PaintViewController: UIViewController, MenuViewDelegate {
+class PaintViewController: UIViewController, MenuViewDelegate, ColorDelegate {
 
+    var model: DrawingModel = DrawingModel()
     var paintView: PaintView { return view as PaintView }
-    var colorWheelViewController: ColorWheelViewController = ColorWheelViewController()
+    var colorViewController: ColorViewController = ColorViewController()
     var watchViewController: WatchViewController = WatchViewController()
     
     override func loadView() {
-        view = PaintView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+        view = PaintView(frame: CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         paintView.menuView.delegate = self
+        colorViewController.colorView.delegate = self
         title = "Paint"
     }
     
     func colorTouched() {
-        navigationController?.pushViewController(colorWheelViewController, animated: true)
+        navigationController?.pushViewController(colorViewController, animated: true)
     }
     
     func watchTouched() {
         navigationController?.pushViewController(watchViewController, animated: true)
+    }
+    
+    func setColor(color: UIColor) {
+        // WYLO .... Set the color on the model and notify the other view controllers, etc.
+        paintView.setColor(color)
+        navigationController?.popViewControllerAnimated(true)
     }
 
 }

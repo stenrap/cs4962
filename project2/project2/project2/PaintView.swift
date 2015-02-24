@@ -33,4 +33,11 @@ class PaintView: UIView {
         menuView.frame = CGRectMake(0, frame.height - BUTTON_HEIGHT, frame.width, BUTTON_HEIGHT)
     }
     
+    func setColor(color: UIColor) {
+        menuView.colorButton.backgroundColor = color
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        menuView.colorButton.setTitleColor(red == 1.0 && green == 1.0 && blue == 0.0 ? UIColor.blackColor() : UIColor.whiteColor(), forState: .Normal)
+    }
+    
 }

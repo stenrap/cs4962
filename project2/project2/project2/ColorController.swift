@@ -1,5 +1,5 @@
 //
-//  ColorController.swift
+//  ColorViewController.swift
 //  project2
 //
 //  Created by Robert Johansen on 2/21/15.
@@ -8,13 +8,12 @@
 
 import UIKit
 
-class ColorController: UIViewController {
+class ColorViewController: UIViewController {
     
     var colorView: ColorView { return view as ColorView }
     
     override func loadView() {
-        var side: CGFloat = min(UIScreen.mainScreen().bounds.width / 2, UIScreen.mainScreen().bounds.height / 2)
-        view = ColorView(frame: CGRectMake(0, 20, side, side))
+        view = ColorView(frame: CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64))
     }
     
     override func viewDidLoad() {

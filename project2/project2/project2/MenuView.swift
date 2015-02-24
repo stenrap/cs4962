@@ -17,8 +17,8 @@ protocol MenuViewDelegate: class {
 
 class MenuView: UIView {
     
-    private var colorButton: UIButton
-    private var watchButton: UIButton
+    var colorButton: UIButton
+    var watchButton: UIButton
     weak var delegate: MenuViewDelegate? = nil
 
     override init(frame: CGRect) {
@@ -26,7 +26,7 @@ class MenuView: UIView {
         colorButton.backgroundColor = UIColor.redColor()
         colorButton.setTitle("Color", forState: .Normal)
         watchButton = UIButton(frame: CGRectMake(colorButton.frame.width, 0, frame.width / 2, frame.height))
-        watchButton.backgroundColor = UIColor.blueColor()
+        watchButton.backgroundColor = UIColor.brownColor()
         watchButton.setTitle("Watch", forState: .Normal)
         super.init(frame: frame)
         self.addSubview(colorButton)

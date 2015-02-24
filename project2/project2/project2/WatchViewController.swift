@@ -13,7 +13,7 @@ class WatchViewController: UIViewController {
     var watchView: WatchView { return view as WatchView }
     
     override func loadView() {
-        view = WatchView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+        view = WatchView(frame: CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64))
     }
     
     override func viewDidLoad() {
