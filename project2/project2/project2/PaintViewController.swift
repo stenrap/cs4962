@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PaintViewController: UIViewController, MenuViewDelegate, ColorDelegate {
+class PaintViewController: UIViewController, MenuViewDelegate, ColorDelegate, PaintViewDelegate {
 
     var model: DrawingModel = DrawingModel()
     var paintView: PaintView { return view as PaintView }
@@ -35,9 +35,13 @@ class PaintViewController: UIViewController, MenuViewDelegate, ColorDelegate {
     }
     
     func setColor(color: UIColor) {
-        // WYLO .... Set the color on the model and notify the other view controllers, etc.
+        model.color = color
         paintView.setColor(color)
         navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func addPolyLine(polyline: [CGPoint]) {
+        
     }
 
 }
