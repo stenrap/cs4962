@@ -35,3 +35,17 @@ var pets = [
 ]
 
 pets["dog"]
+
+enum Hole {
+    case EMPTY
+    case MISS
+    case HIT
+}
+
+var A1: Hole = Hole.HIT
+
+if (A1 == Hole.HIT) {
+    println("Yep")
+} else {
+    println("Nope")
+}

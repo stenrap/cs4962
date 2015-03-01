@@ -19,7 +19,6 @@ class PaintView: UIView {
     private var _polylines: [[CGPoint]] = []
     private var _points: [CGPoint] = []
     private var _color: UIColor = UIColor.redColor()
-    private var _colorChanges = [Int : UIColor]()
     
     private let BUTTON_HEIGHT: CGFloat = 50
     var menuView: MenuView
