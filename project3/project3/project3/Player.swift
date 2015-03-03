@@ -8,11 +8,18 @@
 
 class Player {
     
-    var name: String
-    // Each player has two grids (his own and his opponent's)
+    private var name: String = ""
+    private var grid: Grid = Grid()
+    private var enemyGrid: Grid = Grid()
     
-    init(name: String) {
-        self.name = name
+    func getName() -> String {return name}
+    func setName(name: String) {self.name = name}
+    
+    func addShip(type: ShipType, startCell: Cell, vertical: Bool, myGrid: Bool) -> Bool {
+        if (myGrid) {
+            return grid.addShip(type, startCell: startCell, vertical: true)
+        } else {
+            return enemyGrid.addShip(type, startCell: startCell, vertical: true)
+        }
     }
-    
 }

@@ -20,13 +20,7 @@ class Ship {
         self.type = type
         self.startCell = startCell
         self.vertical = vertical
-        var size = 0
-        switch type {
-            case ShipType.CARRIER:    size = 5
-            case ShipType.BATTLESHIP: size = 4
-            case ShipType.DESTROYER:  size = 2
-            default:              3
-        }
+        var size = type.getSize()
         var currentRow = startCell.getRow()
         var currentCol = startCell.getCol()
         while (size > 0) {
@@ -50,8 +44,12 @@ class Ship {
         }
     }
     
+    func hasCell(cell: Cell) -> Bool {
+        return cells[cell.toString()] != nil
+    }
+    
     func shotCalled(cell: Cell) -> Bool {
-        if (cells[cell.toString()] != nil) {
+        if (hasCell(cell)) {
             cells[cell.toString()] = CellType.HIT
             var hits = 0
             for currentCell in cells.values {

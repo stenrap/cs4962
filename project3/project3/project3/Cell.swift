@@ -12,7 +12,10 @@ class Cell {
     private var col: Int
     
     func getRow() -> String {return row}
+    func setRow(row: String) {self.row = row}
+    
     func getCol() -> Int {return col}
+    func setCol(col: Int) {self.col = col}
     
     init(row: String, col: Int) {
         self.row = row
