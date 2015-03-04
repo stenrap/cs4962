@@ -21,6 +21,13 @@ class BattleShip {
         games[id].setNames(player1, player2: player2)
     }
     
-    // WYLO .... Write the addShip(id: Int, ...) method
+    func addShip(id: Int, startCell: Cell, vertical: Bool) {
+        var game = games[id]
+        if (game.addShip(startCell, vertical: vertical)) {
+            // TODO: Call a delegate method that "tells" the view controller which state to go to next
+        } else {
+            // TODO: Call a delegate method that "tells" the view controller why adding the ship failed
+        }
+    }
     
 }
