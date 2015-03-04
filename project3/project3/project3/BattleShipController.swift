@@ -25,14 +25,20 @@ class BattleShipController: UITableViewController {
         and set 'view' equal to an instance of BattleShipView (which extends UITableView)...
     */
     
-    // WYLO .... The below experimentation was fun, but you should focus on getting a 'New Game' button to display in the top right of the 
+    // WYLO .... The below table experimentation was fun, but you should focus on getting the 'New Game' button to actually work. It should
+    //           probably push a new view controller into place (that manages the "Set your names" view).
     
     private var numRows: Int = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: UIBarButtonItemStyle.Plain, target: self, action: "newGameTapped")
         title = "Battleship"
+    }
+    
+    func newGameTapped() {
+        println("Start a new game...!")
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
