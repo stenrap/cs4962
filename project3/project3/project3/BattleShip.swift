@@ -26,8 +26,7 @@ class BattleShip {
     
     func setNames(id: Int, player1Name: String, player2Name: String) {
         games[id].setNames(player1Name, player2Name: player2Name)
-        // TODO: Save all games to disk
-        // TODO: Call a delegate method that "tells" the controller to go to the next state
+        // WYLO .... Save all games to disk, then call a delegate method that "tells" the controller to go to the next state
     }
     
     func addShip(id: Int, startCell: Cell, vertical: Bool) {
