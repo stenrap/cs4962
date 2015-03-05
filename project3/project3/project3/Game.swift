@@ -18,10 +18,9 @@ class Game {
     
     /* Game State Methods */
     
-    func setNames(player1: Player, player2: Player) {
-        self.player1 = player1
-        self.player2 = player2
-        nextAndSave()
+    func setNames(player1Name: String, player2Name: String) {
+        player1.setName(player1Name)
+        player2.setName(player2Name)
     }
     
     func addShip(startCell: Cell, vertical: Bool) -> Bool {
@@ -49,13 +48,7 @@ class Game {
                 return false
             }
         }
-        nextAndSave()
         return true
-    }
-    
-    func nextAndSave() {
-        state.next()
-        // TODO: Save the game to disk
     }
     
 }

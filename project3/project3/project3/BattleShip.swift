@@ -6,27 +6,36 @@
 //  Copyright (c) 2015 Robert Johansen. All rights reserved.
 //
 
+protocol BattleShipDelegate: class {
+    
+    func createNewGame(id: Int)
+    
+}
+
 class BattleShip {
     
     private var games = [Game]()
+    weak var delegate: BattleShipDelegate? = nil
     
     /* Game State Methods */
     
     func newGame() {
         games.append(Game())
-        // TODO: Call a delegate method that "tells" the view controller to go to State.NAMES for the new game (games.count - 1)
+        delegate?.createNewGame(games.count - 1)
     }
     
-    func setNames(id: Int, player1: Player, player2: Player) {
-        games[id].setNames(player1, player2: player2)
+    func setNames(id: Int, player1Name: String, player2Name: String) {
+        games[id].setNames(player1Name, player2Name: player2Name)
+        // TODO: Save all games to disk
+        // TODO: Call a delegate method that "tells" the controller to go to the next state
     }
     
     func addShip(id: Int, startCell: Cell, vertical: Bool) {
         var game = games[id]
         if (game.addShip(startCell, vertical: vertical)) {
-            // TODO: Call a delegate method that "tells" the view controller which state to go to next
+            // TODO: Call a delegate method that "tells" the controller which state to go to next
         } else {
-            // TODO: Call a delegate method that "tells" the view controller why adding the ship failed
+            // TODO: Call a delegate method that "tells" the controller why adding the ship failed
         }
     }
     

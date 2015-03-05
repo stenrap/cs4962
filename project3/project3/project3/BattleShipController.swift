@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BattleShipController: UITableViewController {
+class BattleShipController: UITableViewController, BattleShipDelegate {
     
     /*
         When the game is first launched:
@@ -25,20 +25,28 @@ class BattleShipController: UITableViewController {
         and set 'view' equal to an instance of BattleShipView (which extends UITableView)...
     */
     
-    // WYLO .... The below table experimentation was fun, but you should focus on getting the 'New Game' button to actually work. It should
-    //           probably push a new view controller into place (that manages the "Set your names" view).
+    private var model: BattleShip = BattleShip()
     
     private var numRows: Int = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TODO: Call a method on the model that loads the list of games from disk
+        model.delegate = self
         tableView.dataSource = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: UIBarButtonItemStyle.Plain, target: self, action: "newGameTapped")
         title = "Battleship"
     }
     
     func newGameTapped() {
-        println("Start a new game...!")
+        model.newGame()
+    }
+    
+    func createNewGame(id: Int) {
+        var namesController = NamesController()
+        namesController.model = model
+        namesController.gameId = id
+        navigationController?.pushViewController(namesController, animated: true)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
