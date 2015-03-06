@@ -8,8 +8,11 @@
 
 class Grid {
     
-    private var grid = [String: CellType]()
+    private var cells = [String: CellType]()
     private var ships = [Ship]()
+    
+    func getCells() -> [String: CellType] {return cells}
+    func getShips() -> [Ship] {return ships}
     
     func addShip(type: ShipType, startCell: Cell, vertical: Bool) -> Bool {
         var size = type.getSize()
@@ -41,7 +44,7 @@ class Grid {
     }
     
     func isCellEmpty(cell: Cell) -> Bool {
-        return grid[cell.toString()] == nil
+        return cells[cell.toString()] == nil
     }
     
     func shotCalled(cell: Cell) -> Bool {
@@ -52,7 +55,7 @@ class Grid {
                 break
             }
         }
-        grid[cell.toString()] = hit ? CellType.HIT : CellType.MISS
+        cells[cell.toString()] = hit ? CellType.HIT : CellType.MISS
         return hit
     }
     

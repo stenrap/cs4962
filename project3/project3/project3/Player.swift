@@ -15,6 +15,8 @@ class Player {
     func getName() -> String {return name}
     func setName(name: String) {self.name = name}
     
+    func getGrid() -> Grid {return grid}
+    
     func addShip(type: ShipType, startCell: Cell, vertical: Bool, myGrid: Bool) -> Bool {
         if (myGrid) {
             return grid.addShip(type, startCell: startCell, vertical: true)

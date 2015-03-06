@@ -15,6 +15,10 @@ class Ship {
     private var sunk = false
     
     func getType() -> ShipType {return type}
+    func getStartCell() -> Cell {return startCell}
+    func isVertical() -> Bool {return vertical}
+    func getCells() -> [String: CellType] {return cells}
+    func isSunk() -> Bool {return sunk}
     
     init(type: ShipType, startCell: Cell, vertical: Bool) {
         self.type = type
