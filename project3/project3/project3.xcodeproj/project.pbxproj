@@ -10,6 +10,7 @@
 		D40AC85A1AA809240017A437 /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40AC8591AA809240017A437 /* BaseController.swift */; };
 		D4100BB21AA7FC5900A77A2B /* NamesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4100BB11AA7FC5900A77A2B /* NamesController.swift */; };
 		D4100BB41AA7FCED00A77A2B /* NamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4100BB31AA7FCED00A77A2B /* NamesView.swift */; };
+		D459B76C1AAB975700890FA9 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459B76B1AAB975700890FA9 /* CellView.swift */; };
 		D47096691AA28D3E009F8425 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47096681AA28D3E009F8425 /* AppDelegate.swift */; };
 		D470966B1AA28D3E009F8425 /* BattleShipController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470966A1AA28D3E009F8425 /* BattleShipController.swift */; };
 		D47096701AA28D3E009F8425 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D470966F1AA28D3E009F8425 /* Images.xcassets */; };
@@ -23,6 +24,7 @@
 		D4B5CCC81AA58F47006A3253 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4B5CCC71AA58F47006A3253 /* Default-568h@2x.png */; };
 		D4B8032A1AAB613D00B3F2DD /* GridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B803291AAB613D00B3F2DD /* GridController.swift */; };
 		D4B8032C1AAB61A600B3F2DD /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B8032B1AAB61A600B3F2DD /* GridView.swift */; };
+		D4CC1C681AAB984100B317C4 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CC1C671AAB984100B317C4 /* LocationView.swift */; };
 		D4F54CD11AA2CF1000BE8DCA /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F54CD01AA2CF1000BE8DCA /* CellType.swift */; };
 		D4F54CD31AA2CF9300BE8DCA /* ShipType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F54CD21AA2CF9300BE8DCA /* ShipType.swift */; };
 		D4F54CD51AA2D75B00BE8DCA /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F54CD41AA2D75B00BE8DCA /* Cell.swift */; };
@@ -42,6 +44,7 @@
 		D40AC8591AA809240017A437 /* BaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
 		D4100BB11AA7FC5900A77A2B /* NamesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamesController.swift; sourceTree = "<group>"; };
 		D4100BB31AA7FCED00A77A2B /* NamesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamesView.swift; sourceTree = "<group>"; };
+		D459B76B1AAB975700890FA9 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		D47096631AA28D3E009F8425 /* project3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = project3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47096671AA28D3E009F8425 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D47096681AA28D3E009F8425 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 		D4B5CCC71AA58F47006A3253 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D4B803291AAB613D00B3F2DD /* GridController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridController.swift; sourceTree = "<group>"; };
 		D4B8032B1AAB61A600B3F2DD /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		D4CC1C671AAB984100B317C4 /* LocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		D4F54CD01AA2CF1000BE8DCA /* CellType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellType.swift; sourceTree = "<group>"; };
 		D4F54CD21AA2CF9300BE8DCA /* ShipType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShipType.swift; sourceTree = "<group>"; };
 		D4F54CD41AA2D75B00BE8DCA /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 			children = (
 				D4100BB31AA7FCED00A77A2B /* NamesView.swift */,
 				D4B8032B1AAB61A600B3F2DD /* GridView.swift */,
+				D4CC1C671AAB984100B317C4 /* LocationView.swift */,
+				D459B76B1AAB975700890FA9 /* CellView.swift */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -281,6 +287,8 @@
 				D470968C1AA28E67009F8425 /* Game.swift in Sources */,
 				D4B5CCC61AA58A84006A3253 /* State.swift in Sources */,
 				D470966B1AA28D3E009F8425 /* BattleShipController.swift in Sources */,
+				D4CC1C681AAB984100B317C4 /* LocationView.swift in Sources */,
+				D459B76C1AAB975700890FA9 /* CellView.swift in Sources */,
 				D470968E1AA28F5E009F8425 /* Player.swift in Sources */,
 				D4F54CD31AA2CF9300BE8DCA /* ShipType.swift in Sources */,
 				D47096691AA28D3E009F8425 /* AppDelegate.swift in Sources */,

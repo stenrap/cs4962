@@ -16,6 +16,8 @@ class GridView: UIView {
     private var instructionLabel: UILabel = UILabel()
     func setInstruction(instruction: String) {instructionLabel.text = instruction}
     
+    private var cellSize: CGFloat = 0
+    
     override func layoutSubviews() {
         if (self.subviews.count == 0) {
             var labelY: CGFloat = 74
@@ -24,15 +26,46 @@ class GridView: UIView {
             var labelHeight: CGFloat = 30
             
             playerNameLabel.frame = CGRectMake(labelX, labelY, labelWidth, labelHeight)
+            playerNameLabel.textColor = UIColor.whiteColor()
+            
             instructionLabel.frame = CGRectMake(labelX, labelY + labelHeight, labelWidth, labelHeight)
+            instructionLabel.textColor = UIColor.whiteColor()
+            
+            cellSize = bounds.width / 11
+            
+            addLocations()
             
             self.addSubview(playerNameLabel)
             self.addSubview(instructionLabel)
         }
     }
     
-    override func drawRect(rect: CGRect) {
-        // WYLO .... Draw the grid for real!
+    private func addLocations() {
+        for (var i: Int = 1; i <= 20; i++) {
+            var location: LocationView = LocationView()
+            var x: CGFloat = 0
+            var y: CGFloat = 0
+            var text: String = ""
+            var top: Bool = false
+            var last: Bool = false
+            
+            if (i <= 10) {
+                x = cellSize * CGFloat(i)
+                y = 175
+                text = String(i)
+                top = true
+            } else {
+                x = 0
+                y = 175 + (cellSize * CGFloat(i - 10))
+                text = String(UnicodeScalar(i + 54))
+                top = false
+            }
+            
+            last = i == 10 || i == 20
+            
+            location.setLabel(CGRectMake(x, y, cellSize, cellSize), fontSize: 14, text: text, top: top, last: last)
+            self.addSubview(location)
+        }
     }
     
 }
