@@ -31,7 +31,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: Call a method on the model that loads the list of games from disk
+        model.readFromFile()
         model.delegate = self
         tableView.dataSource = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: UIBarButtonItemStyle.Plain, target: self, action: "newGameTapped")

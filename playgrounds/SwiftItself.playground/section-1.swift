@@ -95,6 +95,15 @@ state.next()
 state.rawValue
 state == State.CARRIER1
 
+var path = "~/file.plist"
+path.stringByExpandingTildeInPath
+
+/*
+let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray
+let documentsDirectory = paths.objectAtIndex(0) as NSString
+let path = documentsDirectory.stringByAppendingPathComponent("GameData.plist")
+*/
+
 
 
 

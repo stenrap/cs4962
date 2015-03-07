@@ -67,6 +67,26 @@ class BattleShip {
         See lecture 10 video at 01:17:40 for the tutorial
     */
     
+    func readFromFile() {
+        var path = "~/battleship.plist".stringByExpandingTildeInPath
+        var rawGames: NSArray? = NSArray(contentsOfFile: "/Users/rob/battleship.plist")
+        for (var i: Int = 0; i < rawGames?.count; i++) {
+            var rawGame: NSDictionary = rawGames?.objectAtIndex(i) as NSDictionary
+            var player1: Player = getPlayerFromRead(rawGame.objectForKey("player1") as NSDictionary)
+            println(".")
+        }
+    }
+    
+    func getPlayerFromRead(rawPlayer: NSDictionary) -> Player {
+        var player: Player = Player()
+        
+        player.setName(rawPlayer.objectForKey("name") as NSString)
+        
+        // WYLO .... Get the player's grid
+        
+        return player
+    }
+    
     private func writeToFile() {
         var battleShipArray: NSMutableArray = []
         
@@ -74,7 +94,6 @@ class BattleShip {
             var game: Game = games[i]
             
             var gameDictionary: NSDictionary = [
-                "id" : NSNumber(integer: i),
                 "player1" : getPlayerForWrite(game.getPlayer1()),
                 "player2" : getPlayerForWrite(game.getPlayer2()),
                 "state" : NSNumber(integer: game.getState().rawValue)
@@ -83,8 +102,8 @@ class BattleShip {
             battleShipArray.addObject(gameDictionary)
         }
         
-        var result:Bool = battleShipArray.writeToFile("/Users/rob/battleship.plist", atomically: true)
-        println("The file was successfully written: \(result)")
+        var path = "~/battleship.plist".stringByExpandingTildeInPath
+        battleShipArray.writeToFile("/Users/rob/battleship.plist", atomically: true)
     }
     
     private func getPlayerForWrite(player: Player) -> NSDictionary {
