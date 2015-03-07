@@ -50,14 +50,17 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     }
     
     func placeShip(ship: ShipType, playerNumber: Int) {
+        // WYLO .... Time for actually drawing the grid. Holy crap.
+        
         println("Time for player \(playerNumber) to place the \(ship) ship")
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numRows
+        return model.getGames().count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // TODO: Figure out how to display all the shiz required by the assignment
         var row: UITableViewCell = UITableViewCell()
         row.textLabel?.text = "Item \(indexPath.row)"
         return row

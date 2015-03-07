@@ -18,6 +18,8 @@ protocol BattleShipDelegate: class {
 class BattleShip {
     
     private var games = [Game]()
+    func getGames() -> [Game] {return games}
+    
     weak var delegate: BattleShipDelegate? = nil
     
     /* Game State Methods */
@@ -73,16 +75,39 @@ class BattleShip {
         for (var i: Int = 0; i < rawGames?.count; i++) {
             var rawGame: NSDictionary = rawGames?.objectAtIndex(i) as NSDictionary
             var player1: Player = getPlayerFromRead(rawGame.objectForKey("player1") as NSDictionary)
-            println(".")
+            var player2: Player = getPlayerFromRead(rawGame.objectForKey("player2") as NSDictionary)
+            var state: State = State.NAMES
+            switch rawGame.objectForKey("state") as NSNumber {
+                case 1:  state = State.NAMES
+                case 2:  state = State.CARRIER1
+                case 3:  state = State.BATTLESHIP1
+                case 4:  state = State.CRUISER1
+                case 5:  state = State.SUBMARINE1
+                case 6:  state = State.DESTROYER1
+                case 7:  state = State.CARRIER2
+                case 8:  state = State.BATTLESHIP2
+                case 9:  state = State.CRUISER2
+                case 10: state = State.SUBMARINE2
+                case 11: state = State.DESTROYER2
+                case 12: state = State.GAME
+                default: break
+            }
+            var game: Game = Game()
+            game.setPlayer1(player1)
+            game.setPlayer2(player2)
+            game.setState(state)
+            games.append(game)
         }
     }
     
-    func getPlayerFromRead(rawPlayer: NSDictionary) -> Player {
+    private func getPlayerFromRead(rawPlayer: NSDictionary) -> Player {
         var player: Player = Player()
         
         player.setName(rawPlayer.objectForKey("name") as NSString)
         
-        // WYLO .... Get the player's grid
+        var rawGrid: NSDictionary = rawPlayer.objectForKey("grid") as NSDictionary
+        
+        // TODO: When the grid actually has ships, get them...
         
         return player
     }

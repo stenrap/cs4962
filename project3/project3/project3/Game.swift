@@ -13,8 +13,13 @@ class Game {
     private var state: State = State.NAMES
     
     func getPlayer1() -> Player {return player1}
+    func setPlayer1(player1: Player)  {self.player1 = player1}
+    
     func getPlayer2() -> Player {return player2}
+    func setPlayer2(player2: Player)  {self.player2 = player2}
+    
     func getState() -> State {return state}
+    func setState(state: State) {self.state = state}
     
     /* Game State Methods */
     
