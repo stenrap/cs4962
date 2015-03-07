@@ -69,9 +69,20 @@ class BattleShip {
         See lecture 10 video at 01:17:40 for the tutorial
     */
     
+    private func getModelPath() -> String {
+        let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
+        var filePath: String? = documentsDirectory?.stringByAppendingPathComponent("battleship.plist")
+        
+        let env = NSProcessInfo.processInfo().environment
+        if let local = env["ROB_LOCAL"] as? String {
+            filePath = local
+        }
+        
+        return filePath!
+    }
+    
     func readFromFile() {
-        var path = "~/battleship.plist".stringByExpandingTildeInPath
-        var rawGames: NSArray? = NSArray(contentsOfFile: "/Users/rob/battleship.plist")
+        var rawGames: NSArray? = NSArray(contentsOfFile: getModelPath())
         for (var i: Int = 0; i < rawGames?.count; i++) {
             var rawGame: NSDictionary = rawGames?.objectAtIndex(i) as NSDictionary
             var player1: Player = getPlayerFromRead(rawGame.objectForKey("player1") as NSDictionary)
@@ -127,8 +138,7 @@ class BattleShip {
             battleShipArray.addObject(gameDictionary)
         }
         
-        var path = "~/battleship.plist".stringByExpandingTildeInPath
-        battleShipArray.writeToFile("/Users/rob/battleship.plist", atomically: true)
+        battleShipArray.writeToFile(getModelPath(), atomically: true)
     }
     
     private func getPlayerForWrite(player: Player) -> NSDictionary {
