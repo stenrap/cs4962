@@ -10,9 +10,7 @@ import UIKit
 
 class NamesController: BaseController {
     
-    func getNamesView() -> NamesView {
-        return view as NamesView
-    }
+    func getNamesView() -> NamesView {return view as NamesView}
     
     override func loadView() {
         view = NamesView()

@@ -20,6 +20,7 @@ class Game {
     
     func getState() -> State {return state}
     func setState(state: State) {self.state = state}
+    func nextState() {state.next()}
     
     /* Game State Methods */
     

@@ -11,7 +11,7 @@ import Foundation
 protocol BattleShipDelegate: class {
     
     func createNewGame(id: Int)
-    func placeShip(ship: ShipType, playerNumber: Int)
+    func promptForShip(id: Int, ship: ShipType, playerNumber: Int)
     
 }
 
@@ -31,8 +31,65 @@ class BattleShip {
     
     func setNames(id: Int, player1Name: String, player2Name: String) {
         games[id].setNames(player1Name, player2Name: player2Name)
+        games[id].nextState()
         writeToFile()
-        delegate?.placeShip(ShipType.CARRIER, playerNumber: 1)
+        delegate?.promptForShip(id, ship: ShipType.CARRIER, playerNumber: 1)
+    }
+    
+    /*
+        Get the player whose name should be displayed in a game based on its current state.
+    */
+    func getCurrentPlayerName(id: Int) -> String {
+        var currentPlayerName: String = ""
+        
+        if (id < games.count) {
+            var game: Game = games[id]
+            switch game.getState() {
+                case .CARRIER1,
+                     .BATTLESHIP1,
+                     .CRUISER1,
+                     .SUBMARINE1,
+                     .DESTROYER1: currentPlayerName = game.getPlayer1().getName()
+                case .CARRIER2,
+                     .BATTLESHIP2,
+                     .CRUISER2,
+                     .SUBMARINE2,
+                     .DESTROYER2: currentPlayerName = game.getPlayer2().getName()
+                default: break
+            }
+            if (countElements(currentPlayerName) == 0) {
+                // TODO: Handle more cases
+            }
+        }
+        
+        if (countElements(currentPlayerName) > 0) {
+            currentPlayerName += ":"
+        }
+        
+        return currentPlayerName
+    }
+    
+    func getCurrentInstruction(id: Int) -> String {
+        var currentInstruction: String = ""
+        
+        if (id < games.count) {
+            var game: Game = games[id]
+            switch game.getState() {
+                case .CARRIER1,
+                     .CARRIER2: currentInstruction = "Place your carrier ship (5 holes)"
+                case .BATTLESHIP1,
+                     .BATTLESHIP2: currentInstruction = "Place your battleship (4 holes)"
+                case .CRUISER1,
+                     .CRUISER2: currentInstruction = "Place your cruiser ship (3 holes)"
+                case .SUBMARINE1,
+                     .SUBMARINE2: currentInstruction = "Place your submarine (3 holes)"
+                case .DESTROYER1,
+                     .DESTROYER2: currentInstruction = "Place your destroyer ship (3 holes)"
+                default: break
+            }
+        }
+        
+        return currentInstruction
     }
     
     func addShip(id: Int, startCell: Cell, vertical: Bool) {

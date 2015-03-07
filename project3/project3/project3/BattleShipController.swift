@@ -26,6 +26,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     */
     
     private var model: BattleShip = BattleShip()
+    private var gridController: GridController? = nil
     
     private var numRows: Int = 5
 
@@ -49,10 +50,11 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
         navigationController?.pushViewController(namesController, animated: true)
     }
     
-    func placeShip(ship: ShipType, playerNumber: Int) {
-        // WYLO .... Time for actually drawing the grid. Holy crap.
-        
-        println("Time for player \(playerNumber) to place the \(ship) ship")
+    func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {
+        gridController = GridController()
+        gridController!.model = model
+        gridController!.gameId = id
+        navigationController?.pushViewController(gridController!, animated: true)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -67,6 +69,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        // TODO: Delete the game from the model
         numRows--
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
     }
