@@ -140,11 +140,11 @@
 			children = (
 				D47096891AA28DDE009F8425 /* BattleShip.swift */,
 				D470968B1AA28E67009F8425 /* Game.swift */,
-				D4B5CCC51AA58A84006A3253 /* State.swift */,
 				D470968D1AA28F5E009F8425 /* Player.swift */,
+				D4B5CCC51AA58A84006A3253 /* State.swift */,
 				D470968F1AA29237009F8425 /* Grid.swift */,
-				D4F54CD41AA2D75B00BE8DCA /* Cell.swift */,
 				D47096911AA295E0009F8425 /* Ship.swift */,
+				D4F54CD41AA2D75B00BE8DCA /* Cell.swift */,
 				D4F54CD01AA2CF1000BE8DCA /* CellType.swift */,
 				D4F54CD21AA2CF9300BE8DCA /* ShipType.swift */,
 			);

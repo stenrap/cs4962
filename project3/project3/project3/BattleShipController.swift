@@ -49,6 +49,10 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
         navigationController?.pushViewController(namesController, animated: true)
     }
     
+    func placeShip(ship: ShipType, playerNumber: Int) {
+        println("Time for player \(playerNumber) to place the \(ship) ship")
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numRows
     }

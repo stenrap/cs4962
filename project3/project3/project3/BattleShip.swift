@@ -11,6 +11,7 @@ import Foundation
 protocol BattleShipDelegate: class {
     
     func createNewGame(id: Int)
+    func placeShip(ship: ShipType, playerNumber: Int)
     
 }
 
@@ -28,7 +29,8 @@ class BattleShip {
     
     func setNames(id: Int, player1Name: String, player2Name: String) {
         games[id].setNames(player1Name, player2Name: player2Name)
-        // WYLO .... Save all games to disk, then call a delegate method that "tells" the controller to go to the next state
+        writeToFile()
+        delegate?.placeShip(ShipType.CARRIER, playerNumber: 1)
     }
     
     func addShip(id: Int, startCell: Cell, vertical: Bool) {
@@ -70,77 +72,78 @@ class BattleShip {
         
         for (var i:Int = 0; i < games.count; i++) {
             var game: Game = games[i]
-            var gameId: NSNumber = NSNumber(integer: i)
-            
-            // WYLO .... Move the player stuff into a separate func so you don't have to duplicate code for player1 and player2
-            
-            var player1GridCells: NSMutableDictionary = NSMutableDictionary()
-            for (cellString, cellType) in game.getPlayer1().getGrid().getCells() {
-                var rawType: NSString = "EMPTY"
-                if (cellType == CellType.HIT) {
-                    rawType = "HIT"
-                } else if (cellType == CellType.MISS) {
-                    rawType = "MISS"
-                }
-                player1GridCells.setObject(rawType, forKey: cellString)
-            }
-            
-            var player1GridShips: NSMutableArray = []
-            for ship in game.getPlayer1().getGrid().getShips() {
-                var shipDictionary: NSMutableDictionary = NSMutableDictionary()
-                
-                var shipType: NSString = ""
-                switch ship.getType() {
-                    case .CARRIER:    shipType = "CARRIER"
-                    case .BATTLESHIP: shipType = "BATTLESHIP"
-                    case .CRUISER:    shipType = "CRUISER"
-                    case .SUBMARINE:  shipType = "SUBMARINE"
-                    case .DESTROYER:  shipType = "DESTROYER"
-                }
-                shipDictionary.setObject(shipType, forKey: "type")
-                
-                var shipStartCell: NSDictionary = [
-                    "row" : ship.getStartCell().getRow(),
-                    "col" : ship.getStartCell().getCol()
-                ]
-                shipDictionary.setObject(shipStartCell, forKey: "startCell")
-                
-                var shipVertical: NSNumber = ship.isVertical()
-                shipDictionary.setObject(shipVertical, forKey: "vertical")
-                
-                var shipCells: NSMutableDictionary = NSMutableDictionary()
-                for (cellString, cellType) in ship.getCells() {
-                    var rawType: NSString = "EMPTY"
-                    if (cellType == CellType.HIT) {
-                        rawType = "HIT"
-                    } else if (cellType == CellType.MISS) {
-                        rawType = "MISS"
-                    }
-                    shipCells.setObject(rawType, forKey: cellString)
-                }
-                shipDictionary.setObject(shipCells, forKey: "cells")
-                
-                var shipSunk: NSNumber = ship.isSunk()
-                shipDictionary.setObject(shipSunk, forKey: "sunk")
-                
-                player1GridShips.addObject(shipDictionary)
-            }
-            
-            var player1: NSDictionary = [
-                "name" : game.getPlayer1().getName() as NSString
-            ]
             
             var gameDictionary: NSDictionary = [
-                "id" : gameId
+                "id" : NSNumber(integer: i),
+                "player1" : getPlayerForWrite(game.getPlayer1()),
+                "player2" : getPlayerForWrite(game.getPlayer2()),
+                "state" : NSNumber(integer: game.getState().rawValue)
             ]
+            
             battleShipArray.addObject(gameDictionary)
         }
         
-        battleShipArray.writeToFile("~/battleship.plist", atomically: true)
+        var result:Bool = battleShipArray.writeToFile("/Users/rob/battleship.plist", atomically: true)
+        println("The file was successfully written: \(result)")
     }
     
-    private func getPlayerGridForWrite(player: Player) {
+    private func getPlayerForWrite(player: Player) -> NSDictionary {
+        var playerGridShips: NSMutableArray = []
+        for ship in player.getGrid().getShips() {
+            var shipDictionary: NSMutableDictionary = NSMutableDictionary()
+            
+            var shipType: NSString = ""
+            switch ship.getType() {
+                case .CARRIER:    shipType = "CARRIER"
+                case .BATTLESHIP: shipType = "BATTLESHIP"
+                case .CRUISER:    shipType = "CRUISER"
+                case .SUBMARINE:  shipType = "SUBMARINE"
+                case .DESTROYER:  shipType = "DESTROYER"
+            }
+            shipDictionary.setObject(shipType, forKey: "type")
+            
+            var shipStartCell: NSDictionary = [
+                "row" : ship.getStartCell().getRow(),
+                "col" : ship.getStartCell().getCol()
+            ]
+            shipDictionary.setObject(shipStartCell, forKey: "startCell")
+            
+            var shipVertical: NSNumber = ship.isVertical()
+            shipDictionary.setObject(shipVertical, forKey: "vertical")
+            
+            shipDictionary.setObject(getCellsForWrite(ship.getCells()), forKey: "cells")
+            
+            var shipSunk: NSNumber = ship.isSunk()
+            shipDictionary.setObject(shipSunk, forKey: "sunk")
+            
+            playerGridShips.addObject(shipDictionary)
+        }
         
+        var playerGrid: NSDictionary = [
+            "cells" : getCellsForWrite(player.getGrid().getCells()),
+            "ships" : playerGridShips
+        ]
+        
+        var rawPlayer: NSDictionary = [
+            "name" : player.getName() as NSString,
+            "grid" : playerGrid
+        ]
+        
+        return rawPlayer
+    }
+    
+    private func getCellsForWrite(cells: [String: CellType]) -> NSMutableDictionary {
+        var rawCells: NSMutableDictionary = NSMutableDictionary()
+        for (cellString, cellType) in cells {
+            var rawType: NSString = "EMPTY"
+            if (cellType == CellType.HIT) {
+                rawType = "HIT"
+            } else if (cellType == CellType.MISS) {
+                rawType = "MISS"
+            }
+            rawCells.setObject(rawType, forKey: cellString)
+        }
+        return rawCells
     }
     
 }
