@@ -31,16 +31,19 @@ class GridView: UIView {
             instructionLabel.frame = CGRectMake(labelX, labelY + labelHeight, labelWidth, labelHeight)
             instructionLabel.textColor = UIColor.whiteColor()
             
+            self.addSubview(playerNameLabel)
+            self.addSubview(instructionLabel)
+            
             cellSize = bounds.width / 11
             
             addLocations()
             
-            self.addSubview(playerNameLabel)
-            self.addSubview(instructionLabel)
+            // WYLO .... Add the cells (somehow...this view should not get them directly from the model)
         }
     }
     
     private func addLocations() {
+        var startY: CGFloat = 162
         for (var i: Int = 1; i <= 20; i++) {
             var location: LocationView = LocationView()
             var x: CGFloat = 0
@@ -51,12 +54,12 @@ class GridView: UIView {
             
             if (i <= 10) {
                 x = cellSize * CGFloat(i)
-                y = 175
+                y = startY
                 text = String(i)
                 top = true
             } else {
                 x = 0
-                y = 175 + (cellSize * CGFloat(i - 10))
+                y = startY + (cellSize * CGFloat(i - 10))
                 text = String(UnicodeScalar(i + 54))
                 top = false
             }
