@@ -26,6 +26,7 @@ class GridController: BaseController {
     
     private func setGrid() {
         var currentGrid: Grid = model.getCurrentGrid(gameId)
+        // TODO .... Draw the grid for actual real...
     }
     
 }

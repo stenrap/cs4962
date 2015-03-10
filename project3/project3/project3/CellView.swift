@@ -43,22 +43,46 @@ class CellView: UIView {
         var interiorHeight: CGFloat = bounds.height - 1
         
         // Default to the ocean color
-        var cellRed: CGFloat = 28/255
-        var cellGreen: CGFloat = 107/255
-        var cellBlue: CGFloat = 160/255
+        var r: CGFloat = 28/255
+        var g: CGFloat = 107/255
+        var b: CGFloat = 160/255
+        var a: CGFloat = 1
         
         if (hasShip) {
             var gray: CGFloat = 150/255
-            cellRed = gray
-            cellGreen = gray
-            cellBlue = gray
+            r = gray
+            g = gray
+            b = gray
         }
         
         var interior: CGRect = CGRectMake(1, 1, interiorWidth, interiorHeight)
-        CGContextSetFillColorWithColor(context, UIColor(red: cellRed, green: cellGreen, blue: cellBlue, alpha: 1.0).CGColor)
+        CGContextSetFillColorWithColor(context, UIColor(red: r, green: g, blue: b, alpha: a).CGColor)
         CGContextFillRect(context, interior)
         
-        // TODO .... Draw the hole (dark for empty, red for hit, white for miss)
+        // Draw the hole (dark for empty, red for hit, white for miss)
+        var circleSize: CGFloat = bounds.width / 3
+        var circle: CGRect = CGRectMake(circleSize, circleSize, circleSize, circleSize)
+        
+        // Default to black
+        r = 0
+        g = 0
+        b = 0
+        a = 0.25
+        
+        if (type == CellType.MISS) {
+            r = 255
+            g = 255
+            b = 255
+            a = 1
+        } else if (type == CellType.HIT) {
+            r = 255
+            g = 0
+            b = 0
+            a = 1
+        }
+        
+        CGContextSetFillColorWithColor(context, UIColor(red: r, green: g, blue: b, alpha: a).CGColor)
+        CGContextFillEllipseInRect(context, circle)
     }
     
 }
