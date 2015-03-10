@@ -58,7 +58,7 @@ class BattleShip {
                 default: break
             }
             if (countElements(currentPlayerName) == 0) {
-                // TODO: Handle more cases
+                // TODO .... Handle more cases (e.g. when there is a concept of whose turn it is in a game)
             }
         }
         
@@ -90,6 +90,19 @@ class BattleShip {
         }
         
         return currentInstruction
+    }
+    
+    func getCurrentGrid(id: Int) -> Grid {
+        var game: Game = games[id]
+        var currentGrid: Grid = game.getPlayer1().getGrid()
+        
+        if (game.getState().rawValue >= State.CARRIER2.rawValue) {
+            currentGrid = game.getPlayer2().getGrid()
+        }
+        
+        // TODO .... Handle more cases (e.g. when there is a concept of whose turn it is in a game)
+        
+        return currentGrid
     }
     
     func addShip(id: Int, startCell: Cell, vertical: Bool) {

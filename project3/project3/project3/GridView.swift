@@ -37,8 +37,6 @@ class GridView: UIView {
             cellSize = bounds.width / 11
             
             addLocations()
-            
-            // WYLO .... Add the cells (somehow...this view should not get them directly from the model)
         }
     }
     

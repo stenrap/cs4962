@@ -25,7 +25,7 @@ class GridController: BaseController {
     }
     
     private func setGrid() {
-        // WYLO .... Get the current grid from the model and pass it to the view (somehow in a way that the view doesn't have to "know" about model objects)...
+        var currentGrid: Grid = model.getCurrentGrid(gameId)
     }
     
 }

@@ -31,6 +31,7 @@ class LocationView: UIView {
         let context: CGContext = UIGraphicsGetCurrentContext()
         CGContextClearRect(context, bounds)
         
+        // Cell border color
         CGContextSetFillColorWithColor(context, UIColor(red: 17/255, green: 170/255, blue: 188/255, alpha: 1.0).CGColor)
         CGContextFillRect(context, bounds)
         
@@ -40,6 +41,8 @@ class LocationView: UIView {
             interiorWidth = top ? bounds.width - 2 : bounds.width - 1
             interiorHeight = top ? bounds.width - 1 : bounds.width - 2
         }
+        
+        // Ocean color
         var interior: CGRect = CGRectMake(1, 1, interiorWidth, interiorHeight)
         CGContextSetFillColorWithColor(context, UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0).CGColor)
         CGContextFillRect(context, interior)
