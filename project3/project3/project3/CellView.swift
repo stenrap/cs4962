@@ -22,7 +22,6 @@ class CellView: UIView {
     func getHasShip() -> Bool {return hasShip}
     func setHasShip(hasShip: Bool) {
         self.hasShip = hasShip
-        setNeedsDisplay()
     }
     
     private var type: CellType = CellType.EMPTY

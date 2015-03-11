@@ -26,7 +26,36 @@ class GridController: BaseController {
     
     private func setGrid() {
         var currentGrid: Grid = model.getCurrentGrid(gameId)
-        // TODO .... Draw the grid for actual real...
+        for (var row = 1; row <= 10; row++) {
+            var rowString: String = "A"
+            switch row {
+                case 2: rowString = "B"
+                case 3: rowString = "C"
+                case 4: rowString = "D"
+                case 5: rowString = "E"
+                case 6: rowString = "F"
+                case 7: rowString = "G"
+                case 8: rowString = "H"
+                case 9: rowString = "I"
+                case 10: rowString = "J"
+                default: break
+            }
+            for (var col = 1; col <= 10; col++) {
+                var cell: Cell = Cell(row: rowString, col: col)
+                var hasShip: Bool = false
+                for ship in currentGrid.getShips() {
+                    if (ship.hasCell(cell)) {
+                        hasShip = true
+                        break
+                    }
+                }
+                var type: CellType = CellType.EMPTY
+                if (currentGrid.getCells()[rowString + String(col)] != nil) {
+                    type = currentGrid.getCells()[rowString + String(col)]!
+                }
+                getGridView().updateCellView(rowString, col: col, hasShip: hasShip, type: type)
+            }
+        }
     }
     
 }

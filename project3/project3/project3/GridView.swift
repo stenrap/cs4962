@@ -18,8 +18,14 @@ class GridView: UIView {
     
     private var cellSize: CGFloat = 0
     
+    private var cellViews = [String: CellView]()
+    
+    private var startY: CGFloat = 162
+    
+    private var addedLocations: Bool = false
+    
     override func layoutSubviews() {
-        if (self.subviews.count == 0) {
+        if (!addedLocations) {
             var labelY: CGFloat = 74
             var labelX: CGFloat = 10
             var labelWidth: CGFloat = UIScreen.mainScreen().bounds.width
@@ -37,11 +43,12 @@ class GridView: UIView {
             cellSize = bounds.width / 11
             
             addLocations()
+            
+            addedLocations = true
         }
     }
     
     private func addLocations() {
-        var startY: CGFloat = 162
         for (var i: Int = 1; i <= 20; i++) {
             var location: LocationView = LocationView()
             var x: CGFloat = 0
@@ -67,6 +74,39 @@ class GridView: UIView {
             location.setLabel(CGRectMake(x, y, cellSize, cellSize), fontSize: 14, text: text, top: top, last: last)
             self.addSubview(location)
         }
+    }
+    
+    func updateCellView(row: String, col: Int, hasShip: Bool, type: CellType) {
+        var location: String = row + String(col)
+        var cellView: CellView? = cellViews[location]
+        
+        if (cellView == nil) {
+            cellSize = UIScreen.mainScreen().bounds.width / 11
+            var x: CGFloat = cellSize * CGFloat(col)
+            var multiplier: CGFloat = 1
+            switch row {
+                case "B": multiplier = 2
+                case "C": multiplier = 3
+                case "D": multiplier = 4
+                case "E": multiplier = 5
+                case "F": multiplier = 6
+                case "G": multiplier = 7
+                case "H": multiplier = 8
+                case "I": multiplier = 9
+                case "J": multiplier = 10
+                default: break
+            }
+            var y: CGFloat = startY + ((cellSize * 2) * multiplier)
+            cellView = CellView(frame: CGRectMake(x, y, cellSize, cellSize))
+            cellView!.setRow(row)
+            cellView!.setCol(col)
+            self.addSubview(cellView!)
+        }
+        
+        cellView!.setHasShip(hasShip)
+        cellView!.setType(type)
+        
+        cellViews[location] = cellView!
     }
     
 }
