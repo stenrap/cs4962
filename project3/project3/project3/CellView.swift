@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol CellViewDelegate: class {
+    
+    func cellViewTouched(row: String, col: Int)
+    
+}
+
 class CellView: UIView {
     
     private var row: String = ""
@@ -29,6 +35,15 @@ class CellView: UIView {
     func setType(type: CellType) {
         self.type = type
         setNeedsDisplay()
+    }
+    
+    weak var delegate: CellViewDelegate? = nil
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        if (getRow() == "" || getCol() == 0) {
+            return
+        }
+        delegate?.cellViewTouched(getRow(), col: getCol())
     }
     
     override func drawRect(rect: CGRect) {

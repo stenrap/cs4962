@@ -76,15 +76,15 @@ class BattleShip {
             var game: Game = games[id]
             switch game.getState() {
                 case .CARRIER1,
-                     .CARRIER2: currentInstruction = "Place your carrier ship (5 holes)"
+                     .CARRIER2: currentInstruction = "Tap to place your carrier ship (5 holes)"
                 case .BATTLESHIP1,
-                     .BATTLESHIP2: currentInstruction = "Place your battleship (4 holes)"
+                     .BATTLESHIP2: currentInstruction = "Tap to place your battleship (4 holes)"
                 case .CRUISER1,
-                     .CRUISER2: currentInstruction = "Place your cruiser ship (3 holes)"
+                     .CRUISER2: currentInstruction = "Tap to place your cruiser ship (3 holes)"
                 case .SUBMARINE1,
-                     .SUBMARINE2: currentInstruction = "Place your submarine (3 holes)"
+                     .SUBMARINE2: currentInstruction = "Tap to place your submarine (3 holes)"
                 case .DESTROYER1,
-                     .DESTROYER2: currentInstruction = "Place your destroyer ship (3 holes)"
+                     .DESTROYER2: currentInstruction = "Tap to place your destroyer ship (2 holes)"
                 default: break
             }
         }
@@ -106,6 +106,7 @@ class BattleShip {
     }
     
     func addShip(id: Int, startCell: Cell, vertical: Bool) {
+        // WYLO .... Is this really how you want to do it?
         var game = games[id]
         if (game.addShip(startCell, vertical: vertical)) {
             // TODO: Call a delegate method that "tells" the controller which state to go to next
@@ -113,31 +114,6 @@ class BattleShip {
             // TODO: Call a delegate method that "tells" the controller why adding the ship failed
         }
     }
-    
-    /*
-        These are the types that can be written to .plist files:
-        
-            NSString
-            NSNumber (integer)
-            NSNumber (boolean)
-            NSDate
-            NSData (base-64 encoded)
-            NSArray
-            NSDictionary
-        
-    
-        To read the contents of your battleship.plist.plist file:
-    
-            var array: NSArray = NSArray("battleship.plist")
-    
-    
-        To write the contents of your battleship.plist.plist file:
-    
-            array.writeToFile("battleship.plist", atomically: true)
-    
-        
-        See lecture 10 video at 01:17:40 for the tutorial
-    */
     
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?

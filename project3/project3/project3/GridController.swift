@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GridController: BaseController {
+class GridController: BaseController, CellViewDelegate {
     
     func getGridView() -> GridView {return view as GridView}
     
@@ -56,6 +56,10 @@ class GridController: BaseController {
                 getGridView().updateCellView(rowString, col: col, hasShip: hasShip, type: type)
             }
         }
+    }
+    
+    func cellViewTouched(row: String, col: Int) {
+        
     }
     
 }

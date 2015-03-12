@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GridView: UIView {
+class GridView: UIView, CellViewDelegate {
     
     private var playerNameLabel: UILabel = UILabel()
     func setPlayerName(playerName: String) {playerNameLabel.text = playerName}
@@ -24,6 +24,8 @@ class GridView: UIView {
     
     private var addedLocations: Bool = false
     
+    weak var delegate: CellViewDelegate? = nil
+    
     override func layoutSubviews() {
         if (!addedLocations) {
             var labelY: CGFloat = 74
@@ -36,6 +38,7 @@ class GridView: UIView {
             
             instructionLabel.frame = CGRectMake(labelX, labelY + labelHeight, labelWidth, labelHeight)
             instructionLabel.textColor = UIColor.whiteColor()
+            instructionLabel.font = UIFont(name: instructionLabel.font.fontName, size: 15)
             
             self.addSubview(playerNameLabel)
             self.addSubview(instructionLabel)
@@ -107,6 +110,10 @@ class GridView: UIView {
         cellView!.setType(type)
         
         cellViews[location] = cellView!
+    }
+    
+    func cellViewTouched(row: String, col: Int) {
+        delegate?.cellViewTouched(row, col: col)
     }
     
 }
