@@ -96,7 +96,7 @@ class GridView: UIView {
                 case "J": multiplier = 10
                 default: break
             }
-            var y: CGFloat = startY + ((cellSize * 2) * multiplier)
+            var y: CGFloat = startY + (cellSize * multiplier)
             cellView = CellView(frame: CGRectMake(x, y, cellSize, cellSize))
             cellView!.setRow(row)
             cellView!.setCol(col)

@@ -32,6 +32,8 @@ class NamesView: UIView {
             
             self.addSubview(player1NameField)
             self.addSubview(player2NameField)
+            
+            player1NameField.becomeFirstResponder()
         }
     }
     

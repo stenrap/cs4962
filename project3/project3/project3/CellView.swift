@@ -41,6 +41,14 @@ class CellView: UIView {
         var interiorWidth: CGFloat = bounds.width - 1
         var interiorHeight: CGFloat = bounds.height - 1
         
+        if (getCol() == 10) {
+            interiorWidth -= 1
+        }
+        
+        if (getRow() == "J") {
+            interiorHeight -= 1
+        }
+        
         // Default to the ocean color
         var r: CGFloat = 28/255
         var g: CGFloat = 107/255
