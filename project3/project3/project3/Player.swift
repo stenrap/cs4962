@@ -19,9 +19,9 @@ class Player {
     
     func addShip(type: ShipType, startCell: Cell, vertical: Bool, myGrid: Bool) -> Bool {
         if (myGrid) {
-            return grid.addShip(type, startCell: startCell, vertical: true)
+            return grid.addShip(type, startCell: startCell, vertical: vertical)
         } else {
-            return enemyGrid.addShip(type, startCell: startCell, vertical: true)
+            return enemyGrid.addShip(type, startCell: startCell, vertical: vertical)
         }
     }
 }

@@ -105,14 +105,37 @@ class BattleShip {
         return currentGrid
     }
     
-    func addShip(id: Int, startCell: Cell, vertical: Bool) {
-        // WYLO .... Is this really how you want to do it?
-        var game = games[id]
-        if (game.addShip(startCell, vertical: vertical)) {
-            // TODO: Call a delegate method that "tells" the controller which state to go to next
-        } else {
-            // TODO: Call a delegate method that "tells" the controller why adding the ship failed
+    func getCurrentGameState(id: Int) -> State {
+        return games[id].getState()
+    }
+    
+    func getCurrentShipType(id: Int) -> String {
+        var game: Game = games[id]
+        var shipType: ShipType = ShipType.CARRIER
+        switch game.getState() {
+            case .CARRIER1,
+                 .CARRIER2: shipType = ShipType.CARRIER
+            case .BATTLESHIP1,
+                 .BATTLESHIP2: shipType = ShipType.BATTLESHIP
+            case .CRUISER1,
+                 .CRUISER2: shipType = ShipType.CRUISER
+            case .SUBMARINE1,
+                 .SUBMARINE2: shipType = ShipType.SUBMARINE
+            case .DESTROYER1,
+                 .DESTROYER2: shipType = ShipType.DESTROYER
+            default: break
         }
+        return shipType.toString()
+    }
+    
+    func addShip(id: Int, startCell: Cell) -> Bool {
+        var game = games[id]
+        if (game.addShip(startCell, vertical: true) || game.addShip(startCell, vertical: false)) {
+            game.nextState()
+            writeToFile()
+            return true
+        }
+        return false
     }
     
     private func getModelPath() -> String {

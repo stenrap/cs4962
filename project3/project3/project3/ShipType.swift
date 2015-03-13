@@ -22,4 +22,14 @@ enum ShipType {
             case DESTROYER:  return 2
         }
     }
+    
+    func toString() -> String {
+        switch self {
+            case CARRIER:    return "carrier"
+            case BATTLESHIP: return "battleship"
+            case CRUISER:    return "cruiser"
+            case SUBMARINE:  return "submarine"
+            case DESTROYER:  return "destroyer"
+        }
+    }
 }

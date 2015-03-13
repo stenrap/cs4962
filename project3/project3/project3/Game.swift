@@ -43,18 +43,20 @@ class Game {
         var forPlayer1: Bool = state.rawValue >= State.CARRIER1.rawValue && state.rawValue <= State.DESTROYER1.rawValue
         if (forPlayer1) {
             if (player1.addShip(type, startCell: startCell, vertical: vertical, myGrid: true)) {
-                player2.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
+                //player2.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
+                return true
             } else {
                 return false
             }
         } else {
             if (player2.addShip(type, startCell: startCell, vertical: vertical, myGrid: true)) {
-                player1.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
+                return true
+                // player1.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
             } else {
                 return false
             }
         }
-        return true
+        //return true
     }
     
 }

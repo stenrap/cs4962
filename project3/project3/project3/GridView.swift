@@ -24,6 +24,10 @@ class GridView: UIView, CellViewDelegate {
     
     private var addedLocations: Bool = false
     
+    private var gridTouchAllowed: Bool = true
+    func getGridTouchAllowed() -> Bool {return gridTouchAllowed}
+    func setGridTouchAllowed(gridTouchAllowed: Bool) {self.gridTouchAllowed = gridTouchAllowed}
+    
     weak var delegate: CellViewDelegate? = nil
     
     override func layoutSubviews() {
@@ -101,6 +105,7 @@ class GridView: UIView, CellViewDelegate {
             }
             var y: CGFloat = startY + (cellSize * multiplier)
             cellView = CellView(frame: CGRectMake(x, y, cellSize, cellSize))
+            cellView!.delegate = self
             cellView!.setRow(row)
             cellView!.setCol(col)
             self.addSubview(cellView!)
@@ -113,6 +118,10 @@ class GridView: UIView, CellViewDelegate {
     }
     
     func cellViewTouched(row: String, col: Int) {
+        if (!gridTouchAllowed) {
+            return
+        }
+        gridTouchAllowed = false
         delegate?.cellViewTouched(row, col: col)
     }
     
