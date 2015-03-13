@@ -16,7 +16,7 @@ class GridController: BaseController, CellViewDelegate {
         view = GridView()
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         setInfo()
-        setGrid()
+        drawGrid()
     }
     
     private func setInfo() {
@@ -25,7 +25,7 @@ class GridController: BaseController, CellViewDelegate {
         getGridView().setInstruction(model.getCurrentInstruction(gameId))
     }
     
-    private func setGrid() {
+    private func drawGrid() {
         var grid: Grid = model.getCurrentGrid(gameId)
         for (var row = 1; row <= 10; row++) {
             var rowString: String = "A"
@@ -60,17 +60,33 @@ class GridController: BaseController, CellViewDelegate {
     }
     
     func cellViewTouched(row: String, col: Int) {
+        
+        // WYLO .... This is working great and all, but you need to add the 'Rotate it' and 'Place it' buttons...
+        
         if (model.getCurrentGameState(gameId).rawValue < State.GAME.rawValue) {
             if (model.addShip(gameId, startCell: Cell(row: row, col: col))) {
-                println("Ship added...draw it on the grid!")
-                // WYLO .... Add the ship to the grid, show a success alert, allow grid touch
+                drawGrid()
+                setInfo()
+                showShipAddedAlert()
             } else {
                 showInvalidSpotAlert()
-                getGridView().setGridTouchAllowed(true)
             }
         } else {
             // TODO: Call model.takeShot()...
         }
+        getGridView().setGridTouchAllowed(true)
+    }
+    
+    func showShipAddedAlert() {
+        var state: Int = model.getCurrentGameState(gameId).rawValue
+        if (state != State.BATTLESHIP1.rawValue && state != State.BATTLESHIP2.rawValue) {
+            return
+        }
+        var alert = UIAlertController(title: "On to victory!",
+                                      message: "Now place the rest of your ships.",
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func showInvalidSpotAlert() {
