@@ -69,4 +69,8 @@ class Ship {
         return false
     }
     
+    func removeFromGrid() {
+        cells.removeAll()
+    }
+    
 }

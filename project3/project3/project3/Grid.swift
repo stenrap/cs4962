@@ -15,6 +15,9 @@ class Grid {
     func getShips() -> [Ship] {return ships}
     
     func addShip(type: ShipType, startCell: Cell, vertical: Bool) -> Bool {
+        if (shipOnGrid(type)) {
+            removeShip(type)
+        }
         var size = type.getSize()
         var scalars = startCell.getRow().unicodeScalars
         var rowValue = scalars[scalars.startIndex].value
@@ -41,6 +44,30 @@ class Grid {
         }
         ships.append(Ship(type: type, startCell: startCell, vertical: vertical))
         return true
+    }
+    
+    func shipOnGrid(type: ShipType) -> Bool {
+        for ship in ships {
+            if (ship.getType() == type && ship.getCells().count > 0) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func removeShip(type: ShipType) {
+        var index = -1
+        for (var i: Int = 0; i < ships.count; i++) {
+            var ship: Ship = ships[i]
+            if (ship.getType() == type) {
+                ship.removeFromGrid()
+                index = i
+                break
+            }
+        }
+        if (index > -1 && index < ships.count) {
+            ships.removeAtIndex(index)
+        }
     }
     
     func isCellEmpty(cell: Cell) -> Bool {

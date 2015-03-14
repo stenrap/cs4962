@@ -131,11 +131,14 @@ class BattleShip {
     func addShip(id: Int, startCell: Cell) -> Bool {
         var game = games[id]
         if (game.addShip(startCell, vertical: true) || game.addShip(startCell, vertical: false)) {
-            game.nextState()
-            writeToFile()
             return true
         }
         return false
+    }
+    
+    func confirmAddShip(id: Int) {
+        games[id].nextState()
+        writeToFile()
     }
     
     private func getModelPath() -> String {
