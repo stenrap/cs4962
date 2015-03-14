@@ -64,10 +64,6 @@ class BattleShip {
             }
         }
         
-        if (countElements(currentPlayerName) > 0) {
-            currentPlayerName += ":"
-        }
-        
         return currentPlayerName
     }
     
@@ -151,6 +147,7 @@ class BattleShip {
     func confirmAddShip(id: Int) {
         games[id].nextState()
         writeToFile()
+        currentStartCell = nil
     }
     
     private func getModelPath() -> String {

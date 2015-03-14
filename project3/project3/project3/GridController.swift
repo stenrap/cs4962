@@ -19,6 +19,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         setInfo()
         drawGrid()
+        showDeployAlert()
     }
     
     override func viewDidLayoutSubviews() {
@@ -27,7 +28,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     
     private func setInfo() {
         getGridView().delegate = self
-        getGridView().setPlayerName(model.getCurrentPlayerName(gameId))
+        getGridView().setPlayerName(model.getCurrentPlayerName(gameId)+":")
         getGridView().setInstruction(model.getCurrentInstruction(gameId))
     }
     
@@ -66,9 +67,6 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     }
     
     func cellViewTouched(row: String, col: Int) {
-        
-        // WYLO .... This is working great and all, but you need to add the 'Rotate it' and 'Place it' buttons...
-        
         if (model.getCurrentGameState(gameId).rawValue < State.GAME.rawValue) {
             if (model.addShip(gameId, startCell: Cell(row: row, col: col))) {
                 drawGrid()
@@ -89,9 +87,9 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         }
         firstShipAlertShown = true
         var state: Int = model.getCurrentGameState(gameId).rawValue
-        if (state == State.CARRIER1.rawValue || state == State.CARRIER1.rawValue) {
+        if (state == State.CARRIER1.rawValue || state == State.CARRIER2.rawValue) {
             var alert = UIAlertController(title: "Splash!",
-                                          message: "Your carrier's in the water! Tap another spot to move it, or 'Rotate' to turn it. When it's ready, tap 'Confirm'.",
+                                          message: "Your carrier is in the water! Tap another spot to move it, or tap Rotate to turn it. When it's ready, tap Confirm.",
                                           preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
@@ -108,15 +106,36 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     }
     
     func confirmTouched() {
-        // WYLO .... make a call to model.confirmAddShip(gameId) and handle the result. Don't forget to ignore when there's no ship placed...
+        model.confirmAddShip(gameId)
+        showFirstShipAddedAlert()
+        setInfo()
+        
+        var state: Int = model.getCurrentGameState(gameId).rawValue
+        if (state == State.CARRIER2.rawValue) {
+            drawGrid()
+            showGiveDeviceToOtherPlayerAlert()
+            firstShipAlertShown = false
+        }
     }
     
-    func showShipAddedAlert() {
+    func showDeployAlert() {
+        var state: Int = model.getCurrentGameState(gameId).rawValue
+        if (state != State.CARRIER1.rawValue && state != State.CARRIER2.rawValue) {
+            return
+        }
+        var alert = UIAlertController(title: "Deploy!",
+                                      message: "Tap anywhere on the grid to place your carrier ship (5 holes).",
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func showFirstShipAddedAlert() {
         var state: Int = model.getCurrentGameState(gameId).rawValue
         if (state != State.BATTLESHIP1.rawValue && state != State.BATTLESHIP2.rawValue) {
             return
         }
-        var alert = UIAlertController(title: "On to victory!",
+        var alert = UIAlertController(title: "On to Victory!",
                                       message: "Now place the rest of your ships.",
                                       preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -125,10 +144,28 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     
     func showInvalidSpotAlert() {
         var alert = UIAlertController(title: "Invalid Spot",
-                                      message: "The \(model.getCurrentShipType(gameId)) can't fit/rotate there.",
+                                      message: "The \(model.getCurrentShipType(gameId)) can't fit or rotate there.",
                                       preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func showGiveDeviceToOtherPlayerAlert() {
+        var alert = UIAlertController(title: "Hand Off",
+                                      message: "Give the phone/tablet to \(model.getCurrentPlayerName(gameId)).",
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: UIAlertActionStyle.Default,
+                                      handler: onOtherPlayerOk))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func onOtherPlayerOk(alert: UIAlertAction!) {
+        var state: Int = model.getCurrentGameState(gameId).rawValue
+        if (state == State.CARRIER2.rawValue) {
+            showDeployAlert()
+        }
+
     }
     
 }

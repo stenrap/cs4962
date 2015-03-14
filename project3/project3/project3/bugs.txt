@@ -1,0 +1,34 @@
+
+============
+    Bugs
+============
+
+1 - FIXED - Carrier disappears when battleship added
+
+    1. Tap to place the carrier on a spot that is vertically valid but not horizontally valid (i.e. on the right)
+    2. Tap Rotate.
+    3. Tap OK on the invalid spot alert.
+    4. Tap Confirm.
+    5. Tap to place the battleship.
+
+Expected result: The battleship appears and the carrier remains in its spot.
+Actual result: The battleship appears but the carrier disappears.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
