@@ -24,4 +24,8 @@ class Player {
             return enemyGrid.addShip(type, startCell: startCell, vertical: vertical)
         }
     }
+    
+    func rotateShip(currentStartCell: Cell) -> Bool {
+        return grid.rotateShip(currentStartCell)
+    }
 }

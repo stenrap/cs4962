@@ -22,6 +22,8 @@ class BattleShip {
     
     weak var delegate: BattleShipDelegate? = nil
     
+    private var currentStartCell: Cell? = nil
+    
     /* Game State Methods */
     
     func newGame() {
@@ -131,9 +133,19 @@ class BattleShip {
     func addShip(id: Int, startCell: Cell) -> Bool {
         var game = games[id]
         if (game.addShip(startCell, vertical: true) || game.addShip(startCell, vertical: false)) {
+            currentStartCell = startCell
             return true
         }
         return false
+    }
+    
+    func rotateShip(id: Int) -> (rotated: Bool, existing: Bool) {
+        var game = games[id]
+        if (currentStartCell != nil) {
+            var wasRotated: Bool = game.rotateShip(currentStartCell!)
+            return (wasRotated, true)
+        }
+        return (false, false)
     }
     
     func confirmAddShip(id: Int) {

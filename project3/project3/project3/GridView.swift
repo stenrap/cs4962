@@ -30,6 +30,9 @@ class GridView: UIView, CellViewDelegate {
     
     weak var delegate: CellViewDelegate? = nil
     
+    private let BUTTON_HEIGHT: CGFloat = 50
+    var rotateView: RotatePlaceView? = nil
+    
     override func layoutSubviews() {
         if (!addedLocations) {
             var labelY: CGFloat = 74
@@ -52,6 +55,9 @@ class GridView: UIView, CellViewDelegate {
             addLocations()
             
             addedLocations = true
+            
+            rotateView = RotatePlaceView(frame: CGRectMake(0, frame.height - BUTTON_HEIGHT, frame.width, BUTTON_HEIGHT))
+            self.addSubview(rotateView!)
         }
     }
     

@@ -89,7 +89,7 @@ class CellView: UIView {
         r = 0
         g = 0
         b = 0
-        a = 0.25
+        a = hasShip ? 0.5 : 0.1875
         
         if (type == CellType.MISS) {
             r = 255

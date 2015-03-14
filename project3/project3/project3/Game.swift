@@ -29,6 +29,10 @@ class Game {
         player2.setName(player2Name)
     }
     
+    func forPlayer1() -> Bool {
+        return state.rawValue >= State.CARRIER1.rawValue && state.rawValue <= State.DESTROYER1.rawValue
+    }
+    
     func addShip(startCell: Cell, vertical: Bool) -> Bool {
         var type: ShipType = ShipType.CARRIER
         switch state {
@@ -40,8 +44,8 @@ class Game {
             case .DESTROYER1, .DESTROYER2:   type = ShipType.DESTROYER
             case .GAME:                      break
         }
-        var forPlayer1: Bool = state.rawValue >= State.CARRIER1.rawValue && state.rawValue <= State.DESTROYER1.rawValue
-        if (forPlayer1) {
+        
+        if (forPlayer1()) {
             if (player1.addShip(type, startCell: startCell, vertical: vertical, myGrid: true)) {
                 //player2.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
                 return true
@@ -57,6 +61,14 @@ class Game {
             }
         }
         //return true
+    }
+    
+    func rotateShip(currentStartCell: Cell) -> Bool {
+        if (forPlayer1()) {
+            return player1.rotateShip(currentStartCell)
+        } else {
+            return player2.rotateShip(currentStartCell)
+        }
     }
     
 }

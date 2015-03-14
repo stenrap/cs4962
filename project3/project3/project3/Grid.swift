@@ -46,6 +46,15 @@ class Grid {
         return true
     }
     
+    func rotateShip(currentStartCell: Cell) -> Bool {
+        for ship in ships {
+            if (ship.hasCell(currentStartCell)) {
+                return addShip(ship.getType(), startCell: currentStartCell, vertical: ship.isVertical() ? false : true)
+            }
+        }
+        return false
+    }
+    
     func shipOnGrid(type: ShipType) -> Bool {
         for ship in ships {
             if (ship.getType() == type && ship.getCells().count > 0) {

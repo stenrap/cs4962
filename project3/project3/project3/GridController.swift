@@ -8,15 +8,21 @@
 
 import UIKit
 
-class GridController: BaseController, CellViewDelegate {
+class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate {
     
     func getGridView() -> GridView {return view as GridView}
+    
+    private var firstShipAlertShown: Bool = false
     
     override func loadView() {
         view = GridView()
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         setInfo()
         drawGrid()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        getGridView().rotateView?.delegate = self
     }
     
     private func setInfo() {
@@ -67,7 +73,7 @@ class GridController: BaseController, CellViewDelegate {
             if (model.addShip(gameId, startCell: Cell(row: row, col: col))) {
                 drawGrid()
                 setInfo()
-                showShipAddedAlert()
+                showFirstShipAlert()
             } else {
                 showInvalidSpotAlert()
             }
@@ -75,6 +81,34 @@ class GridController: BaseController, CellViewDelegate {
             // TODO: Call model.takeShot()...
         }
         getGridView().setGridTouchAllowed(true)
+    }
+    
+    func showFirstShipAlert() {
+        if (firstShipAlertShown) {
+            return
+        }
+        firstShipAlertShown = true
+        var state: Int = model.getCurrentGameState(gameId).rawValue
+        if (state == State.CARRIER1.rawValue || state == State.CARRIER1.rawValue) {
+            var alert = UIAlertController(title: "Splash!",
+                                          message: "Your carrier's in the water! Tap another spot to move it, or 'Rotate' to turn it. When it's ready, tap 'Confirm'.",
+                                          preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func rotateTouched() {
+        var (rotated, existing) = model.rotateShip(gameId)
+        if (rotated) {
+            drawGrid()
+        } else if (existing) {
+            showInvalidSpotAlert()
+        }
+    }
+    
+    func confirmTouched() {
+        println("Confirm was touched!")
     }
     
     func showShipAddedAlert() {
@@ -91,7 +125,7 @@ class GridController: BaseController, CellViewDelegate {
     
     func showInvalidSpotAlert() {
         var alert = UIAlertController(title: "Invalid Spot",
-                                      message: "The \(model.getCurrentShipType(gameId)) can't fit there.",
+                                      message: "The \(model.getCurrentShipType(gameId)) can't fit/rotate there.",
                                       preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
