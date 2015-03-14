@@ -108,7 +108,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     }
     
     func confirmTouched() {
-        println("Confirm was touched!")
+        // WYLO .... make a call to model.confirmAddShip(gameId) and handle the result. Don't forget to ignore when there's no ship placed...
     }
     
     func showShipAddedAlert() {
