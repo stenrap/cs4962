@@ -76,7 +76,8 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
                 showInvalidSpotAlert()
             }
         } else {
-            // TODO: Call model.takeShot()...
+            // WYLO .... Start tracking shots and showing them on the grid!
+            println("A shot was taken at \(row + String(col))")
         }
         getGridView().setGridTouchAllowed(true)
     }
