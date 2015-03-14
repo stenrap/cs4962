@@ -60,7 +60,9 @@ class BattleShip {
                 default: break
             }
             if (countElements(currentPlayerName) == 0) {
-                // TODO .... Handle more cases (e.g. when there is a concept of whose turn it is in a game)
+                if (game.getState() == State.GAME) {
+                    currentPlayerName = game.getTurn().getName()
+                }
             }
         }
         
@@ -85,6 +87,11 @@ class BattleShip {
                      .DESTROYER2: currentInstruction = "Tap to place your destroyer ship (2 holes)"
                 default: break
             }
+            if (countElements(currentInstruction) == 0) {
+                if (game.getState() == State.GAME) {
+                    currentInstruction = "It's your turn! Take a shot at the enemy!"
+                }
+            }
         }
         
         return currentInstruction
@@ -94,11 +101,17 @@ class BattleShip {
         var game: Game = games[id]
         var currentGrid: Grid = game.getPlayer1().getGrid()
         
-        if (game.getState().rawValue >= State.CARRIER2.rawValue) {
+        if (game.getState().rawValue >= State.CARRIER2.rawValue && game.getState().rawValue < State.GAME.rawValue) {
             currentGrid = game.getPlayer2().getGrid()
         }
         
-        // TODO .... Handle more cases (e.g. when there is a concept of whose turn it is in a game)
+        if (game.getState() == State.GAME) {
+            if (game.getTurn() === game.getPlayer1()) {
+                currentGrid = game.getPlayer2().getGrid()
+            } else {
+                currentGrid = game.getPlayer1().getGrid()
+            }
+        }
         
         return currentGrid
     }
@@ -145,7 +158,12 @@ class BattleShip {
     }
     
     func confirmAddShip(id: Int) {
-        games[id].nextState()
+        var game = games[id]
+        var state = game.getState()
+        if (state == State.DESTROYER2) {
+            game.setTurn(game.getPlayer1())
+        }
+        game.nextState()
         writeToFile()
         currentStartCell = nil
     }

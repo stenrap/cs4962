@@ -32,7 +32,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         getGridView().setInstruction(model.getCurrentInstruction(gameId))
     }
     
-    private func drawGrid() {
+    private func drawGrid(showShips: Bool = true) {
         var grid: Grid = model.getCurrentGrid(gameId)
         for (var row = 1; row <= 10; row++) {
             var rowString: String = "A"
@@ -61,7 +61,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
                 if (grid.getCells()[rowString + String(col)] != nil) {
                     type = grid.getCells()[rowString + String(col)]!
                 }
-                getGridView().updateCellView(rowString, col: col, hasShip: hasShip, type: type)
+                getGridView().updateCellView(rowString, col: col, hasShip: hasShip, type: type, showShips: showShips)
             }
         }
     }
@@ -106,15 +106,22 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     }
     
     func confirmTouched() {
+        var lastShip: Bool = model.getCurrentGameState(gameId) == State.DESTROYER2
         model.confirmAddShip(gameId)
         showFirstShipAddedAlert()
         setInfo()
         
-        var state: Int = model.getCurrentGameState(gameId).rawValue
-        if (state == State.CARRIER2.rawValue) {
+        var state: State = model.getCurrentGameState(gameId)
+        if (state == State.CARRIER2) {
             drawGrid()
             showGiveDeviceToOtherPlayerAlert()
             firstShipAlertShown = false
+        }
+        
+        if (lastShip) {
+            drawGrid(showShips: false) // Draw the empty grid of player2 so player1 can take his turn
+            getGridView().removeRotatePlaceView()
+            showStartPlayingAlert()
         }
     }
     
@@ -154,9 +161,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         var alert = UIAlertController(title: "Hand Off",
                                       message: "Give the phone/tablet to \(model.getCurrentPlayerName(gameId)).",
                                       preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: UIAlertActionStyle.Default,
-                                      handler: onOtherPlayerOk))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: onOtherPlayerOk))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
@@ -165,7 +170,14 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         if (state == State.CARRIER2.rawValue) {
             showDeployAlert()
         }
-
+    }
+    
+    func showStartPlayingAlert() {
+        var alert = UIAlertController(title: "The Battle Begins!",
+                                      message: "Give the phone/tablet to \(model.getCurrentPlayerName(gameId)).",
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: onOtherPlayerOk))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
 }

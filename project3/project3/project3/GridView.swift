@@ -89,7 +89,7 @@ class GridView: UIView, CellViewDelegate {
         }
     }
     
-    func updateCellView(row: String, col: Int, hasShip: Bool, type: CellType) {
+    func updateCellView(row: String, col: Int, hasShip: Bool, type: CellType, showShips: Bool) {
         var location: String = row + String(col)
         var cellView: CellView? = cellViews[location]
         
@@ -119,6 +119,7 @@ class GridView: UIView, CellViewDelegate {
         
         cellView!.setHasShip(hasShip)
         cellView!.setType(type)
+        cellView!.setShowShips(showShips)
         
         cellViews[location] = cellView!
     }
@@ -129,6 +130,10 @@ class GridView: UIView, CellViewDelegate {
         }
         gridTouchAllowed = false
         delegate?.cellViewTouched(row, col: col)
+    }
+    
+    func removeRotatePlaceView() {
+        rotateView?.removeFromSuperview()
     }
     
 }

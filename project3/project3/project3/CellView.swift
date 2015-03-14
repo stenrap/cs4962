@@ -37,6 +37,13 @@ class CellView: UIView {
         setNeedsDisplay()
     }
     
+    private var showShips: Bool = true
+    func getShowShips() -> Bool {return showShips}
+    func setShowShips(showShips: Bool) {
+        self.showShips = showShips
+        setNeedsDisplay()
+    }
+    
     weak var delegate: CellViewDelegate? = nil
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
@@ -70,7 +77,7 @@ class CellView: UIView {
         var b: CGFloat = 160/255
         var a: CGFloat = 1
         
-        if (hasShip) {
+        if (hasShip && showShips) {
             var gray: CGFloat = 150/255
             r = gray
             g = gray
@@ -89,7 +96,7 @@ class CellView: UIView {
         r = 0
         g = 0
         b = 0
-        a = hasShip ? 0.5 : 0.1875
+        a = hasShip && showShips ? 0.5 : 0.1875
         
         if (type == CellType.MISS) {
             r = 255
