@@ -78,6 +78,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         } else {
             // WYLO .... Start tracking shots and showing them on the grid!
             println("A shot was taken at \(row + String(col))")
+            var cell: Cell =  Cell(row: row, col: col)
         }
         getGridView().setGridTouchAllowed(true)
     }

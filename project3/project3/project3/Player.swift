@@ -28,4 +28,16 @@ class Player {
     func rotateShip(currentStartCell: Cell) -> Bool {
         return grid.rotateShip(currentStartCell)
     }
+    
+    func shotCalled(cell: Cell) -> Bool {
+        return grid.shotCalled(cell)
+    }
+    
+    func isShipSunk(cell: Cell) -> Bool {
+        return grid.isShipSunk(cell)
+    }
+    
+    func allShipsSunk() -> Bool {
+        return grid.allShipsSunk()
+    }
 }

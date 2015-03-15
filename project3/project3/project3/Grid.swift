@@ -101,4 +101,24 @@ class Grid {
         return hit
     }
     
+    func isShipSunk(cell: Cell) -> Bool {
+        for ship in ships {
+            if (ship.hasCell(cell) && ship.isSunk()) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func allShipsSunk() -> Bool {
+        for ship in ships {
+            for (location, type) in ship.getCells() {
+                if (type == CellType.EMPTY || type == CellType.MISS) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
 }

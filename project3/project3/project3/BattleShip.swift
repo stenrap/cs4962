@@ -168,6 +168,18 @@ class BattleShip {
         currentStartCell = nil
     }
     
+    func shotCalled(id: Int, cell: Cell) {
+        var game = games[id]
+        
+        // TODO: How to handle duplicate shot calls? Just ignore them. Do a check here first and return the tuple early
+        
+        var hit: Bool = game.shotCalled(cell)
+        var sunk: Bool = game.isShipSunk(cell)
+        var winner: Player? = game.getWinner()
+        
+        // WYLO .... Return a tuple with the above info...
+    }
+    
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
         var filePath: String? = documentsDirectory?.stringByAppendingPathComponent("battleship.plist")

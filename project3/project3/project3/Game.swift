@@ -10,7 +10,7 @@ class Game {
     
     private var player1: Player = Player()
     private var player2: Player = Player()
-    private var turn: Player = Player()
+    private var turn: Player = Player() // TODO: Make sure the turn is saved in battleship.plist
     private var state: State = State.NAMES
     
     func getPlayer1() -> Player {return player1}
@@ -73,6 +73,29 @@ class Game {
         } else {
             return player2.rotateShip(currentStartCell)
         }
+    }
+    
+    func shotCalled(cell: Cell) -> Bool {
+        if (turn === player1) {
+            return player1.shotCalled(cell)
+        }
+        return player2.shotCalled(cell)
+    }
+    
+    func isShipSunk(cell: Cell) -> Bool {
+        if (turn === player1) {
+            return player1.isShipSunk(cell)
+        }
+        return player2.isShipSunk(cell)
+    }
+    
+    func getWinner() -> Player? {
+        if (player1.allShipsSunk()) {
+            return player2
+        } else if (player2.allShipsSunk()) {
+            return player1
+        }
+        return nil
     }
     
 }
