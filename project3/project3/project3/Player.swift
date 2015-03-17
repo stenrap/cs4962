@@ -29,6 +29,10 @@ class Player {
         return grid.rotateShip(currentStartCell)
     }
     
+    func isCellEmpty(cell: Cell) -> Bool {
+        return grid.isCellEmpty(cell)
+    }
+    
     func shotCalled(cell: Cell) -> Bool {
         return grid.shotCalled(cell)
     }

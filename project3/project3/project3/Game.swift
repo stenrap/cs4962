@@ -75,18 +75,25 @@ class Game {
         }
     }
     
+    func isDupeShot(cell: Cell) -> Bool {
+        if (turn === player1) {
+            return !player2.isCellEmpty(cell)
+        }
+        return !player1.isCellEmpty(cell)
+    }
+    
     func shotCalled(cell: Cell) -> Bool {
         if (turn === player1) {
-            return player1.shotCalled(cell)
+            return player2.shotCalled(cell)
         }
-        return player2.shotCalled(cell)
+        return player1.shotCalled(cell)
     }
     
     func isShipSunk(cell: Cell) -> Bool {
         if (turn === player1) {
-            return player1.isShipSunk(cell)
+            return player2.isShipSunk(cell)
         }
-        return player2.isShipSunk(cell)
+        return player1.isShipSunk(cell)
     }
     
     func getWinner() -> Player? {

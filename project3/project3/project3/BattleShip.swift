@@ -23,6 +23,7 @@ class BattleShip {
     weak var delegate: BattleShipDelegate? = nil
     
     private var currentStartCell: Cell? = nil
+    private var currentVertical: Bool? = nil
     
     /* Game State Methods */
     
@@ -141,9 +142,17 @@ class BattleShip {
     
     func addShip(id: Int, startCell: Cell) -> Bool {
         var game = games[id]
-        if (game.addShip(startCell, vertical: true) || game.addShip(startCell, vertical: false)) {
+        if (game.addShip(startCell, vertical: true)) {
+            currentVertical = true
             currentStartCell = startCell
             return true
+        } else if (game.addShip(startCell, vertical: false)) {
+            currentVertical = false
+            currentStartCell = startCell
+            return true
+        }
+        if (currentStartCell != nil) {
+            game.addShip(currentStartCell!, vertical: currentVertical!)
         }
         return false
     }
@@ -152,6 +161,9 @@ class BattleShip {
         var game = games[id]
         if (currentStartCell != nil) {
             var wasRotated: Bool = game.rotateShip(currentStartCell!)
+            if (wasRotated) {
+                currentVertical = !currentVertical!
+            }
             return (wasRotated, true)
         }
         return (false, false)
@@ -168,16 +180,19 @@ class BattleShip {
         currentStartCell = nil
     }
     
-    func shotCalled(id: Int, cell: Cell) {
+    func shotCalled(id: Int, cell: Cell) -> (dupe: Bool, hit: Bool, sunk: Bool, winner: Player?) {
         var game = games[id]
         
-        // TODO: How to handle duplicate shot calls? Just ignore them. Do a check here first and return the tuple early
+        // Return early if this is a duplicate shot call
+        if (game.isDupeShot(cell)) {
+            return (true, false, false, nil)
+        }
         
         var hit: Bool = game.shotCalled(cell)
         var sunk: Bool = game.isShipSunk(cell)
         var winner: Player? = game.getWinner()
         
-        // WYLO .... Return a tuple with the above info...
+        return (false, hit, sunk, winner)
     }
     
     private func getModelPath() -> String {
