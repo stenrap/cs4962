@@ -195,6 +195,11 @@ class BattleShip {
         return (false, hit, sunk, winner)
     }
     
+    func changePlayerTurn(id: Int) {
+        var game = games[id]
+        game.changeTurn()
+    }
+    
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
         var filePath: String? = documentsDirectory?.stringByAppendingPathComponent("battleship.plist")

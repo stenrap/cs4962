@@ -21,6 +21,13 @@ class Game {
     
     func getTurn() -> Player {return turn}
     func setTurn(turn: Player) {self.turn = turn}
+    func changeTurn() {
+        if (turn === player1) {
+            turn = player2
+        } else {
+            turn = player1
+        }
+    }
     
     func getState() -> State {return state}
     func setState(state: State) {self.state = state}

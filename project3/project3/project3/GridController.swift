@@ -86,38 +86,22 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
             } else {
                 drawGrid(showShips: false)
                 if (winner != nil) {
-                    println("\(winner!.getName()) just won the game!")
+                    showAlert("You Won!", message: "Congratulations, \(winner!.getName())! Your enemy was no match for you!", handler: nil)
+                    getGridView().setPlayerName(winner!.getName())
+                    getGridView().setInstruction("You won the game!")
                     return
                 }
-                
-                // WYLO .... Create an alertShotResult() function that tells the player whether the shot miss, hit, or sunk.
-                //           Tapping OK on this alert should clear the grid and alert the player to hand off the device.
-                
+                model.changePlayerTurn(gameId)
                 if (sunk) {
-                    println("Sunk a ship at \(row + String(col))!")
+                    showAlert("Sunk!", message: "Down to the depths she goes!", handler: alertHandOff)
                 } else if (hit) {
-                    println("Hit at \(row + String(col))!")
+                    showAlert("Hit!", message: "Your aim is impeccable, captain!", handler: alertHandOff)
                 } else {
-                    println("You missed. Just hand the phone off, you loser.")
+                    showAlert("Miss!", message: "You might need to recalibrate your sights.", handler: alertHandOff)
                 }
             }
         }
         getGridView().setGridTouchAllowed(true)
-    }
-    
-    func alertFirstShip() {
-        if (firstShipAlertShown) {
-            return
-        }
-        firstShipAlertShown = true
-        var state: State = model.getCurrentGameState(gameId)
-        if (state == State.CARRIER1 || state == State.CARRIER2) {
-            var alert = UIAlertController(title: "Splash!",
-                                          message: "Your carrier is in the water! Tap another spot to move it, or tap Rotate to turn it. When it's ready, tap Confirm.",
-                                          preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
     }
     
     func rotateTouched() {
@@ -148,7 +132,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         
         if (state == State.CARRIER2) {
             drawGrid()
-            alertHandOff()
+            alertHandOff(nil)
             firstShipAlertShown = false
         }
         
@@ -159,71 +143,65 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         }
     }
     
-    // TODO .... Write a single showAlert() func that takes a title, message, and handler!
+    func showAlert(title: String, message: String, handler: ((UIAlertAction!) -> Void)! = nil) {
+        var alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: handler))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func alertFirstShip() {
+        if (firstShipAlertShown) {
+            return
+        }
+        firstShipAlertShown = true
+        var state: State = model.getCurrentGameState(gameId)
+        if (state == State.CARRIER1 || state == State.CARRIER2) {
+            var alert = UIAlertController(title: "Splash!",
+                message: "Your carrier is in the water! Tap another spot to move it, or tap Rotate to turn it. When it's ready, tap Confirm.",
+                preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
     
     func alertDeploy() {
-        var alert = UIAlertController(title: "Deploy!",
-                                      message: "Tap anywhere on the grid to place your carrier ship (5 holes).",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        showAlert("Deploy!", message: "Tap anywhere on the grid to place your carrier ship (5 holes).", handler: nil)
     }
     
     func promptForShip() {
-        var alert = UIAlertController(title: "Oops!",
-                                      message: "Place your \(model.getCurrentShipType(gameId)) first, then tap Confirm.",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        showAlert("Oops!", message: "Place your \(model.getCurrentShipType(gameId)) first, then tap Confirm.", handler: nil)
     }
     
     func alertDupe() {
-        var alert = UIAlertController(title: "Oops!",
-                                      message: "You already took a shot there. Try again!",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        showAlert("Oops!", message: "You already took a shot there. Try again!", handler: nil)
     }
     
     func alertOnToVictory() {
-        var alert = UIAlertController(title: "On to Victory!",
-                                      message: "Now place the rest of your ships.",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        showAlert("On to Victory!", message: "Now place the rest of your ships.", handler: nil)
     }
     
     func alertInvalidSpot() {
-        var alert = UIAlertController(title: "Invalid Spot",
-                                      message: "The \(model.getCurrentShipType(gameId)) can't fit or rotate there.",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        showAlert("Invalid Spot!", message: "The \(model.getCurrentShipType(gameId)) can't fit or rotate there.", handler: nil)
     }
     
-    // TODO .... Is there a way to say phone or tablet (programmatically) instead of the clunky phone/tablet?
-    
-    func alertHandOff() {
-        var alert = UIAlertController(title: "Hand Off",
-                                      message: "Give the phone/tablet to \(model.getCurrentPlayerName(gameId)).",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: onOtherPlayerOk))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func alertHandOff(alert: UIAlertAction!) {
+        showAlert("Hand Off", message: "Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
     }
     
     func onOtherPlayerOk(alert: UIAlertAction!) {
         var state: State = model.getCurrentGameState(gameId)
         if (state == State.CARRIER2) {
             alertDeploy()
+        } else if (state == State.GAME) {
+            setInfo()
+            drawGrid(showShips: false)
         }
     }
     
     func alertBattleBegins() {
-        var alert = UIAlertController(title: "The Battle Begins!",
-                                      message: "Give the phone/tablet to \(model.getCurrentPlayerName(gameId)).",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: onOtherPlayerOk))
-        self.presentViewController(alert, animated: true, completion: nil)
+        showAlert("The Battle Begins!", message: "Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
     }
     
 }
