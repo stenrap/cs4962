@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate {
+class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate, ViewGridDelegate {
     
     func getGridView() -> GridView {return view as GridView}
     
@@ -29,7 +29,8 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
     }
     
     private func setInfo() {
-        getGridView().delegate = self
+        getGridView().cellViewDelegate = self
+        getGridView().viewGridDelegate = self
         getGridView().setPlayerName(model.getCurrentPlayerName(gameId)+":")
         getGridView().setInstruction(model.getCurrentInstruction(gameId))
     }
@@ -139,8 +140,14 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate 
         if (state == State.GAME) {
             drawGrid(showShips: false) // Draw the empty grid of player2 so player1 can take his turn
             getGridView().removeRotatePlaceView()
+            getGridView().addViewGridButtion()
             alertBattleBegins()
         }
+    }
+    
+    func viewGridTouched() {
+        println("View My Grid was touched")
+        // WYLO .... Handle this.
     }
     
     func showAlert(title: String, message: String, handler: ((UIAlertAction!) -> Void)! = nil) {

@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ViewGridDelegate: class {
+    
+    func viewGridTouched()
+    
+}
+
 class GridView: UIView, CellViewDelegate {
     
     private var playerNameLabel: UILabel = UILabel()
@@ -28,10 +34,13 @@ class GridView: UIView, CellViewDelegate {
     func getGridTouchAllowed() -> Bool {return gridTouchAllowed}
     func setGridTouchAllowed(gridTouchAllowed: Bool) {self.gridTouchAllowed = gridTouchAllowed}
     
-    weak var delegate: CellViewDelegate? = nil
+    weak var cellViewDelegate: CellViewDelegate? = nil
     
     private let BUTTON_HEIGHT: CGFloat = 50
     var rotateView: RotatePlaceView? = nil
+    var viewGridButton: UIButton? = nil
+    
+    weak var viewGridDelegate: ViewGridDelegate? = nil
     
     override func layoutSubviews() {
         if (!addedLocations) {
@@ -129,11 +138,24 @@ class GridView: UIView, CellViewDelegate {
             return
         }
         gridTouchAllowed = false
-        delegate?.cellViewTouched(row, col: col)
+        cellViewDelegate?.cellViewTouched(row, col: col)
     }
     
     func removeRotatePlaceView() {
         rotateView?.removeFromSuperview()
+    }
+    
+    func addViewGridButtion() {
+        viewGridButton = UIButton(frame: CGRectMake(frame.width / 6, frame.height - BUTTON_HEIGHT, 2 * frame.width / 3, BUTTON_HEIGHT))
+        viewGridButton!.backgroundColor = UIColor.whiteColor()
+        viewGridButton!.setTitle("View My Grid", forState: .Normal)
+        viewGridButton!.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        viewGridButton!.addTarget(self, action: "viewGridTouched", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addSubview(viewGridButton!)
+    }
+    
+    func viewGridTouched() {
+        viewGridDelegate?.viewGridTouched()
     }
     
 }
