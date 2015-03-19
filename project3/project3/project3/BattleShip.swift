@@ -197,12 +197,14 @@ class BattleShip {
         var sunk: Bool = game.isShipSunk(cell)
         var winner: Player? = game.getWinner()
         
+        writeToFile()
+        
         return (false, hit, sunk, winner)
     }
     
     func changePlayerTurn(id: Int) {
-        var game = games[id]
-        game.changeTurn()
+        games[id].changeTurn()
+        writeToFile()
     }
     
     func hasWinner(id: Int) -> Bool {
@@ -242,12 +244,21 @@ class BattleShip {
                 case 10: state = State.SUBMARINE2
                 case 11: state = State.DESTROYER2
                 case 12: state = State.GAME
+                case 13: state = State.ENDED
                 default: break
+            }
+            var rawTurn: NSNumber = rawGame.objectForKey("turn") as NSNumber
+            var turn: Player = Player()
+            if (rawTurn == 1) {
+                turn = player1
+            } else if (rawTurn == 2) {
+                turn = player2
             }
             var game: Game = Game()
             game.setPlayer1(player1)
             game.setPlayer2(player2)
             game.setState(state)
+            game.setTurn(turn)
             games.append(game)
         }
     }
@@ -270,10 +281,18 @@ class BattleShip {
         for (var i:Int = 0; i < games.count; i++) {
             var game: Game = games[i]
             
+            var turn: NSNumber = 0
+            if (game.getTurn().getName() == game.getPlayer1().getName()) {
+                turn = 1
+            } else if (game.getTurn().getName() == game.getPlayer2().getName()) {
+                turn = 2
+            }
+            
             var gameDictionary: NSDictionary = [
                 "player1" : getPlayerForWrite(game.getPlayer1()),
                 "player2" : getPlayerForWrite(game.getPlayer2()),
-                "state" : NSNumber(integer: game.getState().rawValue)
+                "state"   : NSNumber(integer: game.getState().rawValue),
+                "turn"    : turn
             ]
             
             battleShipArray.addObject(gameDictionary)

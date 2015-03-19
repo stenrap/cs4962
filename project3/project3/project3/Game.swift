@@ -10,7 +10,7 @@ class Game {
     
     private var player1: Player = Player()
     private var player2: Player = Player()
-    private var turn: Player = Player() // TODO: Make sure the turn is saved in battleship.plist
+    private var turn: Player = Player()
     private var state: State = State.NAMES
     
     func getPlayer1() -> Player {return player1}
@@ -53,7 +53,7 @@ class Game {
             case .CRUISER1, .CRUISER2:       type = ShipType.CRUISER
             case .SUBMARINE1, .SUBMARINE2:   type = ShipType.SUBMARINE
             case .DESTROYER1, .DESTROYER2:   type = ShipType.DESTROYER
-            case .GAME:                      break
+            case .GAME, .ENDED:                      break
         }
         
         if (forPlayer1()) {

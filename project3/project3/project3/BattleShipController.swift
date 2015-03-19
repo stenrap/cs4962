@@ -27,8 +27,6 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     
     private var model: BattleShip = BattleShip()
     private var gridController: GridController? = nil
-    
-    private var numRows: Int = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,15 +60,51 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // TODO: Figure out how to display all the shiz required by the assignment
-        var row: UITableViewCell = UITableViewCell()
-        row.textLabel?.text = "Item \(indexPath.row)"
-        return row
+        /*
+            Figure out how to display all the shiz required by the assignment:
+            
+            1. In Progress or Ended
+            2. Turn (if not ended)
+            3. Number of missiles launched by each player
+        */
+        
+        var topText: String = ""
+        var bottomText: String = ""
+        var game: Game? = nil
+        
+        if (model.getGames().count > indexPath.row) {
+            game = model.getGames()[indexPath.row]
+        }
+        
+        if (game != nil) {
+            var state: State = game!.getState()
+            if (state == State.ENDED) {
+                // WYLO 1 .... Set who won
+            } else {
+                if (state.rawValue < State.CARRIER2.rawValue) {
+                    topText = "\(game!.getPlayer1().getName())'s turn to place ships"
+                } else if (state.rawValue < State.GAME.rawValue) {
+                    topText = "\(game!.getPlayer2().getName())'s turn to place ships"
+                } else {
+                    topText = "\(game!.getTurn().getName())'s turn to take a shot"
+                }
+            }
+            // WYLO 2 .... Set the number of missiles launched by each player
+        }
+        
+        var row: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(UITableViewCell)) as UITableViewCell?
+        
+        if (row == nil) {
+            row = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: NSStringFromClass(UITableViewCell))
+        }
+        
+        row!.textLabel?.text = topText
+        row!.detailTextLabel?.text = bottomText
+        return row!
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         // TODO: Delete the game from the model
-        numRows--
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
     }
 
