@@ -24,6 +24,7 @@ class BattleShip {
     
     private var currentStartCell: Cell? = nil
     private var currentVertical: Bool? = nil
+    private var viewingMyGrid: Bool = false
     
     /* Game State Methods */
     
@@ -108,13 +109,17 @@ class BattleShip {
         
         if (game.getState() == State.GAME) {
             if (game.getTurn() === game.getPlayer1()) {
-                currentGrid = game.getPlayer2().getGrid()
+                currentGrid = viewingMyGrid ? game.getPlayer1().getGrid() : game.getPlayer2().getGrid()
             } else {
-                currentGrid = game.getPlayer1().getGrid()
+                currentGrid = viewingMyGrid ? game.getPlayer2().getGrid() : game.getPlayer1().getGrid()
             }
         }
-        
         return currentGrid
+    }
+    
+    func changeViewingMyGrid() -> Bool {
+        viewingMyGrid = !viewingMyGrid
+        return viewingMyGrid
     }
     
     func getCurrentGameState(id: Int) -> State {
@@ -198,6 +203,11 @@ class BattleShip {
     func changePlayerTurn(id: Int) {
         var game = games[id]
         game.changeTurn()
+    }
+    
+    func hasWinner(id: Int) -> Bool {
+        var game = games[id]
+        return game.getWinner() != nil
     }
     
     private func getModelPath() -> String {

@@ -13,7 +13,6 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
     func getGridView() -> GridView {return view as GridView}
     
     private var firstShipAlertShown: Bool = false
-    
     private var canConfirm: Bool = false
     
     override func loadView() {
@@ -94,11 +93,11 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
                 }
                 model.changePlayerTurn(gameId)
                 if (sunk) {
-                    showAlert("Sunk!", message: "Down to the depths she goes!", handler: alertHandOff)
+                    showAlert("Sunk!", message: "Down to the depths she goes! Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 } else if (hit) {
-                    showAlert("Hit!", message: "Your aim is impeccable, captain!", handler: alertHandOff)
+                    showAlert("Hit!", message: "Your aim is impeccable, captain! Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 } else {
-                    showAlert("Miss!", message: "You might need to recalibrate your sights.", handler: alertHandOff)
+                    showAlert("Miss!", message: "You might need to recalibrate your sights. Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 }
             }
         }
@@ -146,8 +145,12 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
     }
     
     func viewGridTouched() {
-        println("View My Grid was touched")
-        // WYLO .... Handle this.
+        var viewingMyGrid: Bool = model.changeViewingMyGrid()
+        if (!model.hasWinner(gameId)) {
+            getGridView().setGridTouchAllowed(!viewingMyGrid)
+        }
+        drawGrid(showShips: viewingMyGrid)
+        getGridView().changeViewGridButtonLabel(viewingMyGrid)
     }
     
     func showAlert(title: String, message: String, handler: ((UIAlertAction!) -> Void)! = nil) {

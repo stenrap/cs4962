@@ -158,4 +158,9 @@ class GridView: UIView, CellViewDelegate {
         viewGridDelegate?.viewGridTouched()
     }
     
+    func changeViewGridButtonLabel(viewingMyGrid: Bool) {
+        var text: String = viewingMyGrid ? "View Enemy Grid" : "View My Grid"
+        viewGridButton!.setTitle(text, forState: .Normal)
+    }
+    
 }
