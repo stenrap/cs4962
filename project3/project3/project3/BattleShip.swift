@@ -212,6 +212,11 @@ class BattleShip {
         return game.getWinner() != nil
     }
     
+    func deleteGame(id: Int) {
+        games.removeAtIndex(id)
+        writeToFile()
+    }
+    
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
         var filePath: String? = documentsDirectory?.stringByAppendingPathComponent("battleship.plist")
@@ -267,6 +272,7 @@ class BattleShip {
         var player: Player = Player()
         
         player.setName(rawPlayer.objectForKey("name") as NSString)
+        player.setShots(rawPlayer.objectForKey("shots") as Int)
         
         var rawGrid: NSDictionary = rawPlayer.objectForKey("grid") as NSDictionary
         
@@ -282,17 +288,23 @@ class BattleShip {
             var game: Game = games[i]
             
             var turn: NSNumber = 0
-            if (game.getTurn().getName() == game.getPlayer1().getName()) {
+            if (game.getTurn() === game.getPlayer1()) {
                 turn = 1
-            } else if (game.getTurn().getName() == game.getPlayer2().getName()) {
+            } else if (game.getTurn() === game.getPlayer2()) {
                 turn = 2
+            }
+            
+            var winner: NSNumber = 0
+            if (game.getWinner() != nil) {
+                winner = game.getWinner()! === game.getPlayer1() ? 1 : 2
             }
             
             var gameDictionary: NSDictionary = [
                 "player1" : getPlayerForWrite(game.getPlayer1()),
                 "player2" : getPlayerForWrite(game.getPlayer2()),
                 "state"   : NSNumber(integer: game.getState().rawValue),
-                "turn"    : turn
+                "turn"    : turn,
+                "winner"  : winner
             ]
             
             battleShipArray.addObject(gameDictionary)
@@ -340,7 +352,8 @@ class BattleShip {
         
         var rawPlayer: NSDictionary = [
             "name" : player.getName() as NSString,
-            "grid" : playerGrid
+            "grid" : playerGrid,
+            "shots" : player.getShots() as NSNumber
         ]
         
         return rawPlayer

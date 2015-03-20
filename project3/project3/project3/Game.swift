@@ -90,6 +90,7 @@ class Game {
     }
     
     func shotCalled(cell: Cell) -> Bool {
+        turn.addShot()
         if (turn === player1) {
             return player2.shotCalled(cell)
         }

@@ -11,11 +11,16 @@ class Player {
     private var name: String = ""
     private var grid: Grid = Grid()
     private var enemyGrid: Grid = Grid()
+    private var shots: Int = 0
     
     func getName() -> String {return name}
     func setName(name: String) {self.name = name}
     
     func getGrid() -> Grid {return grid}
+    
+    func addShot() {shots++}
+    func getShots() -> Int {return shots}
+    func setShots(shots: Int) {self.shots = shots}
     
     func addShip(type: ShipType, startCell: Cell, vertical: Bool, myGrid: Bool) -> Bool {
         if (myGrid) {

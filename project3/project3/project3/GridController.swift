@@ -93,11 +93,11 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
                 }
                 model.changePlayerTurn(gameId)
                 if (sunk) {
-                    showAlert("Sunk!", message: "Down to the depths she goes! Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
+                    showAlert("Sunk!", message: "Down to the depths she goes!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 } else if (hit) {
-                    showAlert("Hit!", message: "Your aim is impeccable, captain! Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
+                    showAlert("Hit!", message: "Your aim is impeccable, captain!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 } else {
-                    showAlert("Miss!", message: "You might need to recalibrate your sights. Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
+                    showAlert("Miss!", message: "You might need to recalibrate your sights.\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 }
             }
         }

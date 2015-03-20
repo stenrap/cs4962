@@ -60,14 +60,6 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        /*
-            Figure out how to display all the shiz required by the assignment:
-            
-            1. In Progress or Ended
-            2. Turn (if not ended)
-            3. Number of missiles launched by each player
-        */
-        
         var topText: String = ""
         var bottomText: String = ""
         var game: Game? = nil
@@ -79,7 +71,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
         if (game != nil) {
             var state: State = game!.getState()
             if (state == State.ENDED) {
-                // WYLO 1 .... Set who won
+                // TODO .... Set who won
             } else {
                 if (state.rawValue < State.CARRIER2.rawValue) {
                     topText = "\(game!.getPlayer1().getName())'s turn to place ships"
@@ -87,9 +79,9 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
                     topText = "\(game!.getPlayer2().getName())'s turn to place ships"
                 } else {
                     topText = "\(game!.getTurn().getName())'s turn to take a shot"
+                    bottomText = "Missiles Launched: \(game!.getPlayer1().getName()) (\(game!.getPlayer1().getShots())), \(game!.getPlayer2().getName()) (\(game!.getPlayer2().getShots()))"
                 }
             }
-            // WYLO 2 .... Set the number of missiles launched by each player
         }
         
         var row: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(UITableViewCell)) as UITableViewCell?
@@ -104,7 +96,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO: Delete the game from the model
+        model.deleteGame(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
     }
 
