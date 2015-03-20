@@ -8,22 +8,7 @@
 
 import UIKit
 
-class BattleShipController: UITableViewController, BattleShipDelegate {
-    
-    /*
-        When the game is first launched:
-        
-        1. BattleShipController instantiates BattlesShip (the model) and calls its loadGames() method.
-        2. BattlesShip.loadGames() reads the list of games from disk and returns them.
-        3. BattleShipController instantiates BattleShipView and sets its view property equal to it.
-        4. BattleShipController calls the updateGames() method on the BattleShipView instance, passing the appropriate model data.
-        5. BattleShipView renders the list of games and a 'New Game' button.
-    */
-    
-    /*
-        Because you must provide a 'New Game' button, it might be necessary to override loadView()
-        and set 'view' equal to an instance of BattleShipView (which extends UITableView)...
-    */
+class BattleShipController: UITableViewController, BattleShipDelegate, UITableViewDelegate {
     
     private var model: BattleShip = BattleShip()
     private var gridController: GridController? = nil
@@ -33,6 +18,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
         model.readFromFile()
         model.delegate = self
         tableView.dataSource = self
+        tableView.delegate = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: UIBarButtonItemStyle.Plain, target: self, action: "newGameTapped")
         title = "Battleship"
     }
@@ -93,6 +79,13 @@ class BattleShipController: UITableViewController, BattleShipDelegate {
         row!.textLabel?.text = topText
         row!.detailTextLabel?.text = bottomText
         return row!
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        gridController = GridController()
+        gridController!.model = model
+        gridController!.gameId = indexPath.row
+        navigationController?.pushViewController(gridController!, animated: true)
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {

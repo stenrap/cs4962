@@ -276,7 +276,7 @@ class BattleShip {
         
         var rawGrid: NSDictionary = rawPlayer.objectForKey("grid") as NSDictionary
         
-        // TODO: When the grid actually has ships, get them...
+        // WYLO .... Figure out how to restore ships from below.
         
         return player
     }
