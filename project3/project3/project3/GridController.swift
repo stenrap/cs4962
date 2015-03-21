@@ -46,16 +46,6 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        /*
-        var state: State = model.getCurrentGameState(gameId)
-        if (state == State.GAME) {
-            getGridView().removeRotatePlaceView()
-            getGridView().addViewGridButtion()
-        }
-        */
-    }
-    
     private func setInfo() {
         getGridView().cellViewDelegate = self
         getGridView().viewGridDelegate = self
