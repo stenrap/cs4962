@@ -20,12 +20,10 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         
         /*
-            WYLO A .... This looks to be fixed, but you'll have to test further: The 'Rotate' and 'Confirm' buttons appear when state == GAME.
-        
             WYLO 2 .... Things to test:
         
-                1. Tapping 'Back' during a game.
-                2. Loading an ended game.
+                1. Loading an ended game.
+                2. Tapping 'Back' during a game.
         */
         
         setInfo()
