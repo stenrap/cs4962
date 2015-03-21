@@ -21,7 +21,8 @@ enum State: Int {
             case CRUISER2:    self = SUBMARINE2
             case SUBMARINE2:  self = DESTROYER2
             case DESTROYER2:  self = GAME
-            case GAME, ENDED: break
+            case GAME:        self = ENDED
+            case ENDED:       break
         }
     }
 }

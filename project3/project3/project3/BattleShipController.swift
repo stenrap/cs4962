@@ -45,6 +45,10 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
         return model.getGames().count
     }
     
+    override func viewWillAppear(animated: Bool) {
+        tableView.reloadData()
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var topText: String = ""
         var bottomText: String = ""
@@ -57,7 +61,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
         if (game != nil) {
             var state: State = game!.getState()
             if (state == State.ENDED) {
-                // TODO .... Set who won
+                topText = "\(game!.getWinner()!.getName()) won the game"
             } else {
                 if (state.rawValue < State.CARRIER2.rawValue) {
                     topText = "\(game!.getPlayer1().getName())'s turn to place ships"

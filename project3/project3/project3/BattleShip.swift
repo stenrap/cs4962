@@ -64,6 +64,8 @@ class BattleShip {
             if (countElements(currentPlayerName) == 0) {
                 if (game.getState() == State.GAME) {
                     currentPlayerName = game.getTurn().getName()
+                } else {
+                    currentPlayerName = game.getWinner()!.getName()
                 }
             }
         }
@@ -92,6 +94,8 @@ class BattleShip {
             if (countElements(currentInstruction) == 0) {
                 if (game.getState() == State.GAME) {
                     currentInstruction = "It's your turn! Take a shot at the enemy!"
+                } else {
+                    currentInstruction = "You won the game!"
                 }
             }
         }
@@ -107,13 +111,14 @@ class BattleShip {
             currentGrid = game.getPlayer2().getGrid()
         }
         
-        if (game.getState() == State.GAME) {
+        if (game.getState().rawValue >= State.GAME.rawValue) {
             if (game.getTurn() === game.getPlayer1()) {
                 currentGrid = viewingMyGrid ? game.getPlayer1().getGrid() : game.getPlayer2().getGrid()
             } else {
                 currentGrid = viewingMyGrid ? game.getPlayer2().getGrid() : game.getPlayer1().getGrid()
             }
         }
+        
         return currentGrid
     }
     
@@ -196,6 +201,10 @@ class BattleShip {
         var hit: Bool = game.shotCalled(cell)
         var sunk: Bool = game.isShipSunk(cell)
         var winner: Player? = game.getWinner()
+
+        if (game.getState() == State.GAME && winner != nil) {
+            game.nextState()
+        }
         
         writeToFile()
         

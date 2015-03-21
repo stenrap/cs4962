@@ -20,27 +20,30 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         
         /*
-            WYLO 2 .... Things to test:
+            WYLO .... Things to test:
         
-                1. Loading an ended game.
-                2. Tapping 'Back' during a game.
+                - Are you done?!
         */
         
         setInfo()
         
         var state: State = model.getCurrentGameState(gameId)
         
-        drawGrid(showShips: state != State.GAME)
+        drawGrid(showShips: state.rawValue < State.GAME.rawValue)
         
         if (state == State.CARRIER1 || state == State.CARRIER2) {
             alertDeploy()
+        }
+        
+        if (state == State.ENDED) {
+            getGridView().setGridTouchAllowed(false)
         }
     }
     
     override func viewDidLayoutSubviews() {
         getGridView().rotateView?.delegate = self
         var state: State = model.getCurrentGameState(gameId)
-        if (state == State.GAME) {
+        if (state.rawValue >= State.GAME.rawValue) {
             getGridView().removeRotatePlaceView()
             getGridView().addViewGridButtion()
         }
@@ -106,7 +109,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
                 drawGrid(showShips: false)
                 if (winner != nil) {
                     showAlert("You Won!", message: "Congratulations, \(winner!.getName())!\nThe enemy was no match for you!", handler: nil)
-                    getGridView().setPlayerName(winner!.getName())
+                    getGridView().setPlayerName(winner!.getName()+":")
                     getGridView().setInstruction("You won the game!")
                     return
                 }

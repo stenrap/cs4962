@@ -60,6 +60,7 @@ Actual result: The 'Battle Begins' alert appears and the grid is cleared. Tappin
 Expected result: There is not a new game in the list.
 Actual result: A new game appears in the list and says: "'s turn to place ships"
 
+
 06 - FIXED - Saved game does not detect winner
 
     1. Start a game and play it like normal until one player has a single shot left to win.
@@ -69,6 +70,16 @@ Actual result: A new game appears in the list and says: "'s turn to place ships"
 
 Expected result: The player is notified that he or she won.
 Actual result: The game continues as if there is no winner.
+
+
+07 - FIXED - New game shows no player name (on game list) after going back twice
+
+    1. Create a new game with a first player named 'Rob'.
+    2. Enter both player names and tap 'Next'.
+    3. Tap 'Back' twice.
+
+Expected result: The row for the game says "Rob's turn to place ships"
+Actual result: The row for the game says "'s turn to place ships"
 
 
 
