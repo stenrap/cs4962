@@ -18,6 +18,17 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
     override func loadView() {
         view = GridView()
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
+        
+        /*
+            WYLO 2 .... Several bugs happen when the grid draws a loaded game:
+        
+                1. The opponent's ships are shown (you're not passing false to drawGrid()
+                2. The 'Deploy' alert appears as if you're just starting to place ships.
+                3. The 'Rotate' and 'Confirm' buttons appear.
+        
+            WYLO 1 .... Perhaps you should work on correctly loading a game wherein the players have done nothing but enter names and tap 'Next'...
+        */
+        
         setInfo()
         drawGrid()
         alertDeploy()

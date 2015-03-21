@@ -283,7 +283,7 @@ class BattleShip {
                 case 1: type = ShipType.BATTLESHIP
                 case 2: type = ShipType.CRUISER
                 case 3: type = ShipType.SUBMARINE
-                case 3: type = ShipType.DESTROYER
+                case 4: type = ShipType.DESTROYER
                 default: break
             }
             
@@ -308,7 +308,16 @@ class BattleShip {
             player.addShip(type, startCell: startCell, vertical: vertical)
         }
         
-        // WYLO .... Figure out (from below) how to get the player's cells
+        var rawGridCells: NSDictionary = rawGrid.objectForKey("cells") as NSDictionary
+        for (rawLocation, rawCellType) in rawGridCells {
+            var cellType: CellType = CellType.EMPTY
+            if (rawCellType as NSString == "HIT") {
+                cellType = CellType.HIT
+            } else if (rawCellType as NSString == "MISS") {
+                cellType = CellType.MISS
+            }
+            player.getGrid().addCell(rawLocation as NSString, type: cellType)
+        }
         
         return player
     }

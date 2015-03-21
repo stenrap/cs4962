@@ -121,4 +121,10 @@ class Grid {
         return true
     }
     
+    /* Helper methods for when a cell is read in from battleship.plist */
+    
+    func addCell(location: String, type: CellType) {
+        cells[location] = type
+    }
+    
 }

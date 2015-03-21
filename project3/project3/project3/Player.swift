@@ -10,7 +10,6 @@ class Player {
     
     private var name: String = ""
     private var grid: Grid = Grid()
-    private var enemyGrid: Grid = Grid()
     private var shots: Int = 0
     
     func getName() -> String {return name}
