@@ -123,6 +123,10 @@ class Grid {
     
     /* Helper methods for when a cell is read in from battleship.plist */
     
+    func addShipFromFile(ship: Ship) {
+        ships.append(ship)
+    }
+    
     func addCell(location: String, type: CellType) {
         cells[location] = type
     }

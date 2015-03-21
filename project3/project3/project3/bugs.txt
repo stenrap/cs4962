@@ -40,6 +40,7 @@ Actual result: The battleship appears but the carrier disappears.
 Expected result: You are prompted to tap a spot for the carrier.
 Actual result: The game moves on as if you had placed your carrier.
 
+
 04 - FIXED - The game begins alert appears after the second player only places four ships
 
     1. Place and confirm all 5 of player1's ships.
@@ -49,6 +50,26 @@ Actual result: The game moves on as if you had placed your carrier.
 
 Expected result: Player2's 4th ship is confirmed and the game waits for player2 to place her 5th ship
 Actual result: The 'Battle Begins' alert appears and the grid is cleared. Tapping again causes player2's grid to be drawn correctly.
+
+
+05 - FIXED - Empty game temporarily appears in list
+
+    1. Launch the app and tap 'New Game'.
+    2. Leave both player name fields empty and tap 'Back'.
+
+Expected result: There is not a new game in the list.
+Actual result: A new game appears in the list and says: "'s turn to place ships"
+
+06 - FIXED - Saved game does not detect winner
+
+    1. Start a game and play it like normal until one player has a single shot left to win.
+    2. Close the app.
+    3. Launch the app and go back into the game.
+    4. Make the winning shot.
+
+Expected result: The player is notified that he or she won.
+Actual result: The game continues as if there is no winner.
+
 
 
 

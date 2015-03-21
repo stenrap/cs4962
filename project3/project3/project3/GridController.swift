@@ -20,22 +20,42 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         
         /*
-            WYLO 2 .... Several bugs happen when the grid draws a loaded game:
+            WYLO A .... This looks to be fixed, but you'll have to test further: The 'Rotate' and 'Confirm' buttons appear when state == GAME.
         
-                1. The opponent's ships are shown (you're not passing false to drawGrid()
-                2. The 'Deploy' alert appears as if you're just starting to place ships.
-                3. The 'Rotate' and 'Confirm' buttons appear.
+            WYLO 2 .... Things to test:
         
-            WYLO 1 .... Perhaps you should work on correctly loading a game wherein the players have done nothing but enter names and tap 'Next'...
+                1. Tapping 'Back' during a game.
+                2. 
         */
         
         setInfo()
-        drawGrid()
-        alertDeploy()
+        
+        var state: State = model.getCurrentGameState(gameId)
+        
+        drawGrid(showShips: state != State.GAME)
+        
+        if (state == State.CARRIER1 || state == State.CARRIER2) {
+            alertDeploy()
+        }
     }
     
     override func viewDidLayoutSubviews() {
         getGridView().rotateView?.delegate = self
+        var state: State = model.getCurrentGameState(gameId)
+        if (state == State.GAME) {
+            getGridView().removeRotatePlaceView()
+            getGridView().addViewGridButtion()
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        /*
+        var state: State = model.getCurrentGameState(gameId)
+        if (state == State.GAME) {
+            getGridView().removeRotatePlaceView()
+            getGridView().addViewGridButtion()
+        }
+        */
     }
     
     private func setInfo() {
@@ -97,7 +117,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
             } else {
                 drawGrid(showShips: false)
                 if (winner != nil) {
-                    showAlert("You Won!", message: "Congratulations, \(winner!.getName())! Your enemy was no match for you!", handler: nil)
+                    showAlert("You Won!", message: "Congratulations, \(winner!.getName())!\nThe enemy was no match for you!", handler: nil)
                     getGridView().setPlayerName(winner!.getName())
                     getGridView().setInstruction("You won the game!")
                     return
@@ -108,7 +128,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
                 } else if (hit) {
                     showAlert("Hit!", message: "Your aim is impeccable, captain!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 } else {
-                    showAlert("Miss!", message: "You might need to recalibrate your sights.\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
+                    showAlert("Miss!", message: "Recalibrate your sights!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
                 }
             }
         }
@@ -196,7 +216,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
     }
     
     func alertDupe() {
-        showAlert("Oops!", message: "You already took a shot there. Try again!", handler: nil)
+        showAlert("Oops!", message: "You already took a shot there.\nTry again!", handler: nil)
     }
     
     func alertOnToVictory() {

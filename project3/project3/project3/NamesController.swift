@@ -22,6 +22,17 @@ class NamesController: BaseController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Plain, target: self, action: "nextTapped")
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        var player1Name: String = getNamesView().getPlayer1Name()
+        var player2Name: String = getNamesView().getPlayer2Name()
+        
+        if (countElements(player1Name) == 0 || countElements(player2Name) == 0) {
+            model.deleteGame(gameId)
+        }
+        
+        super.viewWillDisappear(true)
+    }
+    
     func nextTapped() {
         var player1Name: String = getNamesView().getPlayer1Name()
         var player2Name: String = getNamesView().getPlayer2Name()

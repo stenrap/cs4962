@@ -305,7 +305,7 @@ class BattleShip {
             var sunk: Bool = rawShips[i].objectForKey("sunk") as Bool
             ship.setSunk(sunk)
             
-            player.addShip(type, startCell: startCell, vertical: vertical)
+            player.getGrid().addShipFromFile(ship)
         }
         
         var rawGridCells: NSDictionary = rawGrid.objectForKey("cells") as NSDictionary
