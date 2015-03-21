@@ -57,21 +57,10 @@ class Game {
         }
         
         if (forPlayer1()) {
-            if (player1.addShip(type, startCell: startCell, vertical: vertical, myGrid: true)) {
-                //player2.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
-                return true
-            } else {
-                return false
-            }
+            return player1.addShip(type, startCell: startCell, vertical: vertical)
         } else {
-            if (player2.addShip(type, startCell: startCell, vertical: vertical, myGrid: true)) {
-                return true
-                // player1.addShip(type, startCell: startCell, vertical: vertical, myGrid: false)
-            } else {
-                return false
-            }
+            return player2.addShip(type, startCell: startCell, vertical: vertical)
         }
-        //return true
     }
     
     func rotateShip(currentStartCell: Cell) -> Bool {

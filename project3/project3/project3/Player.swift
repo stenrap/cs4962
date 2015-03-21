@@ -22,12 +22,8 @@ class Player {
     func getShots() -> Int {return shots}
     func setShots(shots: Int) {self.shots = shots}
     
-    func addShip(type: ShipType, startCell: Cell, vertical: Bool, myGrid: Bool) -> Bool {
-        if (myGrid) {
-            return grid.addShip(type, startCell: startCell, vertical: vertical)
-        } else {
-            return enemyGrid.addShip(type, startCell: startCell, vertical: vertical)
-        }
+    func addShip(type: ShipType, startCell: Cell, vertical: Bool) -> Bool {
+        return grid.addShip(type, startCell: startCell, vertical: vertical)
     }
     
     func rotateShip(currentStartCell: Cell) -> Bool {

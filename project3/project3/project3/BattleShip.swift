@@ -276,7 +276,39 @@ class BattleShip {
         
         var rawGrid: NSDictionary = rawPlayer.objectForKey("grid") as NSDictionary
         
-        // WYLO .... Figure out how to restore ships from below.
+        var rawShips: NSArray = rawGrid.objectForKey("ships") as NSArray
+        for (var i: Int = 0; i < rawShips.count; i++) {
+            var type: ShipType = ShipType.CARRIER
+            switch i {
+                case 1: type = ShipType.BATTLESHIP
+                case 2: type = ShipType.CRUISER
+                case 3: type = ShipType.SUBMARINE
+                case 3: type = ShipType.DESTROYER
+                default: break
+            }
+            
+            var rawStartCell: NSDictionary = rawShips[i].objectForKey("startCell") as NSDictionary
+            var row: String = rawStartCell.objectForKey("row") as NSString
+            var col: Int = rawStartCell.objectForKey("col") as Int
+            var startCell: Cell = Cell(row: row, col: col)
+            
+            var vertical: Bool = rawShips[i].objectForKey("vertical") as Bool
+            
+            var ship: Ship = Ship(type: type, startCell: startCell, vertical: vertical)
+            var rawShipCells: NSDictionary = rawShips[i].objectForKey("cells") as NSDictionary
+            for (location, cellType) in rawShipCells {
+                if (cellType as NSString == "HIT") {
+                    ship.addCell(location as NSString, type: CellType.HIT)
+                }
+            }
+            
+            var sunk: Bool = rawShips[i].objectForKey("sunk") as Bool
+            ship.setSunk(sunk)
+            
+            player.addShip(type, startCell: startCell, vertical: vertical)
+        }
+        
+        // WYLO .... Figure out (from below) how to get the player's cells
         
         return player
     }

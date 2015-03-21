@@ -73,4 +73,14 @@ class Ship {
         cells.removeAll()
     }
     
+    /* Helper methods for when a ship is read in from battleship.plist */
+    
+    func addCell(location: String, type: CellType) {
+        cells[location] = type
+    }
+    
+    func setSunk(sunk: Bool) {
+        self.sunk = sunk
+    }
+    
 }
