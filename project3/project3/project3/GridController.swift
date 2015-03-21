@@ -25,7 +25,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
             WYLO 2 .... Things to test:
         
                 1. Tapping 'Back' during a game.
-                2. 
+                2. Loading an ended game.
         */
         
         setInfo()
