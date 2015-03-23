@@ -19,12 +19,6 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         view = GridView()
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         
-        /*
-            WYLO .... Things to test:
-        
-                - Are you done?!
-        */
-        
         setInfo()
         
         var state: State = model.getCurrentGameState(gameId)
