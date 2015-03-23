@@ -45,4 +45,9 @@ class NamesView: UIView {
         return player2NameField.text
     }
     
+    func disableNameFields() {
+        player1NameField.enabled = false
+        player2NameField.enabled = false
+    }
+    
 }

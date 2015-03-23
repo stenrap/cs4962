@@ -42,6 +42,8 @@ class NamesController: BaseController {
             alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { action in } ))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
+            self.navigationItem.rightBarButtonItem = nil
+            getNamesView().disableNameFields()
             model.setNames(gameId, player1Name: player1Name, player2Name: player2Name)
         }
     }
