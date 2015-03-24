@@ -30,7 +30,7 @@ class RotatePlaceView: UIView {
         confirmButton = UIButton(frame: CGRectMake(rotateButton.frame.width, 0, frame.width / 2, frame.height))
         confirmButton.backgroundColor = UIColor.greenColor()
         confirmButton.setTitle("Confirm", forState: .Normal)
-        confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        confirmButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         
         super.init(frame: frame)
         
