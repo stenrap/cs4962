@@ -108,6 +108,22 @@ let path = documentsDirectory.stringByAppendingPathComponent("GameData.plist")
 
 
 
+/* Networked Battleship Exploration */
+
+var url: NSURL = NSURL(string: "http://www.robjohansen.com")!
+var request: NSURLRequest = NSURLRequest(URL: url)
+var queue: NSOperationQueue = NSOperationQueue()
+NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+    {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        println(data.length);
+    })
+
+
+
+
+
+
+
 
 
 
