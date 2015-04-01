@@ -19,6 +19,15 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
         view = GridView()
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         
+        var myBackButton:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        myBackButton.addTarget(self, action: "popToRoot", forControlEvents: UIControlEvents.TouchUpInside)
+        myBackButton.setTitle("< Back", forState: UIControlState.Normal)
+        myBackButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        myBackButton.sizeToFit()
+        
+        var myCustomBackButtonItem:UIBarButtonItem = UIBarButtonItem(customView: myBackButton)
+        self.navigationItem.leftBarButtonItem  = myCustomBackButtonItem
+        
         setInfo()
         
         var status: Status = model.getCurrentGameStatus()
@@ -28,6 +37,11 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
         if (status == Status.DONE) {
             getGridView().setGridTouchAllowed(false)
         }
+    }
+    
+    func popToRoot() {
+        model.stopPollingForTurn()
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     override func viewDidLayoutSubviews() {
