@@ -8,27 +8,24 @@
 
 class Game {
     
-    private var player1: Player = Player()
-    private var player2: Player = Player()
-    private var turn: Player = Player()
-    private var status: Status = Status.CREATED
+    private var id: String = ""
+    func getId() -> String {return id}
+    func setId(id: String) {self.id = id}
     
+    private var player1: Player = Player()
     func getPlayer1() -> Player {return player1}
     func setPlayer1(player1: Player)  {self.player1 = player1}
     
+    private var player2: Player = Player()
     func getPlayer2() -> Player {return player2}
     func setPlayer2(player2: Player)  {self.player2 = player2}
     
+    private var turn: Player = Player()
     func getTurn() -> Player {return turn}
     func setTurn(turn: Player) {self.turn = turn}
-    func changeTurn() {
-        if (turn === player1) {
-            turn = player2
-        } else {
-            turn = player1
-        }
-    }
+    func changeTurn() {turn = turn === player1 ? player2 : player1}
     
+    private var status: Status = Status.CREATED
     func getStatus() -> Status {return status}
     func setStatus(status: Status) {self.status = status}
     

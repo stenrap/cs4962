@@ -30,7 +30,7 @@ class BattleShip {
     func getCurrentGame() -> Game {return currentGame}
     
     private var currentPlayerId: String = ""
-    private var currentGameId: String = ""
+    private var keepPolling: Bool = false
     
     weak var delegate: BattleShipDelegate? = nil
     
@@ -59,17 +59,18 @@ class BattleShip {
                     } else {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         self!.currentGame = Game()
+                        self!.currentGame.setId(response.objectForKey("gameId") as NSString)
                         self!.currentGame.setNames(playerName, player2Name: "")
                         self!.currentPlayerId = response.objectForKey("playerId") as NSString
-                        self!.currentGameId   = response.objectForKey("gameId") as NSString
                         var rawGame: NSDictionary = [
                             "playerId" : self!.currentPlayerId,
-                            "gameId"   : self!.currentGameId,
+                            "gameId"   : self!.currentGame.getId(),
                             "status"   : Status.CREATED.toString()
                         ]
                         self!.appendGameToFile(rawGame)
                         self!.delegate?.newGameCreated()
-                        // TODO .... Call a method that starts polling for turn or gets the boards?
+                        self!.keepPolling = true
+                        self!.pollForTurn(NSTimer())
                     }
                 })
         })
@@ -94,6 +95,35 @@ class BattleShip {
         }
         
         return currentInfo
+    }
+    
+    func pollForTurn(timer: NSTimer) {        
+        if (keepPolling) {
+            println("Polling for turn...")
+            
+            // WYLO .... Clearly this timer approach doesn't work...How can you poll the server?!
+            
+            NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("pollForTurn:"), userInfo: nil, repeats: false)
+            
+            var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/games/\(currentGame.getId())?playerId=\(currentPlayerId)")!
+            
+            var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
+            request.HTTPMethod = "GET"
+            
+            var queue: NSOperationQueue = NSOperationQueue()
+            NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+                { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        if (data == nil) {
+                            self!.keepPolling = true
+                        } else {
+                            var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
+                            var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
+                            self!.keepPolling = !isYourTurn
+                        }
+                    })
+            })
+        }
     }
     
     func getCurrentGrid(id: Int) -> Grid {
