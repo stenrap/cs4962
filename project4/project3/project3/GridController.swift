@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate, ViewGridDelegate {
+class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
     
     func getGridView() -> GridView {return view as GridView}
     
@@ -21,24 +21,18 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         
         setInfo()
         
-        var state: State = model.getCurrentGameState(gameId)
+        var status: Status = model.getCurrentGameStatus()
         
-        drawGrid(showShips: state.rawValue < State.GAME.rawValue)
+        drawGrid(showShips: false)
         
-        if (state == State.CARRIER1 || state == State.CARRIER2) {
-            alertDeploy()
-        }
-        
-        if (state == State.ENDED) {
+        if (status == Status.DONE) {
             getGridView().setGridTouchAllowed(false)
         }
     }
     
     override func viewDidLayoutSubviews() {
-        getGridView().rotateView?.delegate = self
-        var state: State = model.getCurrentGameState(gameId)
-        if (state.rawValue >= State.GAME.rawValue) {
-            getGridView().removeRotatePlaceView()
+        var status: Status = model.getCurrentGameStatus()
+        if (status == Status.PLAYING || status == Status.DONE) {
             getGridView().addViewGridButtion()
         }
     }
@@ -46,8 +40,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
     private func setInfo() {
         getGridView().cellViewDelegate = self
         getGridView().viewGridDelegate = self
-        getGridView().setPlayerName(model.getCurrentPlayerName(gameId)+":")
-        getGridView().setInstruction(model.getCurrentInstruction(gameId))
+        getGridView().setInfo(model.getCurrentInfo())
     }
     
     private func drawGrid(showShips: Bool = true) {
@@ -85,6 +78,9 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
     }
     
     func cellViewTouched(row: String, col: Int) {
+        // TODO
+        
+        /*
         if (model.getCurrentGameState(gameId).rawValue < State.GAME.rawValue) {
             if (model.addShip(gameId, startCell: Cell(row: row, col: col))) {
                 canConfirm = true
@@ -118,46 +114,7 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
             }
         }
         getGridView().setGridTouchAllowed(true)
-    }
-    
-    func rotateTouched() {
-        var (rotated, existing) = model.rotateShip(gameId)
-        if (rotated) {
-            drawGrid()
-        } else if (existing) {
-            alertInvalidSpot()
-        }
-    }
-    
-    func confirmTouched() {
-        if (!canConfirm) {
-            promptForShip()
-            return
-        }
-        canConfirm = false
-        
-        model.confirmAddShip(gameId)
-        
-        setInfo()
-        
-        var state: State = model.getCurrentGameState(gameId)
-        
-        if (state == State.BATTLESHIP1 || state == State.BATTLESHIP2) {
-            alertOnToVictory()
-        }
-        
-        if (state == State.CARRIER2) {
-            drawGrid()
-            alertHandOff(nil)
-            firstShipAlertShown = false
-        }
-        
-        if (state == State.GAME) {
-            drawGrid(showShips: false) // Draw the empty grid of player2 so player1 can take his turn
-            getGridView().removeRotatePlaceView()
-            getGridView().addViewGridButtion()
-            alertBattleBegins()
-        }
+        */
     }
     
     func viewGridTouched() {
@@ -169,57 +126,12 @@ class GridController: BaseController, CellViewDelegate, RotatePlaceViewDelegate,
         getGridView().changeViewGridButtonLabel(viewingMyGrid)
     }
     
-    func alertFirstShip() {
-        if (firstShipAlertShown) {
-            return
-        }
-        firstShipAlertShown = true
-        var state: State = model.getCurrentGameState(gameId)
-        if (state == State.CARRIER1 || state == State.CARRIER2) {
-            var alert = UIAlertController(title: "Splash!",
-                message: "Your carrier is in the water! Tap another spot to move it, or tap Rotate to turn it. When it's ready, tap Confirm.",
-                preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func alertDeploy() {
-        showAlert("Deploy!", message: "Tap anywhere on the grid to place your carrier ship (5 holes).", handler: nil)
-    }
-    
-    func promptForShip() {
-        showAlert("Oops!", message: "Place your \(model.getCurrentShipType(gameId)) first, then tap Confirm.", handler: nil)
-    }
-    
     func alertDupe() {
         showAlert("Oops!", message: "You already took a shot there.\nTry again!", handler: nil)
     }
     
-    func alertOnToVictory() {
-        showAlert("On to Victory!", message: "Now place the rest of your ships.", handler: nil)
-    }
-    
-    func alertInvalidSpot() {
-        showAlert("Invalid Spot!", message: "The \(model.getCurrentShipType(gameId)) can't fit or rotate there.", handler: nil)
-    }
-    
-    func alertHandOff(alert: UIAlertAction!) {
-        showAlert("Hand Off", message: "Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
-    }
-    
-    func onOtherPlayerOk(alert: UIAlertAction!) {
-        var state: State = model.getCurrentGameState(gameId)
-        if (state == State.CARRIER2) {
-            alertDeploy()
-        } else if (state == State.GAME) {
-            setInfo()
-            drawGrid(showShips: false)
-        }
-    }
-    
     func alertBattleBegins() {
-        showAlert("The Battle Begins!", message: "Give the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
+        showAlert("The Battle Begins!", message: "TODO", handler: nil)
     }
     
 }

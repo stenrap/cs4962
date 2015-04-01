@@ -23,8 +23,10 @@ class NamesController: BaseController, BattleShipDelegate {
         showAlert("Error", message: "Check your network connection and try again.", handler: nil)
     }
     
-    func alertNewGameCreated() {
-        showAlert("Success!", message: "A new game was created. Tap 'Playing' on the previous screen to see if another player has joined.", handler: nil)
+    func newGameCreated() {
+        var gridController: GridController = GridController()
+        gridController.model = model
+        navigationController?.pushViewController(gridController, animated: true)
     }
     
     override func loadView() {
@@ -59,13 +61,9 @@ class NamesController: BaseController, BattleShipDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { action in } ))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
-            model.newGame(playerName, gameName: gameName)
-            /*
-            TODO: 
+            model.createNewGame(playerName, gameName: gameName)
             self.navigationItem.rightBarButtonItem = nil
             getNamesView().disableNameFields()
-            model.setNames(gameId, player1Name: playerName, player2Name: gameName)
-            */
         }
     }
     

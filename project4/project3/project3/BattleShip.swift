@@ -11,7 +11,7 @@ import Foundation
 protocol BattleShipDelegate: class {
     
     func alertNewGameError()
-    func alertNewGameCreated()
+    func newGameCreated()
     //func createNewGame(id: Int)
     //func promptForShip(id: Int, ship: ShipType, playerNumber: Int)
     
@@ -26,8 +26,11 @@ class BattleShip {
     /* NEW */
     private var savedGames: NSMutableArray = []
     
-    private var gameId: String = ""
-    private var playerId: String = ""
+    private var currentGame = Game()
+    func getCurrentGame() -> Game {return currentGame}
+    
+    private var currentPlayerId: String = ""
+    private var currentGameId: String = ""
     
     weak var delegate: BattleShipDelegate? = nil
     
@@ -37,7 +40,7 @@ class BattleShip {
     
     /* Game State Methods */
     
-    func newGame(playerName: String, gameName: String) {
+    func createNewGame(playerName: String, gameName: String) {
         var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/lobby")!
         
         var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
@@ -54,103 +57,59 @@ class BattleShip {
                         self!.delegate?.alertNewGameError()
                         return
                     } else {
-                        var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary                        
+                        var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
+                        self!.currentGame = Game()
+                        self!.currentGame.setNames(playerName, player2Name: "")
+                        self!.currentPlayerId = response.objectForKey("playerId") as NSString
+                        self!.currentGameId   = response.objectForKey("gameId") as NSString
                         var rawGame: NSDictionary = [
-                            "playerId" : response.objectForKey("playerId") as NSString,
-                            "gameId" : response.objectForKey("gameId") as NSString
+                            "playerId" : self!.currentPlayerId,
+                            "gameId"   : self!.currentGameId,
+                            "status"   : Status.CREATED.toString()
                         ]
                         self!.appendGameToFile(rawGame)
-                        self!.delegate?.alertNewGameCreated()
+                        self!.delegate?.newGameCreated()
+                        // TODO .... Call a method that starts polling for turn or gets the boards?
                     }
                 })
         })
     }
     
-    func setNames(id: Int, player1Name: String, player2Name: String) {
-        games[id].setNames(player1Name, player2Name: player2Name)
-        games[id].nextState()
+    func setNames(player1Name: String, player2Name: String) {
+        currentGame.setNames(player1Name, player2Name: player2Name)
         writeToFile()
-        //delegate?.promptForShip(id, ship: ShipType.CARRIER, playerNumber: 1)
     }
     
-    /*
-        Get the player whose name should be displayed in a game based on its current state.
-    */
-    func getCurrentPlayerName(id: Int) -> String {
-        var currentPlayerName: String = ""
+    func getCurrentInfo() -> String {
+        var currentInfo: String = "Waiting for another player to join..."
         
-        if (id < games.count) {
-            var game: Game = games[id]
-            switch game.getState() {
-                case .CARRIER1,
-                     .BATTLESHIP1,
-                     .CRUISER1,
-                     .SUBMARINE1,
-                     .DESTROYER1: currentPlayerName = game.getPlayer1().getName()
-                case .CARRIER2,
-                     .BATTLESHIP2,
-                     .CRUISER2,
-                     .SUBMARINE2,
-                     .DESTROYER2: currentPlayerName = game.getPlayer2().getName()
-                default: break
-            }
-            if (countElements(currentPlayerName) == 0) {
-                if (game.getState() == State.GAME) {
-                    currentPlayerName = game.getTurn().getName()
-                } else {
-                    currentPlayerName = game.getWinner()!.getName()
-                }
+        if (currentGame.getStatus() == Status.PLAYING) {
+            if (currentGame.getTurn() === currentGame.getPlayer1()) {
+                currentInfo = "It's your turn! Take a shot at the enemy!"
+            } else if (currentGame.getTurn() === currentGame.getPlayer2()) {
+                currentInfo = "Waiting for \(currentGame.getPlayer2())to take a shot..."
+            } else {
+                currentInfo = "\(currentGame.getWinner()?.getName()) won the game!"
             }
         }
         
-        return currentPlayerName
-    }
-    
-    func getCurrentInstruction(id: Int) -> String {
-        var currentInstruction: String = ""
-        
-        if (id < games.count) {
-            var game: Game = games[id]
-            switch game.getState() {
-                case .CARRIER1,
-                     .CARRIER2: currentInstruction = "Tap to place your carrier ship (5 holes)"
-                case .BATTLESHIP1,
-                     .BATTLESHIP2: currentInstruction = "Tap to place your battleship (4 holes)"
-                case .CRUISER1,
-                     .CRUISER2: currentInstruction = "Tap to place your cruiser ship (3 holes)"
-                case .SUBMARINE1,
-                     .SUBMARINE2: currentInstruction = "Tap to place your submarine (3 holes)"
-                case .DESTROYER1,
-                     .DESTROYER2: currentInstruction = "Tap to place your destroyer ship (2 holes)"
-                default: break
-            }
-            if (countElements(currentInstruction) == 0) {
-                if (game.getState() == State.GAME) {
-                    currentInstruction = "It's your turn! Take a shot at the enemy!"
-                } else {
-                    currentInstruction = "You won the game!"
-                }
-            }
-        }
-        
-        return currentInstruction
+        return currentInfo
     }
     
     func getCurrentGrid(id: Int) -> Grid {
-        var game: Game = games[id]
-        var currentGrid: Grid = game.getPlayer1().getGrid()
+        var currentGrid: Grid = currentGame.getPlayer1().getGrid()
         
-        if (game.getState().rawValue >= State.CARRIER2.rawValue && game.getState().rawValue < State.GAME.rawValue) {
-            currentGrid = game.getPlayer2().getGrid()
-        }
+        // TODO
         
-        if (game.getState().rawValue >= State.GAME.rawValue) {
+        /*
+        if (game.getStatus().rawValue >= Status.GAME) {
             if (game.getTurn() === game.getPlayer1()) {
                 currentGrid = viewingMyGrid ? game.getPlayer1().getGrid() : game.getPlayer2().getGrid()
             } else {
                 currentGrid = viewingMyGrid ? game.getPlayer2().getGrid() : game.getPlayer1().getGrid()
             }
         }
+        */
         
         return currentGrid
     }
@@ -160,13 +119,17 @@ class BattleShip {
         return viewingMyGrid
     }
     
-    func getCurrentGameState(id: Int) -> State {
-        return games[id].getState()
+    func getCurrentGameStatus() -> Status {
+        return currentGame.getStatus()
     }
     
     func getCurrentShipType(id: Int) -> String {
         var game: Game = games[id]
         var shipType: ShipType = ShipType.CARRIER
+        
+        // TODO
+        
+        /*
         switch game.getState() {
             case .CARRIER1,
                  .CARRIER2: shipType = ShipType.CARRIER
@@ -180,6 +143,8 @@ class BattleShip {
                  .DESTROYER2: shipType = ShipType.DESTROYER
             default: break
         }
+        */
+
         return shipType.toString()
     }
     
@@ -212,31 +177,18 @@ class BattleShip {
         return (false, false)
     }
     
-    func confirmAddShip(id: Int) {
-        var game = games[id]
-        var state = game.getState()
-        if (state == State.DESTROYER2) {
-            game.setTurn(game.getPlayer1())
-        }
-        game.nextState()
-        writeToFile()
-        currentStartCell = nil
-    }
-    
-    func shotCalled(id: Int, cell: Cell) -> (dupe: Bool, hit: Bool, sunk: Bool, winner: Player?) {
-        var game = games[id]
-        
+    func shotCalled(id: Int, cell: Cell) -> (dupe: Bool, hit: Bool, sunk: Bool, winner: Player?) {        
         // Return early if this is a duplicate shot call
-        if (game.isDupeShot(cell)) {
+        if (currentGame.isDupeShot(cell)) {
             return (true, false, false, nil)
         }
         
-        var hit: Bool = game.shotCalled(cell)
-        var sunk: Bool = game.isShipSunk(cell)
-        var winner: Player? = game.getWinner()
+        var hit: Bool = currentGame.shotCalled(cell)
+        var sunk: Bool = currentGame.isShipSunk(cell)
+        var winner: Player? = currentGame.getWinner()
 
-        if (game.getState() == State.GAME && winner != nil) {
-            game.nextState()
+        if (currentGame.getStatus() == Status.PLAYING && winner != nil) {
+            currentGame.setStatus(Status.DONE)
         }
         
         writeToFile()

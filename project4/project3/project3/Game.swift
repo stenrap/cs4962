@@ -11,7 +11,7 @@ class Game {
     private var player1: Player = Player()
     private var player2: Player = Player()
     private var turn: Player = Player()
-    private var state: State = State.NAMES
+    private var status: Status = Status.CREATED
     
     func getPlayer1() -> Player {return player1}
     func setPlayer1(player1: Player)  {self.player1 = player1}
@@ -29,9 +29,8 @@ class Game {
         }
     }
     
-    func getState() -> State {return state}
-    func setState(state: State) {self.state = state}
-    func nextState() {state.next()}
+    func getStatus() -> Status {return status}
+    func setStatus(status: Status) {self.status = status}
     
     /* Game State Methods */
     
@@ -41,10 +40,14 @@ class Game {
     }
     
     func forPlayer1() -> Bool {
-        return state.rawValue >= State.CARRIER1.rawValue && state.rawValue <= State.DESTROYER1.rawValue
+        return false
+        // TODO
     }
     
     func addShip(startCell: Cell, vertical: Bool) -> Bool {
+        // TODO
+        
+        /*
         var type: ShipType = ShipType.CARRIER
         switch state {
             case .NAMES:                     break
@@ -61,6 +64,8 @@ class Game {
         } else {
             return player2.addShip(type, startCell: startCell, vertical: vertical)
         }
+        */
+        return false
     }
     
     func rotateShip(currentStartCell: Cell) -> Bool {

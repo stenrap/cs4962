@@ -43,7 +43,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
         */
     }
     
-    func alertNewGameCreated() {}
+    func newGameCreated() {}
     func alertNewGameError() {}
     
     func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {
@@ -71,18 +71,12 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
         }
         
         if (game != nil) {
-            var state: State = game!.getState()
-            if (state == State.ENDED) {
+            var status: Status = game!.getStatus()
+            if (status == Status.DONE) {
                 topText = "\(game!.getWinner()!.getName()) won the game"
             } else {
-                if (state.rawValue < State.CARRIER2.rawValue) {
-                    topText = "\(game!.getPlayer1().getName())'s turn to place ships"
-                } else if (state.rawValue < State.GAME.rawValue) {
-                    topText = "\(game!.getPlayer2().getName())'s turn to place ships"
-                } else {
-                    topText = "\(game!.getTurn().getName())'s turn to take a shot"
-                    bottomText = "Missiles Launched: \(game!.getPlayer1().getName()) (\(game!.getPlayer1().getShots())), \(game!.getPlayer2().getName()) (\(game!.getPlayer2().getShots()))"
-                }
+                topText = "\(game!.getTurn().getName())'s turn to take a shot"
+                bottomText = "Missiles Launched: \(game!.getPlayer1().getName()) (\(game!.getPlayer1().getShots())), \(game!.getPlayer2().getName()) (\(game!.getPlayer2().getShots()))"
             }
         }
         

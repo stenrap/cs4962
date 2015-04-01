@@ -16,11 +16,8 @@ protocol ViewGridDelegate: class {
 
 class GridView: UIView, CellViewDelegate {
     
-    private var playerNameLabel: UILabel = UILabel()
-    func setPlayerName(playerName: String) {playerNameLabel.text = playerName}
-    
-    private var instructionLabel: UILabel = UILabel()
-    func setInstruction(instruction: String) {instructionLabel.text = instruction}
+    private var infoLabel: UILabel = UILabel()
+    func setInfo(info: String) {infoLabel.text = info}
     
     private var cellSize: CGFloat = 0
     
@@ -37,7 +34,7 @@ class GridView: UIView, CellViewDelegate {
     weak var cellViewDelegate: CellViewDelegate? = nil
     
     private let BUTTON_HEIGHT: CGFloat = 50
-    var rotateView: RotatePlaceView? = nil
+    
     var viewGridButton: UIButton? = nil
     
     weak var viewGridDelegate: ViewGridDelegate? = nil
@@ -49,24 +46,17 @@ class GridView: UIView, CellViewDelegate {
             var labelWidth: CGFloat = UIScreen.mainScreen().bounds.width
             var labelHeight: CGFloat = 30
             
-            playerNameLabel.frame = CGRectMake(labelX, labelY, labelWidth, labelHeight)
-            playerNameLabel.textColor = UIColor.whiteColor()
+            infoLabel.frame = CGRectMake(labelX, labelY, labelWidth, labelHeight)
+            infoLabel.textColor = UIColor.whiteColor()
+            infoLabel.font = UIFont(name: infoLabel.font.fontName, size: 15)
             
-            instructionLabel.frame = CGRectMake(labelX, labelY + labelHeight, labelWidth, labelHeight)
-            instructionLabel.textColor = UIColor.whiteColor()
-            instructionLabel.font = UIFont(name: instructionLabel.font.fontName, size: 15)
-            
-            self.addSubview(playerNameLabel)
-            self.addSubview(instructionLabel)
+            self.addSubview(infoLabel)
             
             cellSize = bounds.width / 11
             
             addLocations()
             
             addedLocations = true
-            
-            rotateView = RotatePlaceView(frame: CGRectMake(0, frame.height - BUTTON_HEIGHT, frame.width, BUTTON_HEIGHT))
-            self.addSubview(rotateView!)
         }
     }
     
@@ -139,10 +129,6 @@ class GridView: UIView, CellViewDelegate {
         }
         gridTouchAllowed = false
         cellViewDelegate?.cellViewTouched(row, col: col)
-    }
-    
-    func removeRotatePlaceView() {
-        rotateView?.removeFromSuperview()
     }
     
     func addViewGridButtion() {
