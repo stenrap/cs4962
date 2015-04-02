@@ -9,12 +9,14 @@
 enum Status {
     
     case CREATED
+    case WAITING
     case PLAYING
     case DONE
     
     func toString() -> String {
         switch self {
             case CREATED: return "created"
+            case WAITING: return "waiting"
             case PLAYING: return "playing"
             case DONE:    return "done"
         }

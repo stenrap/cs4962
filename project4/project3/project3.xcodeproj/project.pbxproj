@@ -12,7 +12,7 @@
 		D4100BB41AA7FCED00A77A2B /* NamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4100BB31AA7FCED00A77A2B /* NamesView.swift */; };
 		D459B76C1AAB975700890FA9 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459B76B1AAB975700890FA9 /* CellView.swift */; };
 		D47096691AA28D3E009F8425 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47096681AA28D3E009F8425 /* AppDelegate.swift */; };
-		D470966B1AA28D3E009F8425 /* BattleShipController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470966A1AA28D3E009F8425 /* BattleShipController.swift */; };
+		D470966B1AA28D3E009F8425 /* GameListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470966A1AA28D3E009F8425 /* GameListController.swift */; };
 		D47096701AA28D3E009F8425 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D470966F1AA28D3E009F8425 /* Images.xcassets */; };
 		D470967F1AA28D3E009F8425 /* project3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470967E1AA28D3E009F8425 /* project3Tests.swift */; };
 		D470968A1AA28DDE009F8425 /* BattleShip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47096891AA28DDE009F8425 /* BattleShip.swift */; };
@@ -51,7 +51,7 @@
 		D47096631AA28D3E009F8425 /* project3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = project3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47096671AA28D3E009F8425 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D47096681AA28D3E009F8425 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D470966A1AA28D3E009F8425 /* BattleShipController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleShipController.swift; sourceTree = "<group>"; };
+		D470966A1AA28D3E009F8425 /* GameListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListController.swift; sourceTree = "<group>"; };
 		D470966F1AA28D3E009F8425 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D47096781AA28D3E009F8425 /* project3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = project3Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D470967D1AA28D3E009F8425 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 				D40AC8591AA809240017A437 /* BaseController.swift */,
 				D4F47BF51ACA3D3D00E1DC61 /* StatusController.swift */,
 				D4100BB11AA7FC5900A77A2B /* NamesController.swift */,
-				D470966A1AA28D3E009F8425 /* BattleShipController.swift */,
+				D470966A1AA28D3E009F8425 /* GameListController.swift */,
 				D4B803291AAB613D00B3F2DD /* GridController.swift */,
 			);
 			name = controllers;
@@ -295,7 +295,7 @@
 				D40AC85A1AA809240017A437 /* BaseController.swift in Sources */,
 				D4100BB41AA7FCED00A77A2B /* NamesView.swift in Sources */,
 				D470968C1AA28E67009F8425 /* Game.swift in Sources */,
-				D470966B1AA28D3E009F8425 /* BattleShipController.swift in Sources */,
+				D470966B1AA28D3E009F8425 /* GameListController.swift in Sources */,
 				D4CC1C681AAB984100B317C4 /* LocationView.swift in Sources */,
 				D459B76C1AAB975700890FA9 /* CellView.swift in Sources */,
 				D470968E1AA28F5E009F8425 /* Player.swift in Sources */,

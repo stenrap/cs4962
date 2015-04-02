@@ -30,7 +30,11 @@ class BattleShip {
     func getCurrentGame() -> Game {return currentGame}
     
     private var currentPlayerId: String = ""
-    private var keepPolling: Bool = false
+    
+    private var keepPollingForTurn: Bool = false
+    
+    private var keepPollingForGames: Bool = false
+    private var gamesToPollFor: Status = Status.DONE
     
     weak var delegate: BattleShipDelegate? = nil
     
@@ -49,7 +53,7 @@ class BattleShip {
         var bodyData: NSData = ("playerName=\(playerName)&gameName=\(gameName)" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
         request.HTTPBody = bodyData
         
-        keepPolling = true
+        keepPollingForTurn = true
         pollForTurn()
         
         var queue: NSOperationQueue = NSOperationQueue()
@@ -100,12 +104,10 @@ class BattleShip {
     }
     
     dynamic func pollForTurn() {
-        if (keepPolling) {
+        if (keepPollingForTurn) {
             NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("pollForTurn"), userInfo: nil, repeats: false)
             if (currentPlayerId != "") {
                 println("Polling for turn...")
-                
-                // WYLO .... Clearly this timer approach doesn't work...How can you poll the server?!
                 
                 var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/games/\(currentGame.getId())?playerId=\(currentPlayerId)")!
                 
@@ -117,11 +119,12 @@ class BattleShip {
                     { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
                         NSOperationQueue.mainQueue().addOperationWithBlock({
                             if (data == nil) {
-                                self!.keepPolling = true
+                                self!.keepPollingForTurn = true
                             } else {
                                 var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                                 var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
-                                self!.keepPolling = !isYourTurn
+                                self!.keepPollingForTurn = !isYourTurn
+                                // TODO .... Do something when it actually is your turn...
                             }
                         })
                 })
@@ -130,7 +133,58 @@ class BattleShip {
     }
     
     func stopPollingForTurn() {
-        keepPolling = false
+        keepPollingForTurn = false
+    }
+    
+    func lookUpGames(status: Status) {
+        gamesToPollFor = status
+        keepPollingForGames = true
+        games = [Game]()
+        // TODO .... Call a delegate method that tells GameListController to reload
+        pollForGames()
+    }
+    
+    dynamic func pollForGames() {
+        if (keepPollingForGames) {
+            NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("pollForGames"), userInfo: nil, repeats: false)
+            if (gamesToPollFor != Status.CREATED) {
+                println("Polling for '\(gamesToPollFor.toString())' games...")
+                
+                var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/lobby?status=\(gamesToPollFor.toString())")!
+                
+                var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
+                request.HTTPMethod = "GET"
+                
+                var queue: NSOperationQueue = NSOperationQueue()
+                NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+                    { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                        NSOperationQueue.mainQueue().addOperationWithBlock({
+                            if (data == nil) {
+                                self!.keepPollingForGames = true
+                                // TODO .... Add a counter that stops after X consecutive failed attempts?
+                            } else {
+                                var response: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSArray
+                                self!.games = [Game]()
+                                for (var i: Int = 0; i < response.count; i++) {
+                                    var rawGame: NSDictionary = response[i] as NSDictionary
+                                    var game: Game = Game()
+                                    game.setId(rawGame.objectForKey("id") as NSString)
+                                    game.setName(rawGame.objectForKey("name") as NSString)
+                                    game.setStatus(Status.WAITING)
+                                    self!.games.append(game)
+                                }
+                                //var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
+                                //self!.keepPollingForGames = !isYourTurn
+                                // TODO .... Call a delegate method that tells GameListController to reload
+                            }
+                        })
+                })
+            }
+        }
+    }
+    
+    func stopPollingForGames() {
+        keepPollingForGames = false
     }
     
     func getCurrentGrid(id: Int) -> Grid {

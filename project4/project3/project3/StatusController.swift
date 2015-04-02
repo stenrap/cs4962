@@ -22,16 +22,16 @@ class StatusController: BaseController, StatusViewDelegate {
     }
     
     func newGameTapped() {
-        var namesController = NamesController(true)
+        var namesController: NamesController = NamesController(true)
         namesController.model = model
         navigationController?.pushViewController(namesController, animated: true)
     }
     
     func waitingTouched() {
-        // WYLO .... Make an API call to get a list of 10 waiting games, but don't display any that are in model.savedGames!
-        //
-        //           
-        println("waitingTouched")
+        model.lookUpGames(Status.WAITING)
+        var gameListController: GameListController = GameListController()
+        gameListController.model = model
+        navigationController?.pushViewController(gameListController, animated: true)
     }
     
     func playingTouched() {

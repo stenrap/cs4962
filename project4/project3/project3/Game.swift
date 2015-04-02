@@ -12,6 +12,10 @@ class Game {
     func getId() -> String {return id}
     func setId(id: String) {self.id = id}
     
+    private var name: String = ""
+    func getName() -> String {return name}
+    func setName(name: String) {self.name = name}
+    
     private var player1: Player = Player()
     func getPlayer1() -> Player {return player1}
     func setPlayer1(player1: Player)  {self.player1 = player1}

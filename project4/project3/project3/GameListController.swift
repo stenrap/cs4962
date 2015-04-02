@@ -1,5 +1,5 @@
 //
-//  BattleShipController.swift
+//  GameListController.swift
 //  project3
 //
 //  Created by Robert Johansen on 2/28/15.
@@ -8,30 +8,27 @@
 
 import UIKit
 
-class BattleShipController: UITableViewController, BattleShipDelegate, UITableViewDelegate {
+class GameListController: UITableViewController, BattleShipDelegate, UITableViewDelegate {
     
-    private var model: BattleShip = BattleShip()
+    var model: BattleShip = BattleShip()
     private var gridController: GridController? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        model.readFromFile()
         model.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: UIBarButtonItemStyle.Plain, target: self, action: "newGameTapped")
-        title = "Battleship"
+        title = "Lobby"
         
         /*
+        
+        WYLO .... Get this working so the model can "tell" this controller to reload data...
+        
         model.dataChangedClosure = { [weak self] () in
             let tv: UITableView? = self?.tableView
             tv?.reloadData()
         }
         */
-    }
-    
-    func newGameTapped() {
-        //model.newGame()
     }
     
     func createNewGame(id: Int) {
@@ -43,6 +40,7 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
         */
     }
     
+    /* Methods required by BattleShipDelegate */
     func newGameCreated() {}
     func alertNewGameError() {}
     
@@ -71,12 +69,18 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
         }
         
         if (game != nil) {
+            topText = game!.getName()
             var status: Status = game!.getStatus()
             if (status == Status.DONE) {
-                topText = "\(game!.getWinner()!.getName()) won the game"
-            } else {
-                topText = "\(game!.getTurn().getName())'s turn to take a shot"
+                bottomText = "\(game!.getWinner()!.getName()) won the game"
+            } else if (status == Status.WAITING) {
+                bottomText = "Waiting for an opponent"
+            } else if (status == Status.PLAYING) {
+                topText += ": \(game!.getTurn().getName())'s turn"
+                /*
+                TODO .... Show the total number of missiles launched (which is now a single property of the game)
                 bottomText = "Missiles Launched: \(game!.getPlayer1().getName()) (\(game!.getPlayer1().getShots())), \(game!.getPlayer2().getName()) (\(game!.getPlayer2().getShots()))"
+                */
             }
         }
         
@@ -92,15 +96,21 @@ class BattleShipController: UITableViewController, BattleShipDelegate, UITableVi
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        /*
+        TODO .... Show the grid
         gridController = GridController()
         gridController!.model = model
         gridController!.gameId = indexPath.row
         navigationController?.pushViewController(gridController!, animated: true)
+        */
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        /*
+        TODO .... Delete the game
         model.deleteGame(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        */
     }
 
 }
