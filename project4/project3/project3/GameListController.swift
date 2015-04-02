@@ -15,34 +15,36 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var myBackButton:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        myBackButton.addTarget(self, action: "popToRoot", forControlEvents: UIControlEvents.TouchUpInside)
+        myBackButton.setTitle("< Back", forState: UIControlState.Normal)
+        myBackButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        myBackButton.sizeToFit()
+        
+        var myCustomBackButtonItem:UIBarButtonItem = UIBarButtonItem(customView: myBackButton)
+        self.navigationItem.leftBarButtonItem  = myCustomBackButtonItem
+        
         model.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
         title = "Lobby"
-        
-        /*
-        
-        WYLO .... Get this working so the model can "tell" this controller to reload data...
-        
-        model.dataChangedClosure = { [weak self] () in
-            let tv: UITableView? = self?.tableView
-            tv?.reloadData()
-        }
-        */
     }
     
-    func createNewGame(id: Int) {
-        /*
-        var namesController = NamesController()
-        namesController.model = model
-        namesController.gameId = id
-        navigationController?.pushViewController(namesController, animated: true)
-        */
+    func popToRoot() {
+        model.stopPollingForGames()
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
-    /* Methods required by BattleShipDelegate */
+    /* Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
+    
     func newGameCreated() {}
+    
     func alertNewGameError() {}
+    
+    func gameListUpdated() {
+        tableView.reloadData()
+    }
     
     func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {
         gridController = GridController()
@@ -97,7 +99,9 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /*
-        TODO .... Show the grid
+        
+        WYLO .... Call a method on the model that tries to join (waiting), continue (playing), or view (done) the game at model.games[indexPath.row]
+        
         gridController = GridController()
         gridController!.model = model
         gridController!.gameId = indexPath.row

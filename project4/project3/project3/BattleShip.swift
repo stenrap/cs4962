@@ -12,6 +12,7 @@ protocol BattleShipDelegate: class {
     
     func alertNewGameError()
     func newGameCreated()
+    func gameListUpdated()
     //func createNewGame(id: Int)
     //func promptForShip(id: Int, ship: ShipType, playerNumber: Int)
     
@@ -173,9 +174,9 @@ class BattleShip {
                                     game.setStatus(Status.WAITING)
                                     self!.games.append(game)
                                 }
-                                //var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
-                                //self!.keepPollingForGames = !isYourTurn
-                                // TODO .... Call a delegate method that tells GameListController to reload
+                                if (self!.games.count > 0) {
+                                    self!.delegate?.gameListUpdated()
+                                }
                             }
                         })
                 })

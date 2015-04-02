@@ -19,6 +19,8 @@ class NamesController: BaseController, BattleShipDelegate {
         super.init(nibName: nil, bundle: nil);
     }
     
+    /* Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
+    
     func alertNewGameError() {
         showAlert("Error", message: "Check your network connection and try again.", handler: nil)
     }
@@ -28,6 +30,8 @@ class NamesController: BaseController, BattleShipDelegate {
         gridController.model = model
         navigationController?.pushViewController(gridController, animated: true)
     }
+    
+    func gameListUpdated() {}
     
     override func loadView() {
         view = NamesView(gameNameVisible)
