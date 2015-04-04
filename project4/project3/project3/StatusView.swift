@@ -25,15 +25,15 @@ class StatusView: UIView {
     private let BUTTON_HEIGHT: CGFloat = 50
     
     override init(frame: CGRect) {
-        waitingButton = UIButton(frame: CGRectMake(frame.width / 4, 84, frame.width / 2, BUTTON_HEIGHT))
+        waitingButton = UIButton(frame: CGRectMake(frame.width / 4, 99, frame.width / 2, BUTTON_HEIGHT))
         waitingButton.backgroundColor = UIColor.blueColor()
         waitingButton.setTitle("Waiting", forState: .Normal)
         
-        playingButton = UIButton(frame: CGRectMake(frame.width / 4, 168, frame.width / 2, BUTTON_HEIGHT))
+        playingButton = UIButton(frame: CGRectMake(frame.width / 4, 183, frame.width / 2, BUTTON_HEIGHT))
         playingButton.backgroundColor = UIColor.blueColor()
         playingButton.setTitle("Playing", forState: .Normal)
         
-        doneButton = UIButton(frame: CGRectMake(frame.width / 4, 252, frame.width / 2, BUTTON_HEIGHT))
+        doneButton = UIButton(frame: CGRectMake(frame.width / 4, 267, frame.width / 2, BUTTON_HEIGHT))
         doneButton.backgroundColor = UIColor.blueColor()
         doneButton.setTitle("Done", forState: .Normal)
         
