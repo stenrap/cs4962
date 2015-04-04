@@ -36,7 +36,7 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
-    /* Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
+    /* BEGIN Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
     
     func newGameCreated() {}
     
@@ -45,6 +45,17 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     func gameListUpdated() {
         tableView.reloadData()
     }
+    
+    func getNameForJoin() {
+        var namesController: NamesController = NamesController(false)
+        namesController.model = model
+        model.delegate = namesController
+        navigationController?.pushViewController(namesController, animated: true)
+    }
+    
+    func alertJoinGameError() {}
+    
+    /* END */
     
     func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {
         gridController = GridController()
@@ -98,15 +109,7 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        /*
-        
-        WYLO .... Call a method on the model that tries to join (waiting), continue (playing), or view (done) the game at model.games[indexPath.row]
-        
-        gridController = GridController()
-        gridController!.model = model
-        gridController!.gameId = indexPath.row
-        navigationController?.pushViewController(gridController!, animated: true)
-        */
+        model.loadGame(indexPath.row)
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {

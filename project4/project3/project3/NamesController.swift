@@ -19,7 +19,18 @@ class NamesController: BaseController, BattleShipDelegate {
         super.init(nibName: nil, bundle: nil);
     }
     
-    /* Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
+    override func viewWillAppear(animated: Bool) {
+        var myBackButton:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        myBackButton.addTarget(self, action: "popToRoot", forControlEvents: UIControlEvents.TouchUpInside)
+        myBackButton.setTitle("< Back", forState: UIControlState.Normal)
+        myBackButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        myBackButton.sizeToFit()
+        
+        var myCustomBackButtonItem:UIBarButtonItem = UIBarButtonItem(customView: myBackButton)
+        self.navigationItem.leftBarButtonItem  = myCustomBackButtonItem
+    }
+    
+    /* BEGIN Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
     
     func alertNewGameError() {
         showAlert("Error", message: "Check your network connection and try again.", handler: nil)
@@ -32,6 +43,22 @@ class NamesController: BaseController, BattleShipDelegate {
     }
     
     func gameListUpdated() {}
+    func getNameForJoin() {}
+    
+    func alertJoinGameError() {
+        showAlert("Error", message: "The game could not be joined.", handler: joinGameErrorClosed)
+    }
+    
+    /* END */
+    
+    func joinGameErrorClosed(alert: UIAlertAction!) {
+        popToRoot()
+    }
+    
+    func popToRoot() {
+        model.stopPollingForGames()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
     
     override func loadView() {
         view = NamesView(gameNameVisible)
@@ -65,9 +92,14 @@ class NamesController: BaseController, BattleShipDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { action in } ))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
-            model.createNewGame(playerName, gameName: gameName)
             self.navigationItem.rightBarButtonItem = nil
             getNamesView().disableNameFields()
+            if (gameNameVisible) {
+                model.createNewGame(playerName, gameName: gameName)
+            } else {
+                model.setJoinPlayerName(playerName)
+                model.joinGame()
+            }
         }
     }
     

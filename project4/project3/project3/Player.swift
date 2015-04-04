@@ -8,15 +8,18 @@
 
 class Player {
     
-    private var name: String = ""
-    private var grid: Grid = Grid()
-    private var shots: Int = 0
+    private var id: String = ""
+    func getId() -> String {return id}
+    func setId(id: String) {self.id = id}
     
+    private var name: String = ""
     func getName() -> String {return name}
     func setName(name: String) {self.name = name}
     
+    private var grid: Grid = Grid()
     func getGrid() -> Grid {return grid}
     
+    private var shots: Int = 0
     func addShot() {shots++}
     func getShots() -> Int {return shots}
     func setShots(shots: Int) {self.shots = shots}

@@ -14,6 +14,7 @@ protocol BattleShipDelegate: class {
     func newGameCreated()
     func gameListUpdated()
     func getNameForJoin()
+    func alertJoinGameError()
     //func createNewGame(id: Int)
     //func promptForShip(id: Int, ship: ShipType, playerNumber: Int)
     
@@ -40,6 +41,7 @@ class BattleShip {
     
     private var joinId: String = ""
     private var joinPlayerName: String = ""
+    func setJoinPlayerName(joinPlayerName: String) {self.joinPlayerName = joinPlayerName}
     
     weak var delegate: BattleShipDelegate? = nil
     
@@ -211,12 +213,61 @@ class BattleShip {
             var game: Game = games[index]
             if (game.getStatus() == Status.WAITING) {
                 joinId = game.getId()
-                delegate?.getNameForJoin() // WYLO .... Implement this in the view controllers...
+                delegate?.getNameForJoin()
             }
             // If it's a waiting game, try join it first, then load and show it if the join is successful
             // If it's a playing game, load and show it
             // If it's a done    game, load and show it
         }
+    }
+    
+    func joinGame() {
+        var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/lobby/\(joinId)")!
+        
+        var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "PUT"
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        var bodyData: NSData = ("playerName=\(joinPlayerName)&id=\(joinId)" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
+        request.HTTPBody = bodyData
+        
+        var queue: NSOperationQueue = NSOperationQueue()
+        NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+            { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    if (data == nil) {
+                        self!.delegate?.alertJoinGameError()
+                        return
+                    } else {
+                        var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
+                        
+                        var player2Id: String? = response.objectForKey("playerId") as? NSString
+                        if (player2Id == nil) {
+                            self!.delegate?.alertJoinGameError()
+                            return
+                        }
+                        
+                        // WYLO .... Do something with player2Id and notify the controller (delegate) that the game was successfully joined...
+                        
+                        /*
+                        
+                        TODO .... This is from creating a new game? Do you need any of this after joining a game?
+                        
+                        self!.currentGame = Game()
+                        self!.currentGame.setId(response.objectForKey("gameId") as NSString)
+                        self!.currentGame.setNames(playerName, player2Name: "")
+                        self!.currentPlayerId = response.objectForKey("playerId") as NSString
+                        var rawGame: NSDictionary = [
+                            "playerId" : self!.currentPlayerId,
+                            "gameId"   : self!.currentGame.getId(),
+                            "status"   : Status.CREATED.toString()
+                        ]
+                        self!.appendGameToFile(rawGame)
+                        self!.delegate?.newGameCreated()
+                        */
+                    }
+                })
+        })
     }
     
     func getCurrentGrid(id: Int) -> Grid {
