@@ -19,6 +19,7 @@ protocol BattleShipDelegate: class {
     func alertGetGameDetailError()
     func gotGameDetail()
     func gotPlayerGrids()
+    func isPlayerTurn()
     
 }
 
@@ -49,7 +50,9 @@ class BattleShip {
     
     private var currentStartCell: Cell? = nil
     private var currentVertical: Bool? = nil
+    
     private var viewingMyGrid: Bool = false
+    func getViewingMyGrid() -> Bool {return viewingMyGrid}
     
     /* Game State Methods */
     
@@ -135,6 +138,7 @@ class BattleShip {
                                 self!.keepPollingForTurn = !isYourTurn
                                 if (isYourTurn) {
                                     self!.currentGame.getTurn().setId(self!.currentPlayerId)
+                                    self!.delegate?.isPlayerTurn()
                                 } else {
                                     // TODO .... Is it necessary to set the turn's ID to the opponent?
                                     //           Also, would it be easier to have a class-level currentPlayer and opponentPlayer?

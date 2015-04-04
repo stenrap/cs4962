@@ -12,7 +12,6 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     
     func getGridView() -> GridView {return view as GridView}
     
-    private var firstShipAlertShown: Bool = false
     private var canConfirm: Bool = false
     
     override func loadView() {
@@ -49,14 +48,30 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     /* BEGIN Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
     
     func alertNewGameError() {}
+    
     func newGameCreated() {}
+    
     func gameListUpdated() {}
+    
     func getNameForJoin() {}
+    
     func alertJoinGameError() {}
+    
     func gameJoined() {}
+    
     func alertGetGameDetailError() {}
+    
     func gotGameDetail() {}
+    
     func gotPlayerGrids() {}
+    
+    func isPlayerTurn() {
+        if (model.getViewingMyGrid()) {
+            viewGridTouched()
+        }
+        setInfo()
+        getGridView().setGridTouchAllowed(true)
+    }
     
     /* END */
     
@@ -102,6 +117,11 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     }
     
     func cellViewTouched(row: String, col: Int) {
+        
+        println("Touched a cell...")
+        
+        // WYLO .... See if you can get this working after you've joined a waiting game created on your MacBook Air...
+        
         // TODO
         
         /*

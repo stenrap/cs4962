@@ -27,7 +27,7 @@ class GridView: UIView, CellViewDelegate {
     
     private var addedLocations: Bool = false
     
-    private var gridTouchAllowed: Bool = true
+    private var gridTouchAllowed: Bool = false
     func getGridTouchAllowed() -> Bool {return gridTouchAllowed}
     func setGridTouchAllowed(gridTouchAllowed: Bool) {self.gridTouchAllowed = gridTouchAllowed}
     

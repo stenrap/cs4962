@@ -63,6 +63,8 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     func gotPlayerGrids() {}
     
+    func isPlayerTurn() {}
+    
     /* END */
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
