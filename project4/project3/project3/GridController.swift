@@ -65,7 +65,11 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     
     func gotGameDetail() {}
     
-    func gotPlayerGrids() {}
+    func gotPlayerGrids() {
+        if (!viewGridButtonAdded) {
+            addViewGridButton()
+        }
+    }
     
     func isPlayerTurn() {
         if (model.getViewingMyGrid()) {
@@ -74,7 +78,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         setInfo()
         getGridView().setGridTouchAllowed(true)
         if (!viewGridButtonAdded) {
-            addViewGridButton()
+            model.getPlayerGrids()
         }
     }
     
