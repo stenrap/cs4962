@@ -37,9 +37,7 @@ class NamesController: BaseController, BattleShipDelegate {
     }
     
     func newGameCreated() {
-        var gridController: GridController = GridController()
-        gridController.model = model
-        navigationController?.pushViewController(gridController, animated: true)
+        showGridAndPollForTurn()
     }
     
     func gameListUpdated() {}
@@ -62,15 +60,18 @@ class NamesController: BaseController, BattleShipDelegate {
     }
     
     func gotPlayerGrids() {
-        
-        // TODO .... Should you start polling for turns here?
-        
-        var gridController: GridController = GridController()
-        gridController.model = model
-        navigationController?.pushViewController(gridController, animated: true)
+        showGridAndPollForTurn()
     }
     
     /* END */
+    
+    func showGridAndPollForTurn() {
+        var gridController: GridController = GridController()
+        gridController.model = model
+        model.delegate = gridController
+        navigationController?.pushViewController(gridController, animated: true)
+        model.startPollingForTurn()
+    }
     
     func gameErrorClosed(alert: UIAlertAction!) {
         popToRoot()

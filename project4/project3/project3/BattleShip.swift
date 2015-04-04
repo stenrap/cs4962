@@ -62,9 +62,6 @@ class BattleShip {
         var bodyData: NSData = ("playerName=\(playerName)&gameName=\(gameName)" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
         request.HTTPBody = bodyData
         
-        keepPollingForTurn = true
-        pollForTurn()
-        
         var queue: NSOperationQueue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
             { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
@@ -110,6 +107,11 @@ class BattleShip {
         return currentInfo
     }
     
+    func startPollingForTurn() {
+        keepPollingForTurn = true
+        pollForTurn()
+    }
+    
     dynamic func pollForTurn() {
         if (keepPollingForTurn) {
             NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("pollForTurn"), userInfo: nil, repeats: false)
@@ -134,7 +136,7 @@ class BattleShip {
                                 if (isYourTurn) {
                                     self!.currentGame.getTurn().setId(self!.currentPlayerId)
                                 } else {
-                                    // WYLO .... Is it necessary to set the turn's ID to the opponent?
+                                    // TODO .... Is it necessary to set the turn's ID to the opponent?
                                     //           Also, would it be easier to have a class-level currentPlayer and opponentPlayer?
                                 }
                             }

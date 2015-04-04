@@ -65,13 +65,6 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     /* END */
     
-    func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {
-        gridController = GridController()
-        gridController!.model = model
-        gridController!.gameId = id
-        navigationController?.pushViewController(gridController!, animated: true)
-    }
-    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.getGames().count
     }

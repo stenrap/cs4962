@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
+class GridController: BaseController, CellViewDelegate, ViewGridDelegate, BattleShipDelegate {
     
     func getGridView() -> GridView {return view as GridView}
     
@@ -16,6 +16,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
     private var canConfirm: Bool = false
     
     override func loadView() {
+        model.delegate = self
+        
         view = GridView()
         view.backgroundColor = UIColor(red: 28/255, green: 107/255, blue: 160/255, alpha: 1.0)
         
@@ -43,6 +45,20 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
         model.stopPollingForTurn()
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
+    
+    /* BEGIN Methods required by BattleShipDelegate (which may be no-ops, if necessary) */
+    
+    func alertNewGameError() {}
+    func newGameCreated() {}
+    func gameListUpdated() {}
+    func getNameForJoin() {}
+    func alertJoinGameError() {}
+    func gameJoined() {}
+    func alertGetGameDetailError() {}
+    func gotGameDetail() {}
+    func gotPlayerGrids() {}
+    
+    /* END */
     
     override func viewDidLayoutSubviews() {
         var status: Status = model.getCurrentGameStatus()
