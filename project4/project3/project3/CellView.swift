@@ -30,7 +30,7 @@ class CellView: UIView {
         self.hasShip = hasShip
     }
     
-    private var type: CellType = CellType.EMPTY
+    private var type: CellType = CellType.NONE
     func getType() -> CellType {return type}
     func setType(type: CellType) {
         self.type = type

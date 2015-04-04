@@ -28,7 +28,7 @@ class Ship {
         var currentRow = startCell.getRow()
         var currentCol = startCell.getCol()
         while (size > 0) {
-            cells[currentRow + String(currentCol)] = CellType.EMPTY
+            cells[currentRow + String(currentCol)] = CellType.NONE
             if (vertical) {
                 switch currentRow {
                     case "A": currentRow = "B"

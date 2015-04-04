@@ -61,6 +61,8 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     func gotGameDetail() {}
     
+    func gotPlayerGrids() {}
+    
     /* END */
     
     func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {

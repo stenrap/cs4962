@@ -113,7 +113,7 @@ class Grid {
     func allShipsSunk() -> Bool {
         for ship in ships {
             for (location, type) in ship.getCells() {
-                if (type == CellType.EMPTY || type == CellType.MISS) {
+                if (type == CellType.NONE || type == CellType.MISS) {
                     return false
                 }
             }

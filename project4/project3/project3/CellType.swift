@@ -7,7 +7,17 @@
 //
 
 enum CellType {
-    case EMPTY
+    
+    case NONE
     case MISS
     case HIT
+    
+    func toString() -> String {
+        switch self {
+            case NONE: return "NONE"
+            case MISS: return "MISS"
+            case HIT:  return "HIT"
+        }
+    }
+    
 }

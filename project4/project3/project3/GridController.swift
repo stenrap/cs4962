@@ -82,7 +82,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
                         break
                     }
                 }
-                var type: CellType = CellType.EMPTY
+                var type: CellType = CellType.NONE
                 if (grid.getCells()[rowString + String(col)] != nil) {
                     type = grid.getCells()[rowString + String(col)]!
                 }

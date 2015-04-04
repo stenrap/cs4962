@@ -18,6 +18,7 @@ protocol BattleShipDelegate: class {
     func gameJoined()
     func alertGetGameDetailError()
     func gotGameDetail()
+    func gotPlayerGrids()
     
 }
 
@@ -312,9 +313,9 @@ class BattleShip {
                             
                             var status: Status = Status.WAITING
                             
-                            if (rawStatus!.lowercaseString == Status.PLAYING.toString()) {
+                            if (rawStatus == Status.PLAYING.toString()) {
                                 status = Status.PLAYING
-                            } else if (rawStatus!.lowercaseString == Status.DONE.toString()) {
+                            } else if (rawStatus == Status.DONE.toString()) {
                                 status = Status.DONE
                             }
                             
@@ -343,15 +344,15 @@ class BattleShip {
                     } else {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         
-                        var playerBoard: String? = response.objectForKey("playerBoard") as? NSString
-                        var opponentBoard: String? = response.objectForKey("opponentBoard") as? NSString
+                        var playerBoard: NSArray? = response.objectForKey("playerBoard") as? NSArray
+                        var opponentBoard: NSArray? = response.objectForKey("opponentBoard") as? NSArray
                         
                         if (playerBoard == nil || opponentBoard == nil) {
                             self!.delegate?.alertGetGameDetailError()
                             return
                         }
                         
-                        // WYLO .... Populate the boards of each player's grid. Remember that currentPlayerId could be player1 or player2.
+                        // WYLO .... Populate each player's grid. Remember that currentPlayerId could be player1 or player2.
                         
                         self!.delegate?.gotPlayerGrids()
                     }
@@ -578,7 +579,7 @@ class BattleShip {
         
         var rawGridCells: NSDictionary = rawGrid.objectForKey("cells") as NSDictionary
         for (rawLocation, rawCellType) in rawGridCells {
-            var cellType: CellType = CellType.EMPTY
+            var cellType: CellType = CellType.NONE
             if (rawCellType as NSString == "HIT") {
                 cellType = CellType.HIT
             } else if (rawCellType as NSString == "MISS") {

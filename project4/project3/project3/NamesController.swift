@@ -58,6 +58,10 @@ class NamesController: BaseController, BattleShipDelegate {
     }
     
     func gotGameDetail() {
+        model.getPlayerGrids()
+    }
+    
+    func gotPlayerGrids() {
         var gridController: GridController = GridController()
         gridController.model = model
         navigationController?.pushViewController(gridController, animated: true)
