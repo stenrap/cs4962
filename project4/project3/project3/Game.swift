@@ -80,14 +80,6 @@ class Game {
         return false
     }
     
-    func rotateShip(currentStartCell: Cell) -> Bool {
-        if (forPlayer1()) {
-            return player1.rotateShip(currentStartCell)
-        } else {
-            return player2.rotateShip(currentStartCell)
-        }
-    }
-    
     func isDupeShot(cell: Cell) -> Bool {
         if (turn === player1) {
             return !player2.isCellEmpty(cell)
@@ -103,19 +95,17 @@ class Game {
         return player1.shotCalled(cell)
     }
     
-    func isShipSunk(cell: Cell) -> Bool {
-        if (turn === player1) {
-            return player2.isShipSunk(cell)
-        }
-        return player1.isShipSunk(cell)
-    }
-    
     func getWinner() -> Player? {
+        /*
+        
+        TODO .... 
+        
         if (player1.allShipsSunk()) {
             return player2
         } else if (player2.allShipsSunk()) {
             return player1
         }
+        */
         return nil
     }
     

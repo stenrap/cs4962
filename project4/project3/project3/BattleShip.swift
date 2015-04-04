@@ -250,6 +250,7 @@ class BattleShip {
                         self!.currentGame = Game()
                         self!.currentGame.setId(self!.joinId)
                         self!.currentGame.setNames("", player2Name: self!.joinPlayerName)
+                        self!.currentGame.getPlayer2().setId(playerId!)
                         self!.currentGame.setTurn(self!.currentGame.getPlayer1())
                         self!.currentGame.setStatus(Status.PLAYING)
                         self!.currentPlayerId = playerId!
@@ -352,12 +353,61 @@ class BattleShip {
                             return
                         }
                         
-                        // WYLO .... Populate each player's grid. Remember that currentPlayerId could be player1 or player2.
+                        var currentPlayer: Player? = nil
+                        var opponentPlayer: Player? = nil
+                        
+                        if (self!.currentGame.getPlayer1().getId() == self!.currentPlayerId) {
+                            currentPlayer = self!.currentGame.getPlayer1()
+                            opponentPlayer = self!.currentGame.getPlayer2()
+                        } else if (self!.currentGame.getPlayer2().getId() == self!.currentPlayerId) {
+                            currentPlayer = self!.currentGame.getPlayer2()
+                            opponentPlayer = self!.currentGame.getPlayer1()
+                        }
+                        
+                        if (currentPlayer != nil) {
+                            self!.setPlayerGrid(currentPlayer!, grid: playerBoard!)
+                            self!.setPlayerGrid(opponentPlayer!, grid: opponentBoard!)
+                        }
                         
                         self!.delegate?.gotPlayerGrids()
                     }
                 })
         })
+    }
+    
+    func setPlayerGrid(player: Player, grid: NSArray) {
+        for (var i: Int = 0; i < grid.count; i++) {
+            var rawCell: NSDictionary = grid[i] as NSDictionary
+            var rawRow: NSNumber = rawCell.objectForKey("yPos") as NSNumber
+            var rawCol: NSNumber = rawCell.objectForKey("xPos") as NSNumber
+            var rawStatus: String = rawCell.objectForKey("status") as NSString
+            
+            var row: String = ""
+            switch (rawRow) {
+                case 0:  row = "A"
+                case 1:  row = "B"
+                case 2:  row = "C"
+                case 3:  row = "D"
+                case 4:  row = "E"
+                case 5:  row = "F"
+                case 6:  row = "G"
+                case 7:  row = "H"
+                case 8:  row = "I"
+                default: row = "J"
+            }
+            
+            var col: Int = Int(rawCol.integerValue + 1)
+            
+            var cellType: CellType = CellType.NONE
+            switch (rawStatus) {
+                case CellType.SHIP.toString(): cellType = CellType.SHIP
+                case CellType.MISS.toString(): cellType = CellType.MISS
+                case CellType.HIT.toString(): cellType = CellType.HIT
+                default: break
+            }
+            
+            player.getGrid().addCell(row + String(col), type: cellType)
+        }
     }
     
     func getCurrentGrid(id: Int) -> Grid {
@@ -429,19 +479,11 @@ class BattleShip {
         return false
     }
     
-    func rotateShip(id: Int) -> (rotated: Bool, existing: Bool) {
-        var game = games[id]
-        if (currentStartCell != nil) {
-            var wasRotated: Bool = game.rotateShip(currentStartCell!)
-            if (wasRotated) {
-                currentVertical = !currentVertical!
-            }
-            return (wasRotated, true)
-        }
-        return (false, false)
-    }
-    
-    func shotCalled(id: Int, cell: Cell) -> (dupe: Bool, hit: Bool, sunk: Bool, winner: Player?) {        
+    func shotCalled(id: Int, cell: Cell) -> (dupe: Bool, hit: Bool, sunk: Bool, winner: Player?) {
+        /*
+        
+        TODO ....
+        
         // Return early if this is a duplicate shot call
         if (currentGame.isDupeShot(cell)) {
             return (true, false, false, nil)
@@ -458,6 +500,9 @@ class BattleShip {
         writeToFile()
         
         return (false, hit, sunk, winner)
+        */
+        
+        return (false, false, false, nil)
     }
     
     func changePlayerTurn(id: Int) {
@@ -574,7 +619,7 @@ class BattleShip {
             var sunk: Bool = rawShips[i].objectForKey("sunk") as Bool
             ship.setSunk(sunk)
             
-            player.getGrid().addShipFromFile(ship)
+            // player.getGrid().addShipFromFile(ship)
         }
         
         var rawGridCells: NSDictionary = rawGrid.objectForKey("cells") as NSDictionary
@@ -602,6 +647,7 @@ class BattleShip {
     
     private func getPlayerForWrite(player: Player) -> NSDictionary {
         var playerGridShips: NSMutableArray = []
+        /*
         for ship in player.getGrid().getShips() {
             var shipDictionary: NSMutableDictionary = NSMutableDictionary()
             
@@ -631,6 +677,7 @@ class BattleShip {
             
             playerGridShips.addObject(shipDictionary)
         }
+        */
         
         var playerGrid: NSDictionary = [
             "cells" : getCellsForWrite(player.getGrid().getCells()),
