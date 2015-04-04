@@ -12,6 +12,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     
     func getGridView() -> GridView {return view as GridView}
     
+    private var viewGridButtonAdded = false
+    
     private var canConfirm: Bool = false
     
     override func loadView() {
@@ -71,6 +73,9 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         }
         setInfo()
         getGridView().setGridTouchAllowed(true)
+        if (!viewGridButtonAdded) {
+            addViewGridButton()
+        }
     }
     
     /* END */
@@ -78,8 +83,13 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     override func viewDidLayoutSubviews() {
         var status: Status = model.getCurrentGameStatus()
         if (status == Status.PLAYING || status == Status.DONE) {
-            getGridView().addViewGridButtion()
+            addViewGridButton()
         }
+    }
+    
+    func addViewGridButton() {
+        getGridView().addViewGridButton()
+        viewGridButtonAdded = true
     }
     
     private func setInfo() {

@@ -131,7 +131,7 @@ class GridView: UIView, CellViewDelegate {
         cellViewDelegate?.cellViewTouched(row, col: col)
     }
     
-    func addViewGridButtion() {
+    func addViewGridButton() {
         viewGridButton = UIButton(frame: CGRectMake(frame.width / 6, frame.height - BUTTON_HEIGHT, 2 * frame.width / 3, BUTTON_HEIGHT))
         viewGridButton!.backgroundColor = UIColor.whiteColor()
         viewGridButton!.setTitle("View My Grid", forState: .Normal)
