@@ -327,6 +327,38 @@ class BattleShip {
         })
     }
     
+    func getPlayerGrids() {
+        var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/games/\(currentGame.getId())/boards?playerId=\(currentPlayerId)")!
+        
+        var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "GET"
+        
+        var queue: NSOperationQueue = NSOperationQueue()
+        NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+            { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    if (data == nil) {
+                        self!.delegate?.alertJoinGameError()
+                        return
+                    } else {
+                        var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
+                        
+                        var playerBoard: String? = response.objectForKey("playerBoard") as? NSString
+                        var opponentBoard: String? = response.objectForKey("opponentBoard") as? NSString
+                        
+                        if (playerBoard == nil || opponentBoard == nil) {
+                            self!.delegate?.alertGetGameDetailError()
+                            return
+                        }
+                        
+                        // WYLO .... Populate the boards of each player's grid. Remember that currentPlayerId could be player1 or player2.
+                        
+                        self!.delegate?.gotPlayerGrids()
+                    }
+                })
+        })
+    }
+    
     func getCurrentGrid(id: Int) -> Grid {
         var currentGrid: Grid = currentGame.getPlayer1().getGrid()
         
