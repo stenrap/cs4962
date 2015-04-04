@@ -33,11 +33,22 @@ class Game {
     func getStatus() -> Status {return status}
     func setStatus(status: Status) {self.status = status}
     
+    private var missiles: Int = 0
+    func getMissiles() -> Int {return missiles}
+    func setMissiles(missiles: Int) {self.missiles = missiles}
+    
     /* Game State Methods */
     
     func setNames(player1Name: String, player2Name: String) {
         player1.setName(player1Name)
         player2.setName(player2Name)
+    }
+    
+    func setWinnerName(name: String) {
+        var winner: Player? = getWinner()
+        if (winner != nil) {
+            winner?.setName(name)
+        }
     }
     
     func forPlayer1() -> Bool {

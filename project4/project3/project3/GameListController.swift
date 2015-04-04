@@ -55,6 +55,12 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     func alertJoinGameError() {}
     
+    func gameJoined() {}
+    
+    func alertGetGameDetailError() {}
+    
+    func gotGameDetail() {}
+    
     /* END */
     
     func promptForShip(id: Int, ship: ShipType, playerNumber: Int) {

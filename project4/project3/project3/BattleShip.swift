@@ -15,8 +15,9 @@ protocol BattleShipDelegate: class {
     func gameListUpdated()
     func getNameForJoin()
     func alertJoinGameError()
-    //func createNewGame(id: Int)
-    //func promptForShip(id: Int, ship: ShipType, playerNumber: Int)
+    func gameJoined()
+    func alertGetGameDetailError()
+    func gotGameDetail()
     
 }
 
@@ -98,12 +99,10 @@ class BattleShip {
         var currentInfo: String = "Waiting for another player to join..."
         
         if (currentGame.getStatus() == Status.PLAYING) {
-            if (currentGame.getTurn() === currentGame.getPlayer1()) {
+            if (currentGame.getTurn().getId() == currentPlayerId) {
                 currentInfo = "It's your turn! Take a shot at the enemy!"
-            } else if (currentGame.getTurn() === currentGame.getPlayer2()) {
-                currentInfo = "Waiting for \(currentGame.getPlayer2())to take a shot..."
             } else {
-                currentInfo = "\(currentGame.getWinner()?.getName()) won the game!"
+                currentInfo = "Waiting for \(currentGame.getTurn().getName()) to take a shot..."
             }
         }
         
@@ -249,17 +248,80 @@ class BattleShip {
                         
                         self!.currentGame = Game()
                         self!.currentGame.setId(self!.joinId)
-                        self!.currentGame.setNames(self!.joinPlayerName, player2Name: "")
+                        self!.currentGame.setNames("", player2Name: self!.joinPlayerName)
+                        self!.currentGame.setTurn(self!.currentGame.getPlayer1())
+                        self!.currentGame.setStatus(Status.PLAYING)
                         self!.currentPlayerId = playerId!
                         var rawGame: NSDictionary = [
                             "playerId" : self!.currentPlayerId,
                             "gameId"   : self!.currentGame.getId(),
-                            "status"   : Status.CREATED.toString()
+                            "status"   : Status.PLAYING.toString()
                         ]
                         self!.appendGameToFile(rawGame)
+                        self!.delegate?.gameJoined()
+                    }
+                })
+        })
+    }
+    
+    func getGameAfterJoin() {
+        getGameDetail(currentGame.getId(), forGrid: true)
+    }
+    
+    func getGameDetail(id: String, forGrid: Bool) {
+        var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/lobby/\(id)")!
+        
+        var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "GET"
+        
+        var queue: NSOperationQueue = NSOperationQueue()
+        NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+            { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    if (data == nil) {
+                        self!.delegate?.alertJoinGameError()
+                        return
+                    } else {
+                        var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         
-                        // WYLO .... Notify the controller (delegate) that the game was successfully joined...
-                        // self!.delegate?.newGameCreated()
+                        var id: String?         = response.objectForKey("id") as? NSString
+                        var name: String?       = response.objectForKey("name") as? NSString
+                        var player1: String?    = response.objectForKey("player1") as? NSString
+                        var player2: String?    = response.objectForKey("player2") as? NSString
+                        var winner: String?     = response.objectForKey("winner") as? NSString
+                        var rawStatus: String?  = response.objectForKey("status") as? NSString
+                        var missiles: NSNumber? = response.objectForKey("missilesLaunched") as? NSNumber
+                        
+                        if (id        == nil ||
+                            name      == nil ||
+                            player1   == nil ||
+                            player2   == nil ||
+                            winner    == nil ||
+                            rawStatus == nil ||
+                            missiles  == nil) {
+                            if (forGrid) {
+                                self!.delegate?.alertGetGameDetailError()
+                            }
+                            return
+                        }
+                        
+                        if (forGrid) {
+                            self!.currentGame.setId(id!)
+                            self!.currentGame.setNames(player1!, player2Name: player2!)
+                            self!.currentGame.setWinnerName(winner!)
+                            
+                            var status: Status = Status.WAITING
+                            
+                            if (rawStatus!.lowercaseString == Status.PLAYING.toString()) {
+                                status = Status.PLAYING
+                            } else if (rawStatus!.lowercaseString == Status.DONE.toString()) {
+                                status = Status.DONE
+                            }
+                            
+                            self!.currentGame.setStatus(status)
+                            
+                            self!.delegate?.gotGameDetail()
+                        }
                     }
                 })
         })

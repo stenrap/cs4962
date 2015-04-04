@@ -46,12 +46,26 @@ class NamesController: BaseController, BattleShipDelegate {
     func getNameForJoin() {}
     
     func alertJoinGameError() {
-        showAlert("Error", message: "The game could not be joined.", handler: joinGameErrorClosed)
+        showAlert("Error", message: "The game could not be joined.", handler: gameErrorClosed)
+    }
+    
+    func gameJoined() {
+        model.getGameAfterJoin()
+    }
+    
+    func alertGetGameDetailError() {
+        showAlert("Error", message: "Battleship encountered an unknown error.", handler: gameErrorClosed)
+    }
+    
+    func gotGameDetail() {
+        var gridController: GridController = GridController()
+        gridController.model = model
+        navigationController?.pushViewController(gridController, animated: true)
     }
     
     /* END */
     
-    func joinGameErrorClosed(alert: UIAlertAction!) {
+    func gameErrorClosed(alert: UIAlertAction!) {
         popToRoot()
     }
     
