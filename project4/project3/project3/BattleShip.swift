@@ -131,7 +131,12 @@ class BattleShip {
                                 var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                                 var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
                                 self!.keepPollingForTurn = !isYourTurn
-                                // TODO .... Do something when it actually is your turn...
+                                if (isYourTurn) {
+                                    self!.currentGame.getTurn().setId(self!.currentPlayerId)
+                                } else {
+                                    // WYLO .... Is it necessary to set the turn's ID to the opponent?
+                                    //           Also, would it be easier to have a class-level currentPlayer and opponentPlayer?
+                                }
                             }
                         })
                 })
@@ -410,22 +415,24 @@ class BattleShip {
         }
     }
     
-    func getCurrentGrid(id: Int) -> Grid {
-        var currentGrid: Grid = currentGame.getPlayer1().getGrid()
+    func getCurrentGrid() -> Grid {
+        var currentGrid: Grid? = nil
         
-        // TODO
-        
-        /*
-        if (game.getStatus().rawValue >= Status.GAME) {
-            if (game.getTurn() === game.getPlayer1()) {
-                currentGrid = viewingMyGrid ? game.getPlayer1().getGrid() : game.getPlayer2().getGrid()
+        if (viewingMyGrid) {
+            if (currentGame.getPlayer1().getId() == currentPlayerId) {
+                currentGrid = currentGame.getPlayer1().getGrid()
             } else {
-                currentGrid = viewingMyGrid ? game.getPlayer2().getGrid() : game.getPlayer1().getGrid()
+                currentGrid = currentGame.getPlayer2().getGrid()
+            }
+        } else {
+            if (currentGame.getPlayer1().getId() == currentPlayerId) {
+                currentGrid = currentGame.getPlayer2().getGrid()
+            } else {
+                currentGrid = currentGame.getPlayer1().getGrid()
             }
         }
-        */
         
-        return currentGrid
+        return currentGrid!
     }
     
     func changeViewingMyGrid() -> Bool {

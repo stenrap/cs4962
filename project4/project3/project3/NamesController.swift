@@ -62,6 +62,9 @@ class NamesController: BaseController, BattleShipDelegate {
     }
     
     func gotPlayerGrids() {
+        
+        // TODO .... Should you start polling for turns here?
+        
         var gridController: GridController = GridController()
         gridController.model = model
         navigationController?.pushViewController(gridController, animated: true)

@@ -58,7 +58,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
     }
     
     private func drawGrid(showShips: Bool = true) {
-        var grid: Grid = model.getCurrentGrid(gameId)
+        var grid: Grid = model.getCurrentGrid()
         for (var row = 1; row <= 10; row++) {
             var rowString: String = "A"
             switch row {
@@ -75,22 +75,11 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
             }
             for (var col = 1; col <= 10; col++) {
                 var cell: Cell = Cell(row: rowString, col: col)
-                var hasShip: Bool = false
-                /*
-                
-                TODO .... can this be deleted since networked Battleship doesn't keep track of "ships"
-                
-                for ship in grid.getShips() {
-                    if (ship.hasCell(cell)) {
-                        hasShip = true
-                        break
-                    }
-                }
-                */
                 var type: CellType = CellType.NONE
                 if (grid.getCells()[rowString + String(col)] != nil) {
                     type = grid.getCells()[rowString + String(col)]!
                 }
+                var hasShip: Bool = type == CellType.SHIP
                 getGridView().updateCellView(rowString, col: col, hasShip: hasShip, type: type, showShips: showShips)
             }
         }
@@ -137,13 +126,17 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate {
     }
     
     func viewGridTouched() {
-        
-        // WYLO .... Get this working...
-        
         var viewingMyGrid: Bool = model.changeViewingMyGrid()
+        
+        /*
+        
+        TODO .... Disable the grid if this is a DONE game.
+        
         if (!model.hasWinner(gameId)) {
             getGridView().setGridTouchAllowed(!viewingMyGrid)
         }
+        */
+        
         drawGrid(showShips: viewingMyGrid)
         getGridView().changeViewGridButtonLabel(viewingMyGrid)
     }
