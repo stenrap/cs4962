@@ -241,30 +241,25 @@ class BattleShip {
                     } else {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         
-                        var player2Id: String? = response.objectForKey("playerId") as? NSString
-                        if (player2Id == nil) {
+                        var playerId: String? = response.objectForKey("playerId") as? NSString
+                        if (playerId == nil) {
                             self!.delegate?.alertJoinGameError()
                             return
                         }
                         
-                        // WYLO .... Do something with player2Id and notify the controller (delegate) that the game was successfully joined...
-                        
-                        /*
-                        
-                        TODO .... This is from creating a new game? Do you need any of this after joining a game?
-                        
                         self!.currentGame = Game()
-                        self!.currentGame.setId(response.objectForKey("gameId") as NSString)
-                        self!.currentGame.setNames(playerName, player2Name: "")
-                        self!.currentPlayerId = response.objectForKey("playerId") as NSString
+                        self!.currentGame.setId(self!.joinId)
+                        self!.currentGame.setNames(self!.joinPlayerName, player2Name: "")
+                        self!.currentPlayerId = playerId!
                         var rawGame: NSDictionary = [
                             "playerId" : self!.currentPlayerId,
                             "gameId"   : self!.currentGame.getId(),
                             "status"   : Status.CREATED.toString()
                         ]
                         self!.appendGameToFile(rawGame)
-                        self!.delegate?.newGameCreated()
-                        */
+                        
+                        // WYLO .... Notify the controller (delegate) that the game was successfully joined...
+                        // self!.delegate?.newGameCreated()
                     }
                 })
         })
