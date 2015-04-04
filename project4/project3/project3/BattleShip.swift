@@ -13,6 +13,7 @@ protocol BattleShipDelegate: class {
     func alertNewGameError()
     func newGameCreated()
     func gameListUpdated()
+    func getNameForJoin()
     //func createNewGame(id: Int)
     //func promptForShip(id: Int, ship: ShipType, playerNumber: Int)
     
@@ -36,6 +37,9 @@ class BattleShip {
     
     private var keepPollingForGames: Bool = false
     private var gamesToPollFor: Status = Status.DONE
+    
+    private var joinId: String = ""
+    private var joinPlayerName: String = ""
     
     weak var delegate: BattleShipDelegate? = nil
     
@@ -67,7 +71,7 @@ class BattleShip {
                     } else {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         self!.currentGame = Game()
-                        // TODO .... Names must be alphanumeric!
+                        // TODO .... Names must be alphanumeric! Maybe enforce that in the view...
                         self!.currentGame.setId(response.objectForKey("gameId") as NSString)
                         self!.currentGame.setNames(playerName, player2Name: "")
                         self!.currentPlayerId = response.objectForKey("playerId") as NSString
@@ -141,7 +145,7 @@ class BattleShip {
         gamesToPollFor = status
         keepPollingForGames = true
         games = [Game]()
-        // TODO .... Call a delegate method that tells GameListController to reload
+        delegate?.gameListUpdated()
         pollForGames()
     }
     
@@ -172,6 +176,19 @@ class BattleShip {
                                     game.setId(rawGame.objectForKey("id") as NSString)
                                     game.setName(rawGame.objectForKey("name") as NSString)
                                     game.setStatus(Status.WAITING)
+                                    
+                                    var isSavedGame: Bool = false
+                                    for (var j: Int = 0; j < self!.savedGames.count; j++) {
+                                        if (game.getId() == self!.savedGames[j].objectForKey("gameId") as NSString) {
+                                            isSavedGame = true
+                                            break
+                                        }
+                                    }
+                                    
+                                    if (isSavedGame) {
+                                        continue
+                                    }
+                                    
                                     self!.games.append(game)
                                 }
                                 if (self!.games.count > 0) {
@@ -186,6 +203,20 @@ class BattleShip {
     
     func stopPollingForGames() {
         keepPollingForGames = false
+    }
+    
+    func loadGame(index: Int) {
+        if (index < games.count) {
+            stopPollingForGames()
+            var game: Game = games[index]
+            if (game.getStatus() == Status.WAITING) {
+                joinId = game.getId()
+                delegate?.getNameForJoin() // WYLO .... Implement this in the view controllers...
+            }
+            // If it's a waiting game, try join it first, then load and show it if the join is successful
+            // If it's a playing game, load and show it
+            // If it's a done    game, load and show it
+        }
     }
     
     func getCurrentGrid(id: Int) -> Grid {
