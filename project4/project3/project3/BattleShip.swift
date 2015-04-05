@@ -383,6 +383,8 @@ class BattleShip {
                             opponentPlayer = self!.currentGame.getPlayer1()
                         }
                         
+                        // WYLO .... When you create a game and another player joins, is setPlayerGrid() not being called below?
+                        
                         if (currentPlayer != nil) {
                             self!.setPlayerGrid(currentPlayer!, grid: playerBoard!)
                             self!.setPlayerGrid(opponentPlayer!, grid: opponentBoard!)
