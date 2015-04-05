@@ -108,6 +108,8 @@ class BattleShip {
         
         if (currentGame.getStatus() == Status.PLAYING) {
             
+            // WYLO .... What the freak is going on here?
+            
             println("At the moment of getting info, currentGame.getTurn().getId() is \(currentGame.getTurn().getId()) and currentPlayerId is \(currentPlayerId)")
             
             if (currentGame.getTurn().getId() == currentPlayerId) {
@@ -149,6 +151,7 @@ class BattleShip {
                                 if (isYourTurn) {
                                     //self!.currentGame.getTurn().setId(self!.currentPlayerId)
                                     self!.currentGame.changeTurn()
+                                    println("After changeTurn() in pollForTurn(), turn ID is: \(self!.currentGame.getTurn().getId())")
                                     if (self!.currentGame.getStatus() == Status.CREATED) {
                                         self!.currentGame.setStatus(Status.PLAYING)
                                     }
@@ -517,6 +520,7 @@ class BattleShip {
                         
                         if (self!.currentGame.shipsSunk < 5) {
                             self!.currentGame.changeTurn()
+                            println("After changeTurn() in shotCalled(), turn ID is: \(self!.currentGame.getTurn().getId())")
                             self!.delegate?.shotDone()
                         }
                         
