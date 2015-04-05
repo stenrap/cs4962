@@ -501,7 +501,7 @@ class BattleShip {
                         var hit: Bool = response.objectForKey("hit") as Bool
                         var shipSize: NSNumber = response.objectForKey("shipSunk") as NSNumber
                         
-                        self!.getCurrentGame().changeTurn()
+                        self!.currentGame.changeTurn()
                         
                         // WYLO .... When the creator takes the first shot, the info doesn't change.
                         //           When the joiner views his grid, the hit is drawn but the ship isn't.
