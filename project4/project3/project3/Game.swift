@@ -27,7 +27,6 @@ class Game {
     private var turn: Player = Player()
     func getTurn() -> Player {return turn}
     func setTurn(turn: Player) {self.turn = turn}
-    func changeTurn() {turn = turn === player1 ? player2 : player1}
     
     private var status: Status = Status.CREATED
     func getStatus() -> Status {return status}
@@ -49,6 +48,10 @@ class Game {
         if (winner != nil) {
             winner?.setName(name)
         }
+    }
+    
+    func changeTurn() {
+        turn = turn.getId() == player1.getId() ? player2 : player1
     }
     
     func isDupeShot(cell: Cell) -> Bool {
