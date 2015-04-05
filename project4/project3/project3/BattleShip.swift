@@ -37,6 +37,7 @@ class BattleShip {
     func getCurrentGame() -> Game {return currentGame}
     
     private var currentPlayerId: String = ""
+    func getCurrentPlayerId() -> String {return currentPlayerId}
     
     private var keepPollingForTurn: Bool = false
     

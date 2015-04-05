@@ -194,6 +194,12 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     func viewGridTouched() {
         var viewingMyGrid: Bool = model.changeViewingMyGrid()
         
+        if (viewingMyGrid) {
+            getGridView().setGridTouchAllowed(false)
+        } else {
+            getGridView().setGridTouchAllowed(model.getCurrentGame().getTurn().getId() == model.getCurrentPlayerId())
+        }
+        
         /*
         
         TODO .... Disable the grid if this is a DONE game.
