@@ -142,10 +142,12 @@ class BattleShip {
                                 var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
                                 self!.keepPollingForTurn = !isYourTurn
                                 if (isYourTurn) {
-                                    self!.currentGame.getTurn().setId(self!.currentPlayerId)
+                                    //self!.currentGame.getTurn().setId(self!.currentPlayerId)
+                                    self!.currentGame.changeTurn()
                                     if (self!.currentGame.getStatus() == Status.CREATED) {
                                         self!.currentGame.setStatus(Status.PLAYING)
                                     }
+                                    
                                     self!.delegate?.isPlayerTurn()
                                 } else {
                                     // TODO .... Is it necessary to set the turn's ID to the opponent?
