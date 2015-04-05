@@ -461,72 +461,51 @@ class BattleShip {
         return currentGame.getStatus()
     }
     
-    func getCurrentShipType(id: Int) -> String {
-        var game: Game = games[id]
-        var shipType: ShipType = ShipType.CARRIER
+    func shotCalled(row: String, col: Int) {
         
-        // TODO
+        // TODO .... Check for duplicate shots to save bandwidth and make for a better gameplay experience?
         
-        /*
-        switch game.getState() {
-            case .CARRIER1,
-                 .CARRIER2: shipType = ShipType.CARRIER
-            case .BATTLESHIP1,
-                 .BATTLESHIP2: shipType = ShipType.BATTLESHIP
-            case .CRUISER1,
-                 .CRUISER2: shipType = ShipType.CRUISER
-            case .SUBMARINE1,
-                 .SUBMARINE2: shipType = ShipType.SUBMARINE
-            case .DESTROYER1,
-                 .DESTROYER2: shipType = ShipType.DESTROYER
+        var xPos: Int = 0
+        
+        switch (row) {
+            case "B": xPos = 1
+            case "C": xPos = 2
+            case "D": xPos = 3
+            case "E": xPos = 4
+            case "F": xPos = 5
+            case "G": xPos = 6
+            case "H": xPos = 7
+            case "I": xPos = 8
+            case "J": xPos = 9
             default: break
         }
-        */
-
-        return shipType.toString()
-    }
-    
-    func addShip(id: Int, startCell: Cell) -> Bool {
-        var game = games[id]
-        if (game.addShip(startCell, vertical: true)) {
-            currentVertical = true
-            currentStartCell = startCell
-            return true
-        } else if (game.addShip(startCell, vertical: false)) {
-            currentVertical = false
-            currentStartCell = startCell
-            return true
-        }
-        if (currentStartCell != nil) {
-            game.addShip(currentStartCell!, vertical: currentVertical!)
-        }
-        return false
-    }
-    
-    func shotCalled(id: Int, cell: Cell) -> (dupe: Bool, hit: Bool, sunk: Bool, winner: Player?) {
-        /*
         
-        TODO ....
+        var yPos: Int = col - 1
         
-        // Return early if this is a duplicate shot call
-        if (currentGame.isDupeShot(cell)) {
-            return (true, false, false, nil)
-        }
+        var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/games/\(currentGame.getId())")!
         
-        var hit: Bool = currentGame.shotCalled(cell)
-        var sunk: Bool = currentGame.isShipSunk(cell)
-        var winner: Player? = currentGame.getWinner()
-
-        if (currentGame.getStatus() == Status.PLAYING && winner != nil) {
-            currentGame.setStatus(Status.DONE)
-        }
+        var request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
         
-        writeToFile()
+        var bodyData: NSData = ("playerId=\(currentPlayerId)&xPos=\(xPos)&yPos=\(yPos)" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
+        request.HTTPBody = bodyData
         
-        return (false, hit, sunk, winner)
-        */
-        
-        return (false, false, false, nil)
+        var queue: NSOperationQueue = NSOperationQueue()
+        NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: 
+            { [weak self] (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    if (data == nil) {
+                        self!.delegate?.alertNewGameError()
+                        return
+                    } else {
+                        var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
+                        var hit: Bool = response.objectForKey("hit") as Bool
+                        var shipSize: NSNumber = response.objectForKey("shipSunk") as NSNumber
+                        println("Update the grid with a hit? \(hit)")
+                        //self!.delegate?.newGameCreated()
+                    }
+                })
+        })
     }
     
     func changePlayerTurn(id: Int) {

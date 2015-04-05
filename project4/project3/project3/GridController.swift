@@ -175,8 +175,10 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
                 }
             }
         }
-        getGridView().setGridTouchAllowed(true)
+        
         */
+        
+        getGridView().setGridTouchAllowed(true)
     }
     
     func viewGridTouched() {
