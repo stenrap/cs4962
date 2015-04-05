@@ -79,6 +79,9 @@ class BattleShip {
                         self!.currentGame.setId(response.objectForKey("gameId") as NSString)
                         self!.currentGame.setNames(playerName, player2Name: "")
                         self!.currentPlayerId = response.objectForKey("playerId") as NSString
+                        
+                        println("Successfully created game \(self!.currentGame.getId()) as player \(self!.currentPlayerId)")
+                        
                         var rawGame: NSDictionary = [
                             "playerId" : self!.currentPlayerId,
                             "gameId"   : self!.currentGame.getId(),
@@ -119,7 +122,7 @@ class BattleShip {
         if (keepPollingForTurn) {
             NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("pollForTurn"), userInfo: nil, repeats: false)
             if (currentPlayerId != "") {
-                println("Polling for turn...")
+                println("Polling for turn in game \(currentGame.getId()) as player \(currentPlayerId)...")
                 
                 var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/games/\(currentGame.getId())?playerId=\(currentPlayerId)")!
                 
@@ -257,6 +260,8 @@ class BattleShip {
                             self!.delegate?.alertJoinGameError()
                             return
                         }
+                        
+                        println("Successfully joined game \(self!.joinId) as player \(playerId!)")
                         
                         self!.currentGame = Game()
                         self!.currentGame.setId(self!.joinId)

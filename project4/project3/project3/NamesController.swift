@@ -41,6 +41,7 @@ class NamesController: BaseController, BattleShipDelegate {
     }
     
     func gameListUpdated() {}
+    
     func getNameForJoin() {}
     
     func alertJoinGameError() {
