@@ -149,8 +149,7 @@ class BattleShip {
                                 var isYourTurn: Bool = response.objectForKey("isYourTurn") as Bool
                                 self!.keepPollingForTurn = !isYourTurn
                                 if (isYourTurn) {
-                                    //self!.currentGame.getTurn().setId(self!.currentPlayerId)
-                                    self!.currentGame.changeTurn()
+                                    self!.currentGame.changeTurn(self!.currentPlayerId)
                                     println("After changeTurn() in pollForTurn(), turn ID is: \(self!.currentGame.getTurn().getId())")
                                     if (self!.currentGame.getStatus() == Status.CREATED) {
                                         self!.currentGame.setStatus(Status.PLAYING)
@@ -519,7 +518,7 @@ class BattleShip {
                         }
                         
                         if (self!.currentGame.shipsSunk < 5) {
-                            self!.currentGame.changeTurn()
+                            self!.currentGame.changeTurn("")
                             println("After changeTurn() in shotCalled(), turn ID is: \(self!.currentGame.getTurn().getId())")
                             self!.delegate?.shotDone()
                         }

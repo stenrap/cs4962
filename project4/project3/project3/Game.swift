@@ -52,8 +52,8 @@ class Game {
         }
     }
     
-    func changeTurn() {
-        turn = turn.getId() == player1.getId() ? player2 : player1
+    func changeTurn(playerId: String) {
+        turn = player1.getId() == playerId ? player1 : player2
     }
     
     func isDupeShot(cell: Cell) -> Bool {
