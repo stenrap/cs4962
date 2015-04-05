@@ -82,6 +82,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         getGridView().setGridTouchAllowed(true)
         if (!viewGridButtonAdded) {
             model.getGameDetail(model.getCurrentGame().getId(), forGrid: true)
+        } else {
+            model.getPlayerGrids()
         }
     }
     
@@ -185,7 +187,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         
         */
         
-        getGridView().setGridTouchAllowed(true)
+        getGridView().setGridTouchAllowed(false)
     }
     
     func viewGridTouched() {

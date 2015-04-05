@@ -498,13 +498,11 @@ class BattleShip {
                         return
                     } else {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
+                        
                         var hit: Bool = response.objectForKey("hit") as Bool
                         var shipSize: NSNumber = response.objectForKey("shipSunk") as NSNumber
                         
                         self!.currentGame.changeTurn()
-                        
-                        // WYLO .... When the joiner views his grid, the hit is drawn but the ship isn't.
-                        //           The joiner's grid doesn't update until he takes a shot.
                         
                         // TODO .... Track the sunken ships and tell the delegate to check for a winner?
                         
