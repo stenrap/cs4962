@@ -130,6 +130,7 @@ class GridView: UIView, CellViewDelegate {
         }
         if (activityIndicator == nil) {
             activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+            self.addSubview(activityIndicator!)
         }
         activityIndicator?.startAnimating()
         gridTouchAllowed = false
