@@ -131,7 +131,7 @@ class GridView: UIView, CellViewDelegate {
         if (indicator == nil) {
             var bw: CGFloat = bounds.width
             var bh: CGFloat = bounds.height
-            var size: CGFloat = 100
+            var size: CGFloat = 200
             indicator = UIActivityIndicatorView(frame: CGRectMake((bw - size) / 2, (bh - size) / 2, size, size))
             indicator?.hidesWhenStopped = true
             indicator?.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge

@@ -36,6 +36,8 @@ class Game {
     func getMissiles() -> Int {return missiles}
     func setMissiles(missiles: Int) {self.missiles = missiles}
     
+    var shipsSunk: Int = 0
+    
     /* Game State Methods */
     
     func setNames(player1Name: String, player2Name: String) {

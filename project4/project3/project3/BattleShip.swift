@@ -21,6 +21,7 @@ protocol BattleShipDelegate: class {
     func gotPlayerGrids()
     func isPlayerTurn()
     func shotDone()
+    func sunkShip(size: Int, gameOver: Bool)
     
 }
 
@@ -505,11 +506,20 @@ class BattleShip {
                         var hit: Bool = response.objectForKey("hit") as Bool
                         var shipSize: NSNumber = response.objectForKey("shipSunk") as NSNumber
                         
-                        self!.currentGame.changeTurn()
+                        // It may look weird to be checking for a sunk ship twice, but it's necessary in order to achieve the proper sequence of events.
                         
-                        // TODO .... Track the sunken ships and tell the delegate to check for a winner?
+                        if (shipSize.integerValue > 0) {
+                            self!.currentGame.shipsSunk++
+                        }
                         
-                        self!.delegate?.shotDone()
+                        if (self!.currentGame.shipsSunk < 5) {
+                            self!.currentGame.changeTurn()
+                            self!.delegate?.shotDone()
+                        }
+                        
+                        if (shipSize.integerValue > 0) {
+                            self!.delegate?.sunkShip(shipSize.integerValue, gameOver: self!.currentGame.shipsSunk == 5)
+                        }
                     }
                 })
         })

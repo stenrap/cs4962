@@ -94,6 +94,14 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         model.getPlayerGrids()
     }
     
+    func sunkShip(size: Int, gameOver: Bool) {
+        var title: String = gameOver ? "Victory!" : "Sunk!"
+        var three: String = size == 3 ? "one of " : ""
+        var plural: String = size == 3 ? "s" : ""
+        var message: String = gameOver ? "You won the game!" : "You sunk \(three)the \(size)-hole ship\(plural)!"
+        showAlert(title, message: message, handler: nil)
+    }
+    
     /* END */
     
     override func viewDidLayoutSubviews() {

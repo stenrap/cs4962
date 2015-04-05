@@ -67,6 +67,8 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     func shotDone() {}
     
+    func sunkShip(size: Int, gameOver: Bool) {}
+    
     /* END */
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

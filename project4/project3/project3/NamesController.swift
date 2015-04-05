@@ -68,6 +68,8 @@ class NamesController: BaseController, BattleShipDelegate {
     
     func shotDone() {}
     
+    func sunkShip(size: Int, gameOver: Bool) {}
+    
     /* END */
     
     func showGridAndPollForTurn() {
