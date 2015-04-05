@@ -63,7 +63,11 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     
     func alertGetGameDetailError() {}
     
-    func gotGameDetail() {}
+    func gotGameDetail() {
+        if (!viewGridButtonAdded) {
+            model.getPlayerGrids()
+        }
+    }
     
     func gotPlayerGrids() {
         if (!viewGridButtonAdded) {
@@ -78,7 +82,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         setInfo()
         getGridView().setGridTouchAllowed(true)
         if (!viewGridButtonAdded) {
-            model.getPlayerGrids()
+            model.getGameDetail(model.getCurrentGame().getId(), forGrid: true)
         }
     }
     
