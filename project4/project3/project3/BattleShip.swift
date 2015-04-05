@@ -107,6 +107,9 @@ class BattleShip {
         var currentInfo: String = "Waiting for another player to join..."
         
         if (currentGame.getStatus() == Status.PLAYING) {
+            
+            println("At the moment of getting info, currentGame.getTurn().getId() is \(currentGame.getTurn().getId()) and currentPlayerId is \(currentPlayerId)")
+            
             if (currentGame.getTurn().getId() == currentPlayerId) {
                 currentInfo = "It's your turn! Take a shot at the enemy!"
             } else {
@@ -523,11 +526,6 @@ class BattleShip {
                     }
                 })
         })
-    }
-    
-    func changePlayerTurn(id: Int) {
-        games[id].changeTurn()
-        writeToFile()
     }
     
     func hasWinner(id: Int) -> Bool {
