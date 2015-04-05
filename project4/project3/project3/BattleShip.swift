@@ -464,22 +464,22 @@ class BattleShip {
         
         // TODO .... Check for duplicate shots to save bandwidth and make for a better gameplay experience?
         
-        var xPos: Int = 0
+        var yPos: Int = 0
         
         switch (row) {
-            case "B": xPos = 1
-            case "C": xPos = 2
-            case "D": xPos = 3
-            case "E": xPos = 4
-            case "F": xPos = 5
-            case "G": xPos = 6
-            case "H": xPos = 7
-            case "I": xPos = 8
-            case "J": xPos = 9
+            case "B": yPos = 1
+            case "C": yPos = 2
+            case "D": yPos = 3
+            case "E": yPos = 4
+            case "F": yPos = 5
+            case "G": yPos = 6
+            case "H": yPos = 7
+            case "I": yPos = 8
+            case "J": yPos = 9
             default: break
         }
         
-        var yPos: Int = col - 1
+        var xPos: Int = col - 1
         
         var url: NSURL = NSURL(string: "http://battleship.pixio.com/api/v2/games/\(currentGame.getId())")!
         
@@ -502,6 +502,9 @@ class BattleShip {
                         var shipSize: NSNumber = response.objectForKey("shipSunk") as NSNumber
                         
                         self!.getCurrentGame().changeTurn()
+                        
+                        // WYLO .... When the creator takes the first shot, the info doesn't change.
+                        //           When the joiner views his grid, the hit is drawn but the ship isn't.
                         
                         // TODO .... Track the sunken ships and tell the delegate to check for a winner?
                         
