@@ -128,7 +128,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
                 if (grid.getCells()[rowString + String(col)] != nil) {
                     type = grid.getCells()[rowString + String(col)]!
                 }
-                var hasShip: Bool = type == CellType.SHIP
+                var hasShip: Bool = type == CellType.SHIP || type == CellType.HIT
                 getGridView().updateCellView(rowString, col: col, hasShip: hasShip, type: type, showShips: showShips)
             }
         }

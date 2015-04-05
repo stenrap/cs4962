@@ -503,8 +503,8 @@ class BattleShip {
                         
                         self!.currentGame.changeTurn()
                         
-                        // WYLO .... When the creator takes the first shot, the info doesn't change.
-                        //           When the joiner views his grid, the hit is drawn but the ship isn't.
+                        // WYLO .... When the joiner views his grid, the hit is drawn but the ship isn't.
+                        //           The joiner's grid doesn't update until he takes a shot.
                         
                         // TODO .... Track the sunken ships and tell the delegate to check for a winner?
                         
