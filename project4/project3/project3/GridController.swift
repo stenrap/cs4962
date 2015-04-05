@@ -88,6 +88,7 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     }
     
     func shotDone() {
+        getGridView().activityIndicator?.stopAnimating()
         setInfo()
         model.startPollingForTurn()
         model.getPlayerGrids()
