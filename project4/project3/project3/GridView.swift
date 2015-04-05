@@ -35,7 +35,7 @@ class GridView: UIView, CellViewDelegate {
     
     private let BUTTON_HEIGHT: CGFloat = 50
     
-    var activityIndicator: UIActivityIndicatorView? = nil
+    var indicator: UIActivityIndicatorView? = nil
     var viewGridButton: UIButton? = nil
     
     weak var viewGridDelegate: ViewGridDelegate? = nil
@@ -128,11 +128,16 @@ class GridView: UIView, CellViewDelegate {
         if (!gridTouchAllowed) {
             return
         }
-        if (activityIndicator == nil) {
-            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
-            self.addSubview(activityIndicator!)
+        if (indicator == nil) {
+            var bw: CGFloat = bounds.width
+            var bh: CGFloat = bounds.height
+            var size: CGFloat = 100
+            indicator = UIActivityIndicatorView(frame: CGRectMake((bw - size) / 2, (bh - size) / 2, size, size))
+            indicator?.hidesWhenStopped = true
+            indicator?.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
+            self.addSubview(indicator!)
         }
-        activityIndicator?.startAnimating()
+        indicator?.startAnimating()
         gridTouchAllowed = false
         cellViewDelegate?.cellViewTouched(row, col: col)
     }
