@@ -16,6 +16,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     
     private var canConfirm: Bool = false
     
+    private var gameOver: Bool = false
+    
     override func loadView() {
         model.delegate = self
         
@@ -99,6 +101,10 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         var three: String = size == 3 ? "one of " : ""
         var plural: String = size == 3 ? "s" : ""
         var message: String = gameOver ? "You won the game!" : "You sunk \(three)the \(size)-hole ship\(plural)!"
+        if (gameOver) {
+            getGridView().indicator?.stopAnimating()
+            self.gameOver = true
+        }
         showAlert(title, message: message, handler: nil)
     }
     
@@ -208,14 +214,9 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
             getGridView().setGridTouchAllowed(model.getCurrentGame().getTurn().getId() == model.getCurrentPlayerId())
         }
         
-        /*
-        
-        TODO .... Disable the grid if this is a DONE game.
-        
-        if (!model.hasWinner(gameId)) {
+        if (gameOver) {
             getGridView().setGridTouchAllowed(!viewingMyGrid)
         }
-        */
         
         drawGrid(showShips: viewingMyGrid)
         getGridView().changeViewGridButtonLabel(viewingMyGrid)
