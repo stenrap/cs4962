@@ -76,9 +76,10 @@ class BattleShip {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         self!.currentGame = Game()
                         // TODO .... Names must be alphanumeric! Maybe enforce that in the view...
+                        self!.currentPlayerId = response.objectForKey("playerId") as NSString
                         self!.currentGame.setId(response.objectForKey("gameId") as NSString)
                         self!.currentGame.setNames(playerName, player2Name: "")
-                        self!.currentPlayerId = response.objectForKey("playerId") as NSString
+                        self!.currentGame.getPlayer1().setId(self!.currentPlayerId)
                         
                         println("Successfully created game \(self!.currentGame.getId()) as player \(self!.currentPlayerId)")
                         
