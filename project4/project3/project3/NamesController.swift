@@ -66,6 +66,8 @@ class NamesController: BaseController, BattleShipDelegate {
     
     func isPlayerTurn() {}
     
+    func shotDone() {}
+    
     /* END */
     
     func showGridAndPollForTurn() {

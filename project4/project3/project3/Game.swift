@@ -51,48 +51,11 @@ class Game {
         }
     }
     
-    func forPlayer1() -> Bool {
-        return false
-        // TODO
-    }
-    
-    func addShip(startCell: Cell, vertical: Bool) -> Bool {
-        // TODO
-        
-        /*
-        var type: ShipType = ShipType.CARRIER
-        switch state {
-            case .NAMES:                     break
-            case .CARRIER1, .CARRIER2:       type = ShipType.CARRIER
-            case .BATTLESHIP1, .BATTLESHIP2: type = ShipType.BATTLESHIP
-            case .CRUISER1, .CRUISER2:       type = ShipType.CRUISER
-            case .SUBMARINE1, .SUBMARINE2:   type = ShipType.SUBMARINE
-            case .DESTROYER1, .DESTROYER2:   type = ShipType.DESTROYER
-            case .GAME, .ENDED:                      break
-        }
-        
-        if (forPlayer1()) {
-            return player1.addShip(type, startCell: startCell, vertical: vertical)
-        } else {
-            return player2.addShip(type, startCell: startCell, vertical: vertical)
-        }
-        */
-        return false
-    }
-    
     func isDupeShot(cell: Cell) -> Bool {
         if (turn === player1) {
             return !player2.isCellEmpty(cell)
         }
         return !player1.isCellEmpty(cell)
-    }
-    
-    func shotCalled(cell: Cell) -> Bool {
-        turn.addShot()
-        if (turn === player1) {
-            return player2.shotCalled(cell)
-        }
-        return player1.shotCalled(cell)
     }
     
     func getWinner() -> Player? {

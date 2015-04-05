@@ -20,6 +20,7 @@ protocol BattleShipDelegate: class {
     func gotGameDetail()
     func gotPlayerGrids()
     func isPlayerTurn()
+    func shotDone()
     
 }
 
@@ -384,8 +385,6 @@ class BattleShip {
                             opponentPlayer = self!.currentGame.getPlayer1()
                         }
                         
-                        // WYLO .... When you create a game and another player joins, is setPlayerGrid() not being called below?
-                        
                         if (currentPlayer != nil) {
                             self!.setPlayerGrid(currentPlayer!, grid: playerBoard!)
                             self!.setPlayerGrid(opponentPlayer!, grid: opponentBoard!)
@@ -501,8 +500,12 @@ class BattleShip {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         var hit: Bool = response.objectForKey("hit") as Bool
                         var shipSize: NSNumber = response.objectForKey("shipSunk") as NSNumber
-                        println("Update the grid with a hit? \(hit)")
-                        //self!.delegate?.newGameCreated()
+                        
+                        self!.getCurrentGame().changeTurn()
+                        
+                        // TODO .... Track the sunken ships and tell the delegate to check for a winner?
+                        
+                        self!.delegate?.shotDone()
                     }
                 })
         })

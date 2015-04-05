@@ -64,14 +64,14 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     func alertGetGameDetailError() {}
     
     func gotGameDetail() {
-        if (!viewGridButtonAdded) {
-            model.getPlayerGrids()
-        }
+        model.getPlayerGrids()
     }
     
     func gotPlayerGrids() {
         if (!viewGridButtonAdded) {
             addViewGridButton()
+        } else {
+            drawGrid(showShips: model.getViewingMyGrid())
         }
     }
     
@@ -181,6 +181,12 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         */
         
         getGridView().setGridTouchAllowed(true)
+    }
+    
+    func shotDone() {
+        setInfo()
+        model.startPollingForTurn()
+        model.getPlayerGrids()
     }
     
     func viewGridTouched() {
