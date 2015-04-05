@@ -138,6 +138,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         
         println("Touched a cell...")
         
+        model.shotCalled(row, col: col)
+        
         // WYLO .... See if you can get this working after you've joined a waiting game created on your MacBook Air...
         
         // TODO
