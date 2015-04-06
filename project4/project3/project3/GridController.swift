@@ -157,52 +157,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
     }
     
     func cellViewTouched(row: String, col: Int) {
-        
-        println("Touched a cell...")
-        
-        model.shotCalled(row, col: col)
-        
-        // WYLO .... See if you can get this working after you've joined a waiting game created on your MacBook Air...
-        
-        // TODO
-        
-        /*
-        if (model.getCurrentGameState(gameId).rawValue < State.GAME.rawValue) {
-            if (model.addShip(gameId, startCell: Cell(row: row, col: col))) {
-                canConfirm = true
-                drawGrid()
-                setInfo()
-                alertFirstShip()
-            } else {
-                alertInvalidSpot()
-            }
-        } else {
-            var cell: Cell =  Cell(row: row, col: col)
-            var (dupe, hit, sunk, winner) = model.shotCalled(gameId, cell: cell)
-            if (dupe) {
-                alertDupe()
-            } else {
-                drawGrid(showShips: false)
-                if (winner != nil) {
-                    showAlert("You Won!", message: "Congratulations, \(winner!.getName())!\nThe enemy was no match for you!", handler: nil)
-                    getGridView().setPlayerName(winner!.getName()+":")
-                    getGridView().setInstruction("You won the game!")
-                    return
-                }
-                model.changePlayerTurn(gameId)
-                if (sunk) {
-                    showAlert("Sunk!", message: "Down to the depths she goes!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
-                } else if (hit) {
-                    showAlert("Hit!", message: "Your aim is impeccable, captain!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
-                } else {
-                    showAlert("Miss!", message: "Recalibrate your sights!\nGive the \(UIDevice.currentDevice().model) to \(model.getCurrentPlayerName(gameId)).", handler: onOtherPlayerOk)
-                }
-            }
-        }
-        
-        */
-        
         getGridView().setGridTouchAllowed(false)
+        model.shotCalled(row, col: col)
     }
     
     func viewGridTouched() {

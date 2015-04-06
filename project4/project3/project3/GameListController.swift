@@ -96,11 +96,7 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
             } else if (status == Status.WAITING) {
                 bottomText = "Waiting for an opponent"
             } else if (status == Status.PLAYING) {
-                topText += ": \(game!.getTurn().getName())'s turn"
-                /*
-                TODO .... Show the total number of missiles launched (which is now a single property of the game)
-                bottomText = "Missiles Launched: \(game!.getPlayer1().getName()) (\(game!.getPlayer1().getShots())), \(game!.getPlayer2().getName()) (\(game!.getPlayer2().getShots()))"
-                */
+                bottomText = "In progress"
             }
         }
         

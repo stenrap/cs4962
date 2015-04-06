@@ -15,7 +15,6 @@ class StatusController: BaseController, StatusViewDelegate {
     override func loadView() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: UIBarButtonItemStyle.Plain, target: self, action: "newGameTapped")
         model = BattleShip()
-        model.readFromFile()
         view = StatusView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
         getStatusView().delegate = self
         view.backgroundColor = UIColor.whiteColor()
@@ -28,6 +27,7 @@ class StatusController: BaseController, StatusViewDelegate {
     }
     
     func waitingTouched() {
+        model.readFromFile()
         model.lookUpGames(Status.WAITING)
         var gameListController: GameListController = GameListController()
         gameListController.model = model
@@ -35,7 +35,11 @@ class StatusController: BaseController, StatusViewDelegate {
     }
     
     func playingTouched() {
-        println("playingTouched")
+        model.readFromFile()
+        model.lookUpGames(Status.PLAYING)
+        var gameListController: GameListController = GameListController()
+        gameListController.model = model
+        navigationController?.pushViewController(gameListController, animated: true)
     }
     
     func doneTouched() {
