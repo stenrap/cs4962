@@ -37,6 +37,9 @@ class BattleShip {
     private var currentGame = Game()
     func getCurrentGame() -> Game {return currentGame}
     
+    private var detailGame = Game()
+    func getDetailGame() -> Game {return detailGame}
+    
     private var currentPlayerId: String = ""
     func getCurrentPlayerId() -> String {return currentPlayerId}
     
@@ -257,8 +260,20 @@ class BattleShip {
                 joinId = game.getId()
                 delegate?.getNameForJoin()
             } else if (game.getStatus() == Status.PLAYING || game.getStatus() == Status.DONE) {
-                // WYLO .... If it's a saved game (i.e. you created or joined it), load and show it.
-                //           Otherwise, just get and show the details in a simple UI.
+                var saved: Bool = false
+                for (var i: Int = 0; i < savedGames.count; i++) {
+                    var gameId: String = savedGames[i].objectForKey("gameId") as NSString
+                    if (gameId == game.getId()) {
+                        saved = true
+                        break
+                    }
+                }
+                if (saved) {
+                    // WYLO .... 
+                    println("Saved game...load it and show the grid...")
+                } else {
+                    getGameDetail(game.getId(), forGrid: false)
+                }
             }
         }
     }
@@ -351,23 +366,29 @@ class BattleShip {
                             return
                         }
                         
+                        var status: Status = Status.WAITING
+                        
+                        if (rawStatus == Status.PLAYING.toString()) {
+                            status = Status.PLAYING
+                        } else if (rawStatus == Status.DONE.toString()) {
+                            status = Status.DONE
+                        }
+                        
                         if (forGrid) {
                             self!.currentGame.setId(id!)
                             self!.currentGame.setNames(player1!, player2Name: player2!)
                             self!.currentGame.setWinnerName(winner!)
-                            
-                            var status: Status = Status.WAITING
-                            
-                            if (rawStatus == Status.PLAYING.toString()) {
-                                status = Status.PLAYING
-                            } else if (rawStatus == Status.DONE.toString()) {
-                                status = Status.DONE
-                            }
-                            
                             self!.currentGame.setStatus(status)
-                            
-                            self!.delegate?.gotGameDetail()
+                        } else {
+                            self!.detailGame.setId(id!)
+                            self!.detailGame.setName(name!)
+                            self!.detailGame.setNames(player1!, player2Name: player2!)
+                            self!.detailGame.setWinnerName(winner!)
+                            self!.detailGame.setStatus(status)
+                            self!.detailGame.setMissiles(Int(missiles!))
                         }
+                        
+                        self!.delegate?.gotGameDetail()
                     }
                 })
         })

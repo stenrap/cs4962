@@ -25,7 +25,6 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
         var myCustomBackButtonItem:UIBarButtonItem = UIBarButtonItem(customView: myBackButton)
         self.navigationItem.leftBarButtonItem  = myCustomBackButtonItem
         
-        model.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
         title = "Lobby"
@@ -59,7 +58,11 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     func alertGetGameDetailError() {}
     
-    func gotGameDetail() {}
+    func gotGameDetail() {
+        var detailController: DetailController = DetailController()
+        detailController.model = model
+        navigationController?.pushViewController(detailController, animated: true)
+    }
     
     func gotPlayerGrids() {}
     
@@ -92,7 +95,7 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
             topText = game!.getName()
             var status: Status = game!.getStatus()
             if (status == Status.DONE) {
-                bottomText = "\(game!.getWinner()!.getName()) won the game"
+                bottomText = "Game over"
             } else if (status == Status.WAITING) {
                 bottomText = "Waiting for an opponent"
             } else if (status == Status.PLAYING) {

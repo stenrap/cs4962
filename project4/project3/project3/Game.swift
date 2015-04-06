@@ -36,6 +36,10 @@ class Game {
     func getMissiles() -> Int {return missiles}
     func setMissiles(missiles: Int) {self.missiles = missiles}
     
+    private var winnerName: String = ""
+    func getWinnerName() -> String {return winnerName}
+    func setWinnerName(winnerName: String) {self.winnerName = winnerName}
+    
     var shipsSunk: Int = 0
     
     /* Game State Methods */
@@ -43,13 +47,6 @@ class Game {
     func setNames(player1Name: String, player2Name: String) {
         player1.setName(player1Name)
         player2.setName(player2Name)
-    }
-    
-    func setWinnerName(name: String) {
-        var winner: Player? = getWinner()
-        if (winner != nil) {
-            winner?.setName(name)
-        }
     }
     
     func changeTurn(playerId: String) {

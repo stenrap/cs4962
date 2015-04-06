@@ -27,23 +27,24 @@ class StatusController: BaseController, StatusViewDelegate {
     }
     
     func waitingTouched() {
-        model.readFromFile()
-        model.lookUpGames(Status.WAITING)
-        var gameListController: GameListController = GameListController()
-        gameListController.model = model
-        navigationController?.pushViewController(gameListController, animated: true)
+        showGameList(Status.WAITING)
     }
     
     func playingTouched() {
-        model.readFromFile()
-        model.lookUpGames(Status.PLAYING)
-        var gameListController: GameListController = GameListController()
-        gameListController.model = model
-        navigationController?.pushViewController(gameListController, animated: true)
+        showGameList(Status.PLAYING)
     }
     
     func doneTouched() {
-        println("doneTouched")
+        showGameList(Status.DONE)
+    }
+    
+    func showGameList(status: Status) {
+        model.readFromFile()
+        var gameListController: GameListController = GameListController()
+        gameListController.model = model
+        model.delegate = gameListController
+        model.lookUpGames(status)
+        navigationController?.pushViewController(gameListController, animated: true)
     }
     
 }
