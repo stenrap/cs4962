@@ -22,6 +22,7 @@ protocol BattleShipDelegate: class {
     func isPlayerTurn()
     func shotDone()
     func sunkShip(size: Int, gameOver: Bool)
+    func continueGame(id: String)
     
 }
 
@@ -81,16 +82,17 @@ class BattleShip {
                     } else {
                         var response: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSDictionary
                         self!.currentGame = Game()
+                        
                         // TODO .... Names must be alphanumeric! Maybe enforce that in the view...
+                        
                         self!.currentPlayerId = response.objectForKey("playerId") as NSString
                         self!.currentGame.setId(response.objectForKey("gameId") as NSString)
                         self!.currentGame.setNames(playerName, player2Name: "")
                         self!.currentGame.getPlayer1().setId(self!.currentPlayerId)
                         
-                        println("Successfully created game \(self!.currentGame.getId()) as player \(self!.currentPlayerId)")
-                        
                         var rawGame: NSDictionary = [
                             "playerId" : self!.currentPlayerId,
+                            "player"   : 1,
                             "gameId"   : self!.currentGame.getId(),
                             "status"   : Status.CREATED.toString()
                         ]
@@ -203,7 +205,7 @@ class BattleShip {
                             } else {
                                 var response: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: .allZeros, error: nil) as NSArray
                                 self!.games = [Game]()
-                                for (var i: Int = 0; i < response.count; i++) {
+                                for (var i: Int = response.count - 1; i >= 0; i--) {
                                     var rawGame: NSDictionary = response[i] as NSDictionary
                                     
                                     var game: Game = Game()
@@ -261,16 +263,24 @@ class BattleShip {
                 delegate?.getNameForJoin()
             } else if (game.getStatus() == Status.PLAYING || game.getStatus() == Status.DONE) {
                 var saved: Bool = false
+                var player: NSNumber = 0
                 for (var i: Int = 0; i < savedGames.count; i++) {
                     var gameId: String = savedGames[i].objectForKey("gameId") as NSString
                     if (gameId == game.getId()) {
+                        currentPlayerId = savedGames[i].objectForKey("playerId") as NSString
+                        player = savedGames[i].objectForKey("player") as NSNumber
                         saved = true
                         break
                     }
                 }
-                if (saved) {
-                    // WYLO .... 
-                    println("Saved game...load it and show the grid...")
+                if (saved && game.getStatus() != Status.DONE) {
+                    currentGame = Game()
+                    if (player == 1) {
+                        currentGame.getPlayer1().setId(currentPlayerId)
+                    } else if (player == 2) {
+                        currentGame.getPlayer2().setId(currentPlayerId)
+                    }
+                    delegate?.continueGame(game.getId())
                 } else {
                     getGameDetail(game.getId(), forGrid: false)
                 }
@@ -315,6 +325,7 @@ class BattleShip {
                         self!.currentPlayerId = playerId!
                         var rawGame: NSDictionary = [
                             "playerId" : self!.currentPlayerId,
+                            "player"   : 2,
                             "gameId"   : self!.currentGame.getId(),
                             "status"   : Status.PLAYING.toString()
                         ]
@@ -506,8 +517,6 @@ class BattleShip {
     
     func shotCalled(row: String, col: Int) {
         
-        // TODO .... Check for duplicate shots to save bandwidth and make for a better gameplay experience?
-        
         var yPos: Int = 0
         
         switch (row) {
@@ -554,12 +563,29 @@ class BattleShip {
                         
                         if (self!.currentGame.shipsSunk < 5) {
                             self!.currentGame.changeTurn("")
-                            println("After changeTurn() in shotCalled(), turn ID is: \(self!.currentGame.getTurn().getId())")
                             self!.delegate?.shotDone()
                         }
                         
                         if (shipSize.integerValue > 0) {
                             self!.delegate?.sunkShip(shipSize.integerValue, gameOver: self!.currentGame.shipsSunk == 5)
+                            if (self!.currentGame.shipsSunk == 5) {
+                                var indexToRemove: Int = -1
+                                for (var i: Int = 0; i < self!.savedGames.count; i++) {
+                                    if (self!.savedGames[i].objectForKey("gameId") as NSString == self!.currentGame.getId()) {
+                                        indexToRemove = i
+                                        break
+                                    }
+                                }
+                                if (indexToRemove != -1) {
+                                    self!.savedGames.removeObjectAtIndex(indexToRemove)
+                                    var rawGame: NSDictionary = [
+                                        "playerId" : self!.currentPlayerId,
+                                        "gameId"   : self!.currentGame.getId(),
+                                        "status"   : Status.DONE.toString()
+                                    ]
+                                    self!.appendGameToFile(rawGame)
+                                }
+                            }
                         }
                     }
                 })

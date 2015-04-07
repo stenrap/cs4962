@@ -11,7 +11,7 @@ import UIKit
 class GameListController: UITableViewController, BattleShipDelegate, UITableViewDelegate {
     
     var model: BattleShip = BattleShip()
-    private var gridController: GridController? = nil
+    private var isContinuing: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,12 +59,19 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     func alertGetGameDetailError() {}
     
     func gotGameDetail() {
+        if (isContinuing) {
+            println("Continuing a saved game...")
+            model.getPlayerGrids()
+            return
+        }
         var detailController: DetailController = DetailController()
         detailController.model = model
         navigationController?.pushViewController(detailController, animated: true)
     }
     
-    func gotPlayerGrids() {}
+    func gotPlayerGrids() {
+        showGridAndPollForTurn()
+    }
     
     func isPlayerTurn() {}
     
@@ -72,7 +79,20 @@ class GameListController: UITableViewController, BattleShipDelegate, UITableView
     
     func sunkShip(size: Int, gameOver: Bool) {}
     
+    func continueGame(id: String) {
+        isContinuing = true
+        model.getGameDetail(id, forGrid: true)
+    }
+    
     /* END */
+    
+    func showGridAndPollForTurn() {
+        var gridController: GridController = GridController()
+        gridController.model = model
+        model.delegate = gridController
+        navigationController?.pushViewController(gridController, animated: true)
+        model.startPollingForTurn()
+    }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.getGames().count

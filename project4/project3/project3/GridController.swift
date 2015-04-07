@@ -108,6 +108,8 @@ class GridController: BaseController, CellViewDelegate, ViewGridDelegate, Battle
         showAlert(title, message: message, handler: nil)
     }
     
+    func continueGame(id: String) {}
+    
     /* END */
     
     override func viewDidLayoutSubviews() {

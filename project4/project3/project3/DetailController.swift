@@ -41,6 +41,7 @@ class DetailController: BaseController, BattleShipDelegate {
     func isPlayerTurn() {}
     func shotDone() {}
     func sunkShip(size: Int, gameOver: Bool) {}
+    func continueGame(id: String) {}
     
     /* END */
     
