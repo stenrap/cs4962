@@ -27,6 +27,11 @@ class Digistrux {
     }
     
     private var fontSize: Int = 14
+    func getFontSize() -> Int {return fontSize}
+    func setFontSize(fontSize: Int) {
+        self.fontSize = fontSize
+        writeToFile()
+    }
     
     private var updates: String = "doc"
     func getUpdates() -> String {return updates}
