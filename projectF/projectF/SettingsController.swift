@@ -23,6 +23,10 @@ class SettingsController: UITableViewController, UITableViewDelegate, DigistruxD
         tableView.delegate = self
     }
     
+    override func viewWillAppear(animated: Bool) {
+        tableView.reloadData()
+    }
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -46,7 +50,16 @@ class SettingsController: UITableViewController, UITableViewDelegate, DigistruxD
         
         if (indexPath.section == 0) {
             row!.textLabel?.text = indexPath.row == 0 ? "Check on document launch" : "Check on app launch"
-            // TODO .... Set which option is checked based on the model, defaulting to 0 (Check on document launch)
+            if (model.getUpdates() == "doc" && indexPath.row == 0 || model.getUpdates() == "app" && indexPath.row == 1) {
+                row!.accessoryType = UITableViewCellAccessoryType.Checkmark
+            }
+        } else {
+            if (indexPath.row == 0) {
+                row!.textLabel?.text = "Font (\(model.getFontName()))"
+                row!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            } else {
+                // WYLO .... Add the font slider as a custom cell
+            }
         }
         
         return row!
@@ -57,13 +70,20 @@ class SettingsController: UITableViewController, UITableViewDelegate, DigistruxD
         var row: Int = indexPath.row
         
         if (section == 0) {
-            // TODO .... Set which option is checked in the model
+            model.setUpdates(row == 0 ? "doc" : "app")
             var cellToCheck: UITableViewCell? = tableView.cellForRowAtIndexPath(indexPath)
             cellToCheck?.accessoryType = UITableViewCellAccessoryType.Checkmark
             var rowToUncheck: Int = row == 0 ? 1 : 0
             var indexPathToUncheck: NSIndexPath = NSIndexPath(forRow: rowToUncheck, inSection: 0)
             var cellToUncheck: UITableViewCell? = tableView.cellForRowAtIndexPath(indexPathToUncheck)
             cellToUncheck?.accessoryType = UITableViewCellAccessoryType.None
+        } else {
+            if (row == 0) {
+                var fontListController: FontListController = FontListController()
+                fontListController.model = model
+                fontListController.model.delegate = fontListController
+                navigationController?.pushViewController(fontListController, animated: true)
+            }
         }
     }
     

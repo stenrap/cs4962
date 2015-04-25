@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SplashControllerDelegate 
         window?.rootViewController = splashController
         window?.makeKeyAndVisible()
         
-        // TODO .... model.readFromFile()
+        model.readFromFile()
         
         return true
     }

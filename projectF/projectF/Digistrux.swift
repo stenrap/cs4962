@@ -20,9 +20,22 @@ class Digistrux {
     
     /* Default App Settings */
     private var fontName: String = "Arial"
+    func getFontName() -> String {return fontName}
+    func setFontName(fontName: String) {
+        self.fontName = fontName
+        writeToFile()
+    }
+    
     private var fontSize: Int = 14
+    
     private var updates: String = "doc"
-    private var strux: [String] = ["9F8ED514-4081-4C3E-A1AC-273445D81AE9", "6768A4BE-8146-4049-B426-142457287E4D"]
+    func getUpdates() -> String {return updates}
+    func setUpdates(updates: String) {
+        self.updates = updates
+        writeToFile()
+    }
+    
+    private var strux: [String] = [String]()
     
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
@@ -41,8 +54,15 @@ class Digistrux {
         if (rawModel != nil) {
             var rawStrux: NSArray = rawModel!.objectForKey("strux") as NSArray
             for (var i: Int = 0; i < rawStrux.count; i++) {
-                // WYLO .... Your last thought was: Oops, there's no name associated with each strux UUID...
+                strux.append(rawStrux[i] as NSString)
             }
+            
+            var settings: NSDictionary = rawModel!.objectForKey("settings") as NSDictionary
+            updates = settings.objectForKey("updates") as NSString
+            
+            var font: NSDictionary = settings.objectForKey("font") as NSDictionary
+            fontName = font.objectForKey("name") as NSString
+            fontSize = font.objectForKey("size") as Int
         }
     }
     
@@ -70,6 +90,10 @@ class Digistrux {
     /*
         http://www.robjohansen.com/strux?code=9F8ED514-4081-4C3E-A1AC-273445D81AE9&fontName=Arial&fontSize=14
         
+        IKEA Drawer: http://www.ikea.com/ms/en_US/customer_service/assembly/A/A70069977.pdf
+    
+        Rubbermaid Decorative Bracket: http://s7d2.scene7.com/is/content/RubbermaidConsumer/PDF/54155%20RM%2013-CO-188%20Decor%20Bracket%20Installation%20V1R2.pdf
+    
         {
             settings:
             {
@@ -82,8 +106,8 @@ class Digistrux {
             },
             strux:
             [
-                "9F8ED514-4081-4C3E-A1AC-273445D81AE9",  //  qrcode1.png
-                "6768A4BE-8146-4049-B426-142457287E4D"   //  qrcode2.png
+                "IKEA_Drawer,9F8ED514-4081-4C3E-A1AC-273445D81AE9",                    //  qrcode1.png
+                "Rubbermaid_Decorative_Bracket,6768A4BE-8146-4049-B426-142457287E4D"   //  qrcode2.png
             ]
         }
     */

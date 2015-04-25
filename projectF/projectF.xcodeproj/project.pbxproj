@@ -19,6 +19,7 @@
 		D4BB75FB1AE2B69F00EE576D /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB75FA1AE2B69F00EE576D /* SettingsController.swift */; };
 		D4BB75FE1AE2B79300EE576D /* Digistrux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB75FD1AE2B79300EE576D /* Digistrux.swift */; };
 		D4BB76001AE2BBE800EE576D /* StruxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB75FF1AE2BBE800EE576D /* StruxController.swift */; };
+		D4C294EA1AEBEC9A00FC9AF2 /* FontListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C294E91AEBEC9A00FC9AF2 /* FontListController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		D4BB75FA1AE2B69F00EE576D /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		D4BB75FD1AE2B79300EE576D /* Digistrux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digistrux.swift; sourceTree = "<group>"; };
 		D4BB75FF1AE2BBE800EE576D /* StruxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StruxController.swift; sourceTree = "<group>"; };
+		D4C294E91AEBEC9A00FC9AF2 /* FontListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontListController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				D4BB75FA1AE2B69F00EE576D /* SettingsController.swift */,
 				D4BB75F81AE2ABEE00EE576D /* ScanController.swift */,
 				D4BB75FF1AE2BBE800EE576D /* StruxController.swift */,
+				D4C294E91AEBEC9A00FC9AF2 /* FontListController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				D4A4C0E51ADCB4DE0028C5BE /* StruxListController.swift in Sources */,
 				D4969BA81AE2BCA0005B2EB0 /* StruxView.swift in Sources */,
 				D4BB76001AE2BBE800EE576D /* StruxController.swift in Sources */,
+				D4C294EA1AEBEC9A00FC9AF2 /* FontListController.swift in Sources */,
 				D4A4C0C01AD970920028C5BE /* SplashController.swift in Sources */,
 				D4BB75FE1AE2B79300EE576D /* Digistrux.swift in Sources */,
 				D4BB75F91AE2ABEE00EE576D /* ScanController.swift in Sources */,
