@@ -16,8 +16,8 @@ class SettingsController: UITableViewController, UITableViewDelegate, DigistruxD
     
     override func loadView() {
         tableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
-        fontSizeSlider.minimumValue = 12
-        fontSizeSlider.maximumValue = 18
+        fontSizeSlider.minimumValue = 16
+        fontSizeSlider.maximumValue = 22
         fontSizeSlider.value = Float(model.getFontSize())
         title = "settings"
     }
@@ -101,20 +101,20 @@ class SettingsController: UITableViewController, UITableViewDelegate, DigistruxD
     
     func onFontSizeChange(slider: UISlider!) {
         var sliderValue: Float = slider.value
-        if (sliderValue < 12.5) {
-            slider.value = 12
-        } else if (sliderValue >= 12.5 && sliderValue < 13.5) {
-            slider.value = 13
-        } else if (sliderValue >= 13.5 && sliderValue < 14.5) {
-            slider.value = 14
-        } else if (sliderValue >= 14.5 && sliderValue < 15.5) {
-            slider.value = 15
-        } else if (sliderValue >= 15.5 && sliderValue < 16.5) {
+        if (sliderValue < 16.5) {
             slider.value = 16
         } else if (sliderValue >= 16.5 && sliderValue < 17.5) {
             slider.value = 17
-        } else {
+        } else if (sliderValue >= 17.5 && sliderValue < 18.5) {
             slider.value = 18
+        } else if (sliderValue >= 18.5 && sliderValue < 19.5) {
+            slider.value = 19
+        } else if (sliderValue >= 19.5 && sliderValue < 20.5) {
+            slider.value = 20
+        } else if (sliderValue >= 20.5 && sliderValue < 21.5) {
+            slider.value = 21
+        } else {
+            slider.value = 22
         }
         model.setFontSize(Int(slider.value))
     }
