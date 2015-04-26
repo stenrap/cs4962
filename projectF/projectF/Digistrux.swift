@@ -41,15 +41,42 @@ class Digistrux {
     }
     
     private var strux: [String] = [String]()
+    func getStrux() -> [String] {return strux}
+    
+    func getStruxLabel(index: Int) -> String {
+        var struxLabel: String = ""
+        if (index < strux.count) {
+            var labelWithCode: String = strux[index]
+            var labelWithUnderScores: String = labelWithCode[labelWithCode.startIndex ..< find(labelWithCode, ",")!]
+            struxLabel = labelWithUnderScores.stringByReplacingOccurrencesOfString("_", withString: " ", options: .LiteralSearch, range: nil)
+        }
+        return struxLabel
+    }
+    
+    func addToStrux(code: String) {
+        var alreadyHaveCode: Bool = false
+        for (var i: Int = 0; i < strux.count; i++) {
+            if (strux[i] == code) {
+                alreadyHaveCode = true
+                break
+            }
+        }
+        if (!alreadyHaveCode) {
+            strux.append(code)
+            writeToFile()
+        }
+    }
     
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
         var filePath: String? = documentsDirectory?.stringByAppendingPathComponent("digistrux.plist")
         
+        /*
         let env = NSProcessInfo.processInfo().environment
         if let local = env["ROB_LOCAL"] as? String {
             filePath = local
         }
+        */
         
         return filePath!
     }
@@ -89,7 +116,7 @@ class Digistrux {
         model.setObject(settings, forKey: "settings")
         model.setObject(rawStrux, forKey: "strux")
         
-        model.writeToFile(getModelPath(), atomically: true)
+        var result: Bool = model.writeToFile(getModelPath(), atomically: true)
     }
     
     /*

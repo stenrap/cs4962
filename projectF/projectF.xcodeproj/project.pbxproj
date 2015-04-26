@@ -20,6 +20,7 @@
 		D4BB75FE1AE2B79300EE576D /* Digistrux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB75FD1AE2B79300EE576D /* Digistrux.swift */; };
 		D4BB76001AE2BBE800EE576D /* StruxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB75FF1AE2BBE800EE576D /* StruxController.swift */; };
 		D4C294EA1AEBEC9A00FC9AF2 /* FontListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C294E91AEBEC9A00FC9AF2 /* FontListController.swift */; };
+		D4C294EC1AEC505700FC9AF2 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C294EB1AEC505700FC9AF2 /* ScanView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		D4BB75FD1AE2B79300EE576D /* Digistrux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digistrux.swift; sourceTree = "<group>"; };
 		D4BB75FF1AE2BBE800EE576D /* StruxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StruxController.swift; sourceTree = "<group>"; };
 		D4C294E91AEBEC9A00FC9AF2 /* FontListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontListController.swift; sourceTree = "<group>"; };
+		D4C294EB1AEC505700FC9AF2 /* ScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				D4A4C0E21AD9B61A0028C5BE /* SplashView.swift */,
 				D4969BA71AE2BCA0005B2EB0 /* StruxView.swift */,
+				D4C294EB1AEC505700FC9AF2 /* ScanView.swift */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				TargetAttributes = {
 					D4A4C0B71AD970920028C5BE = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = AE4U8MJ4NM;
 					};
 					D4A4C0CC1AD970920028C5BE = {
 						CreatedOnToolsVersion = 6.2;
@@ -261,6 +265,7 @@
 				D4969BA81AE2BCA0005B2EB0 /* StruxView.swift in Sources */,
 				D4BB76001AE2BBE800EE576D /* StruxController.swift in Sources */,
 				D4C294EA1AEBEC9A00FC9AF2 /* FontListController.swift in Sources */,
+				D4C294EC1AEC505700FC9AF2 /* ScanView.swift in Sources */,
 				D4A4C0C01AD970920028C5BE /* SplashController.swift in Sources */,
 				D4BB75FE1AE2B79300EE576D /* Digistrux.swift in Sources */,
 				D4BB75F91AE2ABEE00EE576D /* ScanController.swift in Sources */,
@@ -369,9 +374,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = projectF/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -379,9 +386,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = projectF/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

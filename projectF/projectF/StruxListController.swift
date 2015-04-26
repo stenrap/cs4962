@@ -14,6 +14,8 @@ class StruxListController: UITableViewController, UITableViewDelegate, Digistrux
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.dataSource = self
+        tableView.delegate = self
         
         var leftButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "showSettings")
         self.navigationItem.leftBarButtonItem  = leftButtonItem
@@ -36,6 +38,26 @@ class StruxListController: UITableViewController, UITableViewDelegate, Digistrux
         scanController.model = model
         scanController.model.delegate = scanController
         navigationController?.pushViewController(scanController, animated: true)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        tableView.reloadData()
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return model.getStrux().count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var row: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(UITableViewCell)) as UITableViewCell?
+        
+        if (row == nil) {
+            row = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: NSStringFromClass(UITableViewCell))
+        }
+        
+        row!.textLabel?.text = model.getStruxLabel(indexPath.row)
+        
+        return row!
     }
     
 }
