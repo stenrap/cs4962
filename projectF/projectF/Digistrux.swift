@@ -18,6 +18,12 @@ class Digistrux {
     
     weak var delegate: DigistruxDelegate? = nil
     
+    private var currentCode: String = ""
+    func getCurrentCode() -> String {return currentCode}
+    private func setCurrentCode(code: String) {
+        currentCode = code[find(code, ",")!.successor() ..< code.endIndex]
+    }
+    
     /* Default App Settings */
     private var fontName: String = "Arial"
     func getFontName() -> String {return fontName}
@@ -26,7 +32,7 @@ class Digistrux {
         writeToFile()
     }
     
-    private var fontSize: Int = 14
+    private var fontSize: Int = 16
     func getFontSize() -> Int {return fontSize}
     func setFontSize(fontSize: Int) {
         self.fontSize = fontSize
@@ -65,6 +71,7 @@ class Digistrux {
             strux.append(code)
             writeToFile()
         }
+        setCurrentCode(code)
     }
     
     private func getModelPath() -> String {

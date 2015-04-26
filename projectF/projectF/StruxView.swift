@@ -10,6 +10,8 @@ import UIKit
 
 class StruxView: UIWebView {
     
-    
+    func setUrl() {
+        
+    }
     
 }

@@ -27,7 +27,10 @@ class ScanController: UIViewController, DigistruxDelegate, ScanDelegate {
     
     func codeCaptured(code: String) {
         model.addToStrux(code)
-        // WYLO .... push the strux controller and show the strux!
+        var struxController: StruxController = StruxController()
+        struxController.model = model
+        struxController.model.delegate = struxController
+        navigationController?.pushViewController(struxController, animated: true)
     }
     
 }

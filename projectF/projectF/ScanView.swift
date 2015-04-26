@@ -66,7 +66,6 @@ class ScanView: UIView, AVCaptureMetadataOutputObjectsDelegate {
             var qrCodeObject = videoPreviewLayer?.transformedMetadataObjectForMetadataObject(metadataObj as AVMetadataMachineReadableCodeObject) as AVMetadataMachineReadableCodeObject
             highlightBox.frame = qrCodeObject.bounds
             if metadataObj.stringValue != nil {
-                println("QR code string is: \(metadataObj.stringValue)")
                 delegate?.codeCaptured(metadataObj.stringValue)
                 captureSession?.stopRunning()
             }

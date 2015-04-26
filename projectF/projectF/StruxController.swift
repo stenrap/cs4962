@@ -16,6 +16,24 @@ class StruxController: UIViewController, DigistruxDelegate {
     
     override func loadView() {
         view = StruxView()
+        // WYLO .... Call getStruxView().setUrl() with the correct parameters...
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        var myBackButton:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        myBackButton.addTarget(self, action: "popToRoot", forControlEvents: UIControlEvents.TouchUpInside)
+        myBackButton.setTitle("< home", forState: UIControlState.Normal)
+        myBackButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        myBackButton.sizeToFit()
+        
+        var myCustomBackButtonItem:UIBarButtonItem = UIBarButtonItem(customView: myBackButton)
+        self.navigationItem.leftBarButtonItem  = myCustomBackButtonItem
+    }
+    
+    func popToRoot() {
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
 }
