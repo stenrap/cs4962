@@ -60,4 +60,12 @@ class StruxListController: UITableViewController, UITableViewDelegate, Digistrux
         return row!
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        model.setStrux(indexPath.row)
+        var struxController: StruxController = StruxController()
+        struxController.model = model
+        struxController.model.delegate = struxController
+        navigationController?.pushViewController(struxController, animated: true)
+    }
+    
 }

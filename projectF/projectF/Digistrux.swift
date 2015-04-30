@@ -74,6 +74,10 @@ class Digistrux {
         setCurrentCode(code)
     }
     
+    func setStrux(index: Int) {
+        setCurrentCode(strux[index])
+    }
+    
     private func getModelPath() -> String {
         let documentsDirectory: String? = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)?[0] as String?
         var filePath: String? = documentsDirectory?.stringByAppendingPathComponent("digistrux.plist")
