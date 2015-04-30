@@ -8,15 +8,22 @@
 
 import UIKit
 
-class StruxController: UIViewController, DigistruxDelegate {
+class StruxController: UIViewController, UIWebViewDelegate, DigistruxDelegate {
     
     var model: Digistrux = Digistrux()
     
     func getStruxView() -> StruxView {return view as StruxView}
     
     override func loadView() {
-        view = StruxView()
-        // WYLO .... Call getStruxView().setUrl() with the correct parameters...
+        view = StruxView(frame: CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+        getStruxView().delegate = self
+        getStruxView().showActivityIndicator()
+        var baseUrl: String = "http://www.robjohansen.com/strux/"
+        var code: String    = "?code="     + model.getCurrentCode()
+        var font: String    = "&fontName=" + model.getFontName()
+        var size: String    = "&fontSize=" + String(model.getFontSize())
+        var fullUrl: NSURL = NSURL(string: baseUrl + code + font + size)!
+        getStruxView().loadRequest(NSURLRequest(URL: fullUrl))
     }
     
     override func viewDidLoad() {
@@ -30,6 +37,10 @@ class StruxController: UIViewController, DigistruxDelegate {
         
         var myCustomBackButtonItem:UIBarButtonItem = UIBarButtonItem(customView: myBackButton)
         self.navigationItem.leftBarButtonItem  = myCustomBackButtonItem
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        getStruxView().indicator?.stopAnimating()
     }
     
     func popToRoot() {
